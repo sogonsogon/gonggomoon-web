@@ -1,26 +1,355 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* === 기존 shadcn/ui 변수 === */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* === 🎯 Design System 매핑 (ds-* 접두사 적용) === */
+
+  --background-image-ds-border-hairline: var(--ds-border-hairline);
+
+  /* 그레이 스케일 (사용 예: bg-ds-grey-100, text-ds-grey-900) */
+  --color-ds-grey-50: var(--adaptiveGrey50);
+  --color-ds-grey-100: var(--adaptiveGrey100);
+  --color-ds-grey-200: var(--adaptiveGrey200);
+  --color-ds-grey-300: var(--adaptiveGrey300);
+  --color-ds-grey-400: var(--adaptiveGrey400);
+  --color-ds-grey-500: var(--adaptiveGrey500);
+  --color-ds-grey-600: var(--adaptiveGrey600);
+  --color-ds-grey-700: var(--adaptiveGrey700);
+  --color-ds-grey-800: var(--adaptiveGrey800);
+  --color-ds-grey-900: var(--adaptiveGrey900);
+
+  /* 오퍼시티 (사용 예: bg-ds-opacity-50) */
+  --color-ds-opacity-50: var(--adaptiveOpacity50);
+  --color-ds-opacity-100: var(--adaptiveOpacity100);
+  --color-ds-opacity-200: var(--adaptiveOpacity200);
+  --color-ds-opacity-300: var(--adaptiveOpacity300);
+  --color-ds-opacity-400: var(--adaptiveOpacity400);
+  --color-ds-opacity-500: var(--adaptiveOpacity500);
+  --color-ds-opacity-600: var(--adaptiveOpacity600);
+  --color-ds-opacity-700: var(--adaptiveOpacity700);
+  --color-ds-opacity-800: var(--adaptiveOpacity800);
+  --color-ds-opacity-900: var(--adaptiveOpacity900);
+
+  /* 배경색 및 기타 단일 컬러 */
+  --color-ds-bg: var(--adaptiveBackground);
+  --color-ds-bg-grey: var(--adaptiveGreyBackground);
+  --color-ds-bg-layered: var(--adaptiveLayeredBackground);
+  --color-ds-bg-float: var(--adaptiveFloatBackground);
+  --color-ds-blue-disabled: var(--adaptiveDisabledBlue500);
+  --color-ds-radio-indicator: var(--tRadioIndicatorBackgroundColor);
+  --color-ds-toast-bg: var(--tToastBackground);
+
+  /* 버튼 컬러 */
+  --color-ds-btn-dark-fill: var(--tDarkFillButtonBackground);
+  --color-ds-btn-primary-weak: var(--tPrimaryWeakButtonBackground);
+  --color-ds-btn-danger-weak: var(--tDangerWeakButtonBackground);
+  --color-ds-btn-dark-weak: var(--tDarkWeakButtonBackground);
+  --color-ds-btn-light-weak: var(--tLightWeakButtonBackground);
+  --color-ds-btn-pressed-after: var(--tButtonPressedAfterBackground);
+  --color-ds-btn-primary-pressed: var(--tPrimaryWeakButtonPressedBackground);
+  --color-ds-btn-danger-pressed: var(--tDangerWeakButtonPressedBackground);
+  --color-ds-btn-dark-pressed: var(--tDarkWeakButtonPressedBackground);
+  --color-ds-btn-light-pressed: var(--tLightWeakButtonPressedBackground);
+
+  /* 뱃지 컬러 (텍스트, 배경 구분) */
+  --color-ds-badge-blue-text: var(--tBlueBadgeColor);
+  --color-ds-badge-blue-bg: var(--tBlueBadgeBackground);
+  --color-ds-badge-teal-text: var(--tTealBadgeColor);
+  --color-ds-badge-teal-bg: var(--tTealBadgeBackground);
+  --color-ds-badge-green-text: var(--tGreenBadgeColor);
+  --color-ds-badge-green-bg: var(--tGreenBadgeBackground);
+  --color-ds-badge-red-text: var(--tRedBadgeColor);
+  --color-ds-badge-red-bg: var(--tRedBadgeBackground);
+  --color-ds-badge-yellow-text: var(--tYellowBadgeColor);
+  --color-ds-badge-yellow-bg: var(--tYellowBadgeBackground);
+  --color-ds-badge-elephant-text: var(--tElephantBadgeColor);
+  --color-ds-badge-elephant-bg: var(--tElephantBadgeBackground);
+
+  /* 리스트 및 스와이퍼 */
+  --color-ds-swiper-bullet: var(--tSwiperBulletBackground);
+  --color-ds-list-disabled: var(--tListRowDisabledBackground);
+
+  /* 타이포그래피 (사용 예: text-ds-30) */
+  --text-ds-30: var(--ds-font-size-30);
+  --text-ds-30--line-height: var(--ds-line-height-30);
+  --text-ds-29: var(--ds-font-size-29);
+  --text-ds-29--line-height: var(--ds-line-height-29);
+  --text-ds-28: var(--ds-font-size-28);
+  --text-ds-28--line-height: var(--ds-line-height-28);
+  --text-ds-27: var(--ds-font-size-27);
+  --text-ds-27--line-height: var(--ds-line-height-27);
+  --text-ds-26: var(--ds-font-size-26);
+  --text-ds-26--line-height: var(--ds-line-height-26);
+  --text-ds-25: var(--ds-font-size-25);
+  --text-ds-25--line-height: var(--ds-line-height-25);
+  --text-ds-24: var(--ds-font-size-24);
+  --text-ds-24--line-height: var(--ds-line-height-24);
+  --text-ds-23: var(--ds-font-size-23);
+  --text-ds-23--line-height: var(--ds-line-height-23);
+  --text-ds-22: var(--ds-font-size-22);
+  --text-ds-22--line-height: var(--ds-line-height-22);
+  --text-ds-21: var(--ds-font-size-21);
+  --text-ds-21--line-height: var(--ds-line-height-21);
+  --text-ds-20: var(--ds-font-size-20);
+  --text-ds-20--line-height: var(--ds-line-height-20);
+  --text-ds-19: var(--ds-font-size-19);
+  --text-ds-19--line-height: var(--ds-line-height-19);
+  --text-ds-18: var(--ds-font-size-18);
+  --text-ds-18--line-height: var(--ds-line-height-18);
+  --text-ds-17: var(--ds-font-size-17);
+  --text-ds-17--line-height: var(--ds-line-height-17);
+  --text-ds-16: var(--ds-font-size-16);
+  --text-ds-16--line-height: var(--ds-line-height-16);
+  --text-ds-15: var(--ds-font-size-15);
+  --text-ds-15--line-height: var(--ds-line-height-15);
+  --text-ds-14: var(--ds-font-size-14);
+  --text-ds-14--line-height: var(--ds-line-height-14);
+  --text-ds-13: var(--ds-font-size-13);
+  --text-ds-13--line-height: var(--ds-line-height-13);
+  --text-ds-12: var(--ds-font-size-12);
+  --text-ds-12--line-height: var(--ds-line-height-12);
+  --text-ds-11: var(--ds-font-size-11);
+  --text-ds-11--line-height: var(--ds-line-height-11);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* === 기존 shadcn/ui 변수 + Primary 적용 === */
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+
+  --primary: #3182f6;
+  --primary-foreground: #ffffff;
+
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+
+  --ring: #3182f6;
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: #3182f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: #3182f6;
+
+  /* === Design System 실제 값 정의 === */
+  --ds-font-size-30: 30px;
+  --ds-line-height-30: 1.333;
+  --ds-font-size-29: 29px;
+  --ds-line-height-29: 1.31;
+  --ds-font-size-28: 28px;
+  --ds-line-height-28: 1.321;
+  --ds-font-size-27: 27px;
+  --ds-line-height-27: 1.333;
+  --ds-font-size-26: 26px;
+  --ds-line-height-26: 1.346;
+  --ds-font-size-25: 25px;
+  --ds-line-height-25: 1.36;
+  --ds-font-size-24: 24px;
+  --ds-line-height-24: 1.375;
+  --ds-font-size-23: 23px;
+  --ds-line-height-23: 1.391;
+  --ds-font-size-22: 22px;
+  --ds-line-height-22: 1.409;
+  --ds-font-size-21: 21px;
+  --ds-line-height-21: 1.429;
+  --ds-font-size-20: 20px;
+  --ds-line-height-20: 1.45;
+  --ds-font-size-19: 19px;
+  --ds-line-height-19: 1.474;
+  --ds-font-size-18: 18px;
+  --ds-line-height-18: 1.5;
+  --ds-font-size-17: 17px;
+  --ds-line-height-17: 1.5;
+  --ds-font-size-16: 16px;
+  --ds-line-height-16: 1.5;
+  --ds-font-size-15: 15px;
+  --ds-line-height-15: 1.5;
+  --ds-font-size-14: 14px;
+  --ds-line-height-14: 1.5;
+  --ds-font-size-13: 13px;
+  --ds-line-height-13: 1.5;
+  --ds-font-size-12: 12px;
+  --ds-line-height-12: 1.5;
+  --ds-font-size-11: 11px;
+  --ds-line-height-11: 1.5;
+
+  --ds-border-hairline: repeat-x
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect fill='rgba(0, 0, 33, 0.07)' x='0' y='0' width='1' height='0.5'/></svg>");
+
+  --adaptiveGrey50: #f9fafb;
+  --adaptiveGrey100: #f2f4f6;
+  --adaptiveGrey200: #e5e8eb;
+  --adaptiveGrey300: #d1d6db;
+  --adaptiveGrey400: #b0b8c1;
+  --adaptiveGrey500: #8b95a1;
+  --adaptiveGrey600: #6b7684;
+  --adaptiveGrey700: #4e5968;
+  --adaptiveGrey800: #333d4b;
+  --adaptiveGrey900: #191f28;
+
+  --adaptiveOpacity50: rgba(0, 23, 51, 0.02);
+  --adaptiveOpacity100: rgba(2, 32, 71, 0.05);
+  --adaptiveOpacity200: rgba(0, 27, 55, 0.1);
+  --adaptiveOpacity300: rgba(0, 29, 58, 0.18);
+  --adaptiveOpacity400: rgba(0, 29, 54, 0.31);
+  --adaptiveOpacity500: rgba(3, 24, 50, 0.46);
+  --adaptiveOpacity600: rgba(0, 19, 43, 0.58);
+  --adaptiveOpacity700: rgba(3, 18, 40, 0.7);
+  --adaptiveOpacity800: rgba(0, 12, 30, 0.8);
+  --adaptiveOpacity900: rgba(2, 9, 19, 0.91);
+
+  --adaptiveBackground: #fff;
+  --adaptiveGreyBackground: #f2f4f6;
+  --adaptiveLayeredBackground: #fff;
+  --adaptiveFloatBackground: #fff;
+  --adaptiveDisabledBlue500: #c9e2ff;
+
+  --tHairlineBackground: repeat-x
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect fill='rgba(0, 0, 33, 0.07)' x='0' y='0' width='1' height='0.5'/></svg>");
+  --tGradientToTop: linear-gradient(0deg, #fff, hsla(0, 0%, 100%, 0));
+  --tGradientToRight: linear-gradient(90deg, #fff, hsla(0, 0%, 100%, 0));
+  --tGradientToLeft: linear-gradient(270deg, #fff, hsla(0, 0%, 100%, 0));
+  --tGradientToBottom: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0));
+  --tLayeredGradientToTop: linear-gradient(0deg, #fff, hsla(0, 0%, 100%, 0));
+  --tLayeredGradientToBottom: linear-gradient(180deg, #fff, hsla(0, 0%, 100%, 0));
+
+  --tRadioIndicatorBackgroundColor: #fff;
+  --tToastBackground: rgba(25, 31, 40, 0.54);
+  --tDarkFillButtonBackground: #4e5968;
+  --tPrimaryWeakButtonBackground: #e8f3ff;
+  --tDangerWeakButtonBackground: #fee;
+  --tDarkWeakButtonBackground: #f2f4f6;
+  --tLightWeakButtonBackground: rgba(222, 222, 255, 0.19);
+  --tButtonPressedAfterBackground: transparent;
+  --tPrimaryWeakButtonPressedBackground: rgba(49, 130, 246, 0.26);
+  --tDangerWeakButtonPressedBackground: rgba(244, 67, 54, 0.26);
+  --tDarkWeakButtonPressedBackground: rgba(78, 89, 104, 0.26);
+  --tLightWeakButtonPressedBackground: hsla(0, 0%, 100%, 0.26);
+
+  --tBlueBadgeColor: #1b64da;
+  --tBlueBadgeBackground: rgba(49, 130, 246, 0.16);
+  --tTealBadgeColor: #0c8585;
+  --tTealBadgeBackground: rgba(0, 129, 138, 0.16);
+  --tGreenBadgeColor: #029359;
+  --tGreenBadgeBackground: rgba(2, 162, 98, 0.16);
+  --tRedBadgeColor: #d22030;
+  --tRedBadgeBackground: rgba(244, 67, 54, 0.16);
+  --tYellowBadgeColor: #dd7d02;
+  --tYellowBadgeBackground: rgba(255, 179, 49, 0.16);
+  --tElephantBadgeColor: #4e5968;
+  --tElephantBadgeBackground: rgba(78, 89, 104, 0.16);
+  --tSwiperBulletBackground: rgba(232, 232, 253, 0.36);
+  --tListRowDisabledBackground: rgba(253, 253, 255, 0.75);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+
+  --primary: #3182f6;
+  --primary-foreground: #ffffff;
+
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+
+  --ring: #3182f6;
+
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: #3182f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: #3182f6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -1,0 +1,9 @@
+addReviewers: true
+addAssignees: false
+
+reviewers:
+  - seyun0714
+  - kimsuyeon0916
+  - jaey-yi
+
+numberOfReviewers: 2
