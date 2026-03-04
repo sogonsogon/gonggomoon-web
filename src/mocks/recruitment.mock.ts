@@ -29,7 +29,7 @@ export const mockRecruitments: Recruitment[] = [
     companyId: 13,
     jobType: 'BACKEND',
     industryType: 'AI',
-    status: 'DRAFT',
+    status: 'OPEN',
     createdAt: '2026-03-03T00:00:00.000Z',
   },
 ];
