@@ -38,7 +38,7 @@ export const mockExperiences: Experience[] = [
   {
     id: 105,
     title: '해커톤/공모전 참가',
-    experienceType: 'CONTEST',
+    experienceType: 'COMPETITION',
     experienceContent: '서비스 기획 및 MVP 프론트엔드 구현 담당.',
     startDate: '2025-11-05',
     endDate: '2025-11-07',
