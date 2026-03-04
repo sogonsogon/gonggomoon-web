@@ -1,4 +1,4 @@
-import { IndustryType } from '../industry/types';
+import { IndustryType } from '@/features/industry/types';
 
 export type JobType =
   | 'FRONTEND'
@@ -11,7 +11,7 @@ export type JobType =
   | 'PM/PO'
   | 'QA';
 
-export type RecruitmentStatus = 'OPEN' | 'CLOSED' | 'DRAFT';
+export type RecruitmentStatus = 'OPEN' | 'CLOSED';
 
 export type Recruitment = {
   recruitmentId: number;
