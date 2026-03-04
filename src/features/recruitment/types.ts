@@ -21,6 +21,7 @@ export type Recruitment = {
   industryType?: IndustryType;
   status: RecruitmentStatus;
   url?: string;
+  startDate?: string | null;
   dueDate?: string | null;
   createdAt: string;
 };
