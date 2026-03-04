@@ -1,4 +1,4 @@
-export type ExperienceType = 'CAREER' | 'PROJECT' | 'EDUCATION' | 'CONTEST' | 'OTHER';
+export type ExperienceType = 'CAREER' | 'PROJECT' | 'EDUCATION' | 'COMPETITION' | 'OTHER';
 
 export type Experience = {
   id: number;

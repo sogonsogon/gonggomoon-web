@@ -1,4 +1,4 @@
-export type QuestionLevel = 'EASY' | 'MEDIUM' | 'HARD';
+export type QuestionLevel = 'LOWER' | 'MIDDLE' | 'HIGH';
 
 export type Interview = {
   interviewSetId: number;
