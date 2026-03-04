@@ -1,5 +1,5 @@
-import { IndustryType } from '../industry/types';
-import { JobType } from '../recruitment/types';
+import { IndustryType } from '@/features/industry/types';
+import { JobType } from '@/features/recruitment/types';
 
 export type StrategyJobType = Extract<JobType, 'FRONTEND' | 'BACKEND'>;
 
