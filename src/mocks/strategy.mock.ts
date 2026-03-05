@@ -65,10 +65,10 @@ export const mockStrategies: Strategy[] = [
   {
     strategyId: 9002,
     jobType: asStrategyJobType('FRONTEND'),
-    industryType: 'FINTECH',
+    industryType: 'FINTECH_FINANCIAL',
     createdDate: '2026-03-02T02:00:00.000Z',
     experienceTotalCount: 3,
-    detail: makeDetail('FINTECH'),
+    detail: makeDetail('FINTECH_FINANCIAL'),
   },
   // 목록에서 "요약 카드"만 보여주고 싶은 케이스 (detail 없음)
   {

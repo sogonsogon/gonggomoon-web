@@ -1,4 +1,8 @@
-export type CompanyType = 'LARGE' | 'FOREIGN' | 'MIDDLE' | 'SMALL';
+export type CompanyType =
+  | 'LARGE_ENTERPRISE'
+  | 'MID_SIZED_ENTERPRISE'
+  | 'SMALL_MEDIUM_ENTERPRISE'
+  | 'STARTUP';
 
 export type Company = {
   companyId: number;
