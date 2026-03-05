@@ -4,12 +4,14 @@ export type JobType =
   | 'FRONTEND'
   | 'BACKEND'
   | 'DEVOPS'
-  | 'DATA'
+  | 'DATA_ANALYSIS'
   | 'AI'
-  | 'SECURITY'
+  | 'INFORMATION_SECURITY'
   | 'DESIGN'
-  | 'PM/PO'
+  | 'PM_PO'
   | 'QA';
+
+export type PlatformType = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
 
 export type RecruitmentStatus = 'OPEN' | 'CLOSED';
 
