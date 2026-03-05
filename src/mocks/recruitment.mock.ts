@@ -18,7 +18,7 @@ export const mockRecruitments: Recruitment[] = [
     title: '프론트엔드 인턴 (핀테크)',
     companyId: 12,
     jobType: 'FRONTEND',
-    industryType: 'FINTECH',
+    industryType: 'FINTECH_FINANCIAL',
     status: 'OPEN',
     url: 'https://example.com/jobs/3002',
     startDate: '2026-06-01',
