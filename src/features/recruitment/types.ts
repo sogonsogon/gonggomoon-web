@@ -13,7 +13,7 @@ export type JobType =
 
 export type PlatformType = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
 
-export type RecruitmentStatus = 'OPEN' | 'CLOSED';
+export type PostStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'POSTED'; // 공고 분석 상태
 
 export type Recruitment = {
   recruitmentId: number;
@@ -21,7 +21,7 @@ export type Recruitment = {
   companyId: number;
   jobType: JobType;
   industryType?: IndustryType;
-  status: RecruitmentStatus;
+  status: PostStatus;
   url?: string;
   startDate?: string | null;
   dueDate?: string | null;
