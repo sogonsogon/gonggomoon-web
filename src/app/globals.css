@@ -353,3 +353,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+html,
+body {
+  font-family: var(--font-pretendard);
+}
