@@ -1,11 +1,11 @@
 export type IndustryType =
-  | 'MEDIA/CONTENT'
+  | 'MEDIA_CONTENT'
   | 'COMMERCE'
-  | 'FINTECH'
-  | 'MOBILITY'
+  | 'FINTECH_FINANCIAL'
+  | 'MOBILITY_LOGISTICS'
   | 'AI'
-  | 'HEALTHCARE/BIO'
-  | 'MANUFACTURING'
+  | 'HEALTHCARE_BIO'
+  | 'MANUFACTURING_INDUSTRY'
   | 'OTHER';
 
 export type Industry = {
