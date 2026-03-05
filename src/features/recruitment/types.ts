@@ -13,7 +13,17 @@ export type JobType =
 
 export type PlatformType = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
 
-export type RecruitmentStatus = 'OPEN' | 'CLOSED';
+export type PostStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'POSTED'; // 공고 분석 상태
+
+export type RecruitmentAnalysis = {
+  summary: string; // 공고 한 줄 요약
+  companySummary: string; // 회사 한 줄 소개
+  rolesResponsibilities: string[]; // R&R
+  requiredSkills: string[]; // 필수 역량
+  highlightPoints: string[]; // 차별 포인트
+  hiddenKeywords: string[]; // 숨은 키워드
+  recommendedActions: string[]; // 추천 활동
+};
 
 export type Recruitment = {
   recruitmentId: number;
@@ -21,9 +31,10 @@ export type Recruitment = {
   companyId: number;
   jobType: JobType;
   industryType?: IndustryType;
-  status: RecruitmentStatus;
+  status: PostStatus;
   url?: string;
   startDate?: string | null;
   dueDate?: string | null;
   createdAt: string;
+  analysis?: RecruitmentAnalysis;
 };
