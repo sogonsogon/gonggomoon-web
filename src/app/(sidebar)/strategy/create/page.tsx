@@ -24,8 +24,6 @@ import { mockStrategies } from '@/mocks/strategy.mock';
 import type { Experience, ExperienceType } from '@/features/experience/types';
 import type { StrategyJobType } from '@/features/strategy/types';
 import type { IndustryType } from '@/features/industry/types';
-import Header from '@/shared/components/layout/Header';
-import Footer from '@/shared/components/layout/Footer';
 
 const EXP_TYPE_LABELS: Record<ExperienceType, string> = {
   CAREER: '경력',
@@ -97,8 +95,6 @@ export default function StrategyCreatePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       <div className="flex flex-1">
         {/* Sidebar */}
         {isSidebarOpen && (
@@ -460,8 +456,6 @@ export default function StrategyCreatePage() {
               </div>
             </div>
           </div>
-
-          <Footer />
         </div>
       </div>
 

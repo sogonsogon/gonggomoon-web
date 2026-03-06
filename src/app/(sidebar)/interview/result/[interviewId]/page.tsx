@@ -14,8 +14,6 @@ import {
 } from 'lucide-react';
 import { mockInterviewSets } from '@/mocks/interview.mock';
 import type { QuestionLevel } from '@/features/interview/types';
-import Header from '@/shared/components/layout/Header';
-import Footer from '@/shared/components/layout/Footer';
 
 const LEVEL_LABELS: Record<QuestionLevel, string> = {
   LOWER: '난이도 하',
@@ -70,8 +68,6 @@ export default function InterviewResultPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       <div className="flex flex-1">
         {/* Sidebar */}
         {isSidebarOpen && (
@@ -280,8 +276,6 @@ export default function InterviewResultPage() {
               </div>
             )}
           </div>
-
-          <Footer />
         </div>
       </div>
     </div>

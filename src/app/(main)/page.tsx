@@ -1,24 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import {
-  Search,
-  Sparkles,
-  ArrowRight,
-  Calendar,
-  ChevronDown,
-  ChevronRight,
-  User,
-} from 'lucide-react';
+import { Sparkles, ArrowRight, Calendar, ChevronRight } from 'lucide-react';
 import { mockRecruitments } from '@/mocks/recruitment.mock';
 import { mockBookmarks } from '@/mocks/bookmark.mock';
 import { mockCompanies } from '@/mocks/company.mock';
-import { mockUser } from '@/mocks/auth.mock';
 import type { JobType } from '@/features/recruitment/types';
-import Footer from '@/shared/components/layout/Footer';
-import Header from '@/shared/components/layout/Header';
 
 type TabValue = 'ALL' | JobType | 'EMBEDDED';
 
@@ -83,12 +71,9 @@ export default function MainPage() {
   });
 
   return (
-    <div className="flex min-h-screen flex-col bg-white font-sans">
-      {/* Header */}
-      <Header />
-
+    <div className="flex min-h-screen flex-col bg-white font-sans w-full">
       {/* Body */}
-      <div className="flex flex-1 flex-col gap-7 px-30 py-8">
+      <div className="flex flex-1 flex-col gap-7 py-8">
         {/* Promo Banner */}
         <div
           className="flex items-center justify-between rounded-2xl px-9 py-7"
@@ -218,8 +203,6 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

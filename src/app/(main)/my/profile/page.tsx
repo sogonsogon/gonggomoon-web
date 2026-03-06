@@ -1,9 +1,7 @@
 import { User, LogOut } from 'lucide-react';
 import Image from 'next/image';
 import { mockUser } from '@/mocks/auth.mock';
-import Header from '@/shared/components/layout/Header';
 import MyNav from '@/features/user/components/MyNav';
-import Footer from '@/shared/components/layout/Footer';
 
 // 프로필에 표시할 추가 mock 데이터 (생년월일은 User 타입에 없으므로 별도 관리)
 const mockBirthDate = '1998.05.12';
@@ -14,8 +12,6 @@ export default function ProfilePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-12 px-30 py-10">
         <MyNav activePath="/my/profile" />
@@ -83,8 +79,6 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

@@ -20,8 +20,6 @@ import {
 import { mockInterviewSets } from '@/mocks/interview.mock';
 import { mockFiles } from '@/mocks/file.mock';
 import type { File } from '@/features/file/types';
-import Header from '@/shared/components/layout/Header';
-import Footer from '@/shared/components/layout/Footer';
 
 function formatHistoryDate(iso: string): string {
   return iso.slice(0, 10).replace(/-/g, '.');
@@ -74,8 +72,6 @@ export default function InterviewCreatePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       <div className="flex flex-1">
         {/* Sidebar */}
         {isSidebarOpen && (
@@ -342,8 +338,6 @@ export default function InterviewCreatePage() {
               </div>
             </div>
           </div>
-
-          <Footer />
         </div>
       </div>
 

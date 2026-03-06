@@ -6,9 +6,7 @@ import { Trash2, Calendar, Lightbulb, CirclePlus } from 'lucide-react';
 import { mockStrategies } from '@/mocks/strategy.mock';
 import type { Strategy } from '@/features/strategy/types';
 import type { IndustryType } from '@/features/industry/types';
-import Header from '@/shared/components/layout/Header';
 import MyNav from '@/features/user/components/MyNav';
-import Footer from '@/shared/components/layout/Footer';
 
 const INDUSTRY_LABELS: Record<IndustryType, string> = {
   MEDIA_CONTENT: '미디어 / 컨텐츠',
@@ -99,8 +97,6 @@ export default function StrategyPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-12 px-30 py-10">
         <MyNav activePath="/my/strategy" />
@@ -204,8 +200,6 @@ export default function StrategyPage() {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

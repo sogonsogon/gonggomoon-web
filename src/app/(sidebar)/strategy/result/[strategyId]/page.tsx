@@ -24,8 +24,6 @@ import { mockExperiences } from '@/mocks/experience.mock';
 import type { StrategyJobType } from '@/features/strategy/types';
 import type { IndustryType } from '@/features/industry/types';
 import type { ExperienceType } from '@/features/experience/types';
-import Header from '@/shared/components/layout/Header';
-import Footer from '@/shared/components/layout/Footer';
 
 const JOB_TYPE_LABELS: Record<StrategyJobType, string> = {
   FRONTEND: '프론트엔드',
@@ -86,8 +84,6 @@ export default function StrategyResultPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       <div className="flex flex-1">
         {/* Sidebar */}
         {isSidebarOpen && (
@@ -440,8 +436,6 @@ export default function StrategyResultPage() {
               </div>
             )}
           </div>
-
-          <Footer />
         </div>
       </div>
     </div>

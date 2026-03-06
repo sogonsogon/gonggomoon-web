@@ -4,9 +4,7 @@ import { useRef, useState } from 'react';
 import { FolderOpen, FileText, File, Trash2, Upload, X } from 'lucide-react';
 import { mockFiles } from '@/mocks/file.mock';
 import type { File as UserFile, FileCategory } from '@/features/file/types';
-import Header from '@/shared/components/layout/Header';
 import MyNav from '@/features/user/components/MyNav';
-import Footer from '@/shared/components/layout/Footer';
 
 const MAX_FILES = 10;
 
@@ -90,8 +88,6 @@ export default function FilePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-12 px-30 py-10">
         <MyNav activePath="/my/file" />
@@ -207,8 +203,6 @@ export default function FilePage() {
           </div>
         </div>
       </div>
-
-      <Footer />
 
       {/* Upload Modal */}
       {isModalOpen && (

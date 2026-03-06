@@ -86,125 +86,127 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex h-20 items-center justify-between border-b border-gray-100 px-30">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-1.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-900">
-              <span className="text-sm font-bold text-white">G</span>
-            </div>
-            <span className="text-base font-bold text-gray-900">공고문</span>
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/" className="text-sm font-semibold text-gray-900">
-              채용 공고
+      <header className="flex justify-center h-20 border-b border-gray-100 w-full ">
+        <div className="flex items-center justify-between max-w-7xl w-full">
+          <div className="flex items-center gap-8">
+            <Link href="/" className="flex items-center gap-1.5">
+              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-900">
+                <span className="text-sm font-bold text-white">G</span>
+              </div>
+              <span className="text-base font-bold text-gray-900">공고문</span>
             </Link>
-            <Link href="/strategy/create" className="text-sm font-medium text-gray-500">
-              포폴 전략
-            </Link>
-            <Link href="/interview/create" className="text-sm font-medium text-gray-500">
-              모의 면접
-            </Link>
-          </nav>
-        </div>
-
-        {/* Center Search */}
-        {showSearchBar && (
-          <div className="flex w-105 items-center gap-2.5 rounded-full bg-gray-100 px-5 py-2.5">
-            <Search
-              className="h-4.5 w-4.5 shrink-0 cursor-pointer text-gray-500"
-              onClick={handleSearch}
-            />
-            <input
-              type="text"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              onKeyDown={(event) => handleEnter(event)}
-              placeholder="공고명을 검색하세요"
-              className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
-            />
+            <nav className="flex items-center gap-6">
+              <Link href="/" className="text-sm font-semibold text-gray-900">
+                채용 공고
+              </Link>
+              <Link href="/strategy/create" className="text-sm font-medium text-gray-500">
+                포폴 전략
+              </Link>
+              <Link href="/interview/create" className="text-sm font-medium text-gray-500">
+                모의 면접
+              </Link>
+            </nav>
           </div>
-        )}
 
-        {isLoggedIn ? (
-          /* Avatar + Dropdown */
-          <div className="relative" ref={dropdownRef}>
-            <button
-              type="button"
-              onClick={() => setIsDropdownOpen((v) => !v)}
-              className="h-9 w-9 overflow-hidden rounded-full bg-gray-200 focus:outline-none"
-              aria-label="프로필 메뉴 열기"
-            >
-              {user.profileImageUrl ? (
-                <Image
-                  src={user.profileImageUrl}
-                  alt={user.name}
-                  width={36}
-                  height={36}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-              )}
-            </button>
+          {/* Center Search */}
+          {showSearchBar && (
+            <div className="flex w-105 items-center gap-2.5 rounded-full bg-gray-100 px-5 py-2.5">
+              <Search
+                className="h-4.5 w-4.5 shrink-0 cursor-pointer text-gray-500"
+                onClick={handleSearch}
+              />
+              <input
+                type="text"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                onKeyDown={(event) => handleEnter(event)}
+                placeholder="공고명을 검색하세요"
+                className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+              />
+            </div>
+          )}
 
-            {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <div className="absolute right-0 top-full z-50 mt-2 w-50 overflow-hidden rounded-md border border-gray-200 bg-white p-1 shadow-md">
-                {MENU_ITEMS.map((item, idx) => {
-                  if (item.type === 'divider') {
-                    return <div key={idx} className="my-1 h-px bg-gray-100" />;
-                  }
+          {isLoggedIn ? (
+            /* Avatar + Dropdown */
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen((v) => !v)}
+                className="h-9 w-9 overflow-hidden rounded-full bg-gray-200 focus:outline-none"
+                aria-label="프로필 메뉴 열기"
+              >
+                {user.profileImageUrl ? (
+                  <Image
+                    src={user.profileImageUrl}
+                    alt={user.name}
+                    width={36}
+                    height={36}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <User className="h-5 w-5 text-gray-400" />
+                  </div>
+                )}
+              </button>
 
-                  const Icon = item.icon!;
-                  const content = (
-                    <span
-                      className={`flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-gray-100 ${
-                        item.danger ? 'text-red-500' : 'text-gray-700'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4 shrink-0" />
-                      {item.label}
-                    </span>
-                  );
+              {/* Dropdown Menu */}
+              {isDropdownOpen && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-50 overflow-hidden rounded-md border border-gray-200 bg-white p-1 shadow-md">
+                  {MENU_ITEMS.map((item, idx) => {
+                    if (item.type === 'divider') {
+                      return <div key={idx} className="my-1 h-px bg-gray-100" />;
+                    }
 
-                  if (item.href) {
+                    const Icon = item.icon!;
+                    const content = (
+                      <span
+                        className={`flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-gray-100 ${
+                          item.danger ? 'text-red-500' : 'text-gray-700'
+                        }`}
+                      >
+                        <Icon className="h-4 w-4 shrink-0" />
+                        {item.label}
+                      </span>
+                    );
+
+                    if (item.href) {
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          {content}
+                        </Link>
+                      );
+                    }
+
                     return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsDropdownOpen(false)}
+                      <button
+                        key={idx}
+                        type="button"
+                        className="w-full text-left"
+                        onClick={handleLogout}
                       >
                         {content}
-                      </Link>
+                      </button>
                     );
-                  }
-
-                  return (
-                    <button
-                      key={idx}
-                      type="button"
-                      className="w-full text-left"
-                      onClick={handleLogout}
-                    >
-                      {content}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        ) : (
-          /* Login Button (logged-out state) */
-          <button
-            type="button"
-            onClick={() => setIsLoginModalOpen(true)}
-            className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-          >
-            로그인
-          </button>
-        )}
+                  })}
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Login Button (logged-out state) */
+            <button
+              type="button"
+              onClick={() => setIsLoginModalOpen(true)}
+              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            >
+              로그인
+            </button>
+          )}
+        </div>
       </header>
 
       {/* Login Modal (US-00) */}

@@ -14,8 +14,6 @@ import { mockRecruitments } from '@/mocks/recruitment.mock';
 import type { CompanyType } from '@/features/company/types';
 import type { IndustryType } from '@/features/industry/types';
 import type { JobType } from '@/features/recruitment/types';
-import Header from '@/shared/components/layout/Header';
-import Footer from '@/shared/components/layout/Footer';
 
 const TODAY = new Date('2026-03-05');
 
@@ -153,11 +151,9 @@ export default async function CompanyDetailPage({ params }: CompanyDetailPagePro
   if (!company) {
     return (
       <div className="flex min-h-screen flex-col bg-white font-sans">
-        <Header />
         <div className="flex flex-1 items-center justify-center">
           <p className="text-gray-500">기업을 찾을 수 없습니다.</p>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -168,8 +164,6 @@ export default async function CompanyDetailPage({ params }: CompanyDetailPagePro
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-10 px-30 py-10">
         {/* Left: Company Info */}
@@ -392,8 +386,6 @@ export default async function CompanyDetailPage({ params }: CompanyDetailPagePro
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
