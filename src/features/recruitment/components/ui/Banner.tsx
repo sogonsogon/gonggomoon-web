@@ -15,8 +15,8 @@ export default function Banner() {
           <span className="text-lg font-bold text-white">AI 포트폴리오 전략을 세워보세요</span>
         </div>
         <p className="text-sm text-white/80">
-          프론트엔드 · 핀테크/금융 직무에 맞춘 핵심 역량 3가지, 키워드 태그, 포트폴리오
-          체크리스트까지 — 한 번에 확인하세요.
+          직무와 타겟 산업에 맞는 핵심 역량 3가지부터 키워드 태그, 포트폴리오 체크리스트까지 한 번에
+          확인하세요.
         </p>
       </div>
       <Link
