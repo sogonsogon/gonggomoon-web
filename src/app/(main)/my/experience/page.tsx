@@ -20,6 +20,7 @@ import { mockFiles } from '@/mocks/file.mock';
 import type { Experience, ExperienceType } from '@/features/experience/types';
 import type { FileCategory } from '@/features/file/types';
 import MyNav from '@/features/user/components/MyNav';
+import MyTitle from '@/features/user/components/MyTitle';
 
 type DraftData = {
   title: string;
@@ -176,228 +177,207 @@ export default function ExperiencePage() {
   const hasFiles = mockFiles.length > 0;
 
   return (
-    <div className="flex min-h-screen flex-col bg-white font-sans">
-      {/* Body */}
-      <div className="flex flex-1 gap-12 px-30 py-10">
-        <MyNav activePath="/my/experience" />
+    <div className="flex min-h-screen flex-col w-full bg-white">
+      {/* Right Content */}
+      <div className="flex flex-1 flex-col gap-8">
+        {/* Page Title */}
+        <MyTitle
+          title={'내 경험'}
+          description={'나의 경험을 기록하고 AI로 의미 있는 단위로 추출해보세요'}
+        />
 
-        {/* Right Content */}
-        <div className="flex flex-1 flex-col gap-8">
-          {/* Page Title */}
-          <div className="flex flex-col gap-1">
-            <h1 className="text-[22px] font-bold text-gray-900">내 경험</h1>
-            <p className="text-sm text-gray-500">
-              나의 경험을 기록하고 AI로 의미 있는 단위로 추출해보세요
-            </p>
+        {/* AI Extract Banner */}
+        <div className="flex items-center justify-between gap-4 rounded-xl border border-blue-100 bg-blue-50 px-6 py-5">
+          <div className="flex flex-1 items-center gap-3.5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-blue-100">
+              <Sparkles className="h-5 w-5 text-blue-600" />
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-[15px] font-bold text-blue-900">AI 경험 추출</span>
+              <span className="text-[13px] text-blue-800">
+                업로드된 파일에서 AI가 의미 있는 경험 단위를 자동으로 추출해드립니다
+              </span>
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={handleOpenModal}
+            className="shrink-0 rounded-lg bg-gray-900 px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-gray-700"
+          >
+            파일에서 추출하기
+          </button>
+        </div>
 
-          {/* AI Extract Banner */}
-          <div className="flex items-center justify-between gap-4 rounded-xl border border-blue-100 bg-blue-50 px-6 py-5">
-            <div className="flex flex-1 items-center gap-3.5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-blue-100">
-                <Sparkles className="h-5 w-5 text-blue-600" />
-              </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[15px] font-bold text-blue-900">AI 경험 추출</span>
-                <span className="text-[13px] text-blue-800">
-                  업로드된 파일에서 AI가 의미 있는 경험 단위를 자동으로 추출해드립니다
-                </span>
-              </div>
+        {/* Count Row */}
+        <div className="flex items-center justify-between">
+          <span className="text-[13px] font-medium text-gray-600">총 {cards.length}개의 경험</span>
+        </div>
+
+        {/* Experience Card List */}
+        {cards.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-4 py-24">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+              <Briefcase className="h-6 w-6 text-gray-400" />
+            </div>
+            <div className="flex flex-col items-center gap-1.5 text-center">
+              <p className="text-[15px] font-semibold text-gray-900">아직 등록된 경험이 없어요</p>
+              <p className="text-[13px] text-gray-500">
+                나의 경험을 기록하고 AI로 의미있게 정리해 보세요
+              </p>
             </div>
             <button
               type="button"
-              onClick={handleOpenModal}
-              className="shrink-0 rounded-lg bg-gray-900 px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-gray-700"
+              onClick={handleAddExperience}
+              className="rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700"
             >
-              파일에서 추출하기
+              경험 추가하기
             </button>
           </div>
-
-          {/* Count Row */}
-          <div className="flex items-center justify-between">
-            <span className="text-[13px] font-medium text-gray-600">
-              총 {cards.length}개의 경험
-            </span>
-          </div>
-
-          {/* Experience Card List */}
-          {cards.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-4 py-24">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
-                <Briefcase className="h-6 w-6 text-gray-400" />
-              </div>
-              <div className="flex flex-col items-center gap-1.5 text-center">
-                <p className="text-[15px] font-semibold text-gray-900">아직 등록된 경험이 없어요</p>
-                <p className="text-[13px] text-gray-500">
-                  나의 경험을 기록하고 AI로 의미있게 정리해 보세요
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={handleAddExperience}
-                className="rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700"
+        ) : (
+          <div className="flex flex-col gap-4">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                className="overflow-hidden rounded-xl border border-gray-200 bg-white"
               >
-                경험 추가하기
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-4">
-              {cards.map((card) => (
-                <div
-                  key={card.id}
-                  className="overflow-hidden rounded-xl border border-gray-200 bg-white"
-                >
-                  {card.isEditing ? (
-                    /* Edit Mode */
-                    <>
-                      <div className="flex items-center justify-between gap-3 border-b-2 border-blue-400 px-5 py-4">
-                        <div className="flex flex-1 items-center gap-3">
-                          {/* "수정 중" tag */}
-                          <div className="flex shrink-0 items-center gap-1.5 rounded-md bg-blue-50 px-2 py-0.5">
-                            <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                            <span className="text-[11px] font-semibold text-blue-700">수정 중</span>
-                          </div>
-                          {/* Type select */}
-                          <select
-                            value={card.draft.experienceType}
-                            onChange={(e) =>
-                              updateDraft(
-                                card.id,
-                                'experienceType',
-                                e.target.value as ExperienceType,
-                              )
-                            }
-                            className="w-40 shrink-0 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-[13px] text-gray-800 focus:border-blue-400 focus:outline-none"
-                          >
-                            {(Object.keys(EXP_TYPE_LABELS) as ExperienceType[]).map((type) => (
-                              <option key={type} value={type}>
-                                {EXP_TYPE_LABELS[type]}
-                              </option>
-                            ))}
-                          </select>
-                          {/* Title input */}
-                          <input
-                            type="text"
-                            value={card.draft.title}
-                            onChange={(e) => updateDraft(card.id, 'title', e.target.value)}
-                            placeholder="경험 제목을 입력하세요"
-                            className="flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-[14px] text-gray-900 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
-                          />
+                {card.isEditing ? (
+                  /* Edit Mode */
+                  <>
+                    <div className="flex items-center justify-between gap-3 border-b-2 border-blue-400 px-5 py-4">
+                      <div className="flex flex-1 items-center gap-3">
+                        {/* "수정 중" tag */}
+                        <div className="flex shrink-0 items-center gap-1.5 rounded-md bg-blue-50 px-2 py-0.5">
+                          <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+                          <span className="text-[11px] font-semibold text-blue-700">수정 중</span>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(card.id)}
-                          aria-label="삭제"
+                        {/* Type select */}
+                        <select
+                          value={card.draft.experienceType}
+                          onChange={(e) =>
+                            updateDraft(card.id, 'experienceType', e.target.value as ExperienceType)
+                          }
+                          className="w-40 shrink-0 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-[13px] text-gray-800 focus:border-blue-400 focus:outline-none"
                         >
-                          <Trash2 className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-                        </button>
+                          {(Object.keys(EXP_TYPE_LABELS) as ExperienceType[]).map((type) => (
+                            <option key={type} value={type}>
+                              {EXP_TYPE_LABELS[type]}
+                            </option>
+                          ))}
+                        </select>
+                        {/* Title input */}
+                        <input
+                          type="text"
+                          value={card.draft.title}
+                          onChange={(e) => updateDraft(card.id, 'title', e.target.value)}
+                          placeholder="경험 제목을 입력하세요"
+                          className="flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-[14px] text-gray-900 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
+                        />
+                      </div>
+                      <button type="button" onClick={() => handleDelete(card.id)} aria-label="삭제">
+                        <Trash2 className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                      </button>
+                    </div>
+
+                    {/* Edit Body */}
+                    <div className="flex flex-col gap-4 px-5 py-4">
+                      {/* Period */}
+                      <div className="flex items-center gap-3">
+                        <span className="shrink-0 text-[13px] font-semibold text-gray-600">
+                          기간
+                        </span>
+                        <input
+                          type="text"
+                          value={card.draft.startDate}
+                          onChange={(e) => updateDraft(card.id, 'startDate', e.target.value)}
+                          placeholder="YYYY.MM"
+                          className="w-35 rounded-lg border border-gray-200 px-3 py-1.5 text-[13px] text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
+                        />
+                        <span className="text-gray-400">–</span>
+                        <input
+                          type="text"
+                          value={card.draft.endDate}
+                          onChange={(e) => updateDraft(card.id, 'endDate', e.target.value)}
+                          placeholder="YYYY.MM (미입력 시 현재)"
+                          className="w-50 rounded-lg border border-gray-200 px-3 py-1.5 text-[13px] text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
+                        />
                       </div>
 
-                      {/* Edit Body */}
-                      <div className="flex flex-col gap-4 px-5 py-4">
-                        {/* Period */}
-                        <div className="flex items-center gap-3">
-                          <span className="shrink-0 text-[13px] font-semibold text-gray-600">
-                            기간
-                          </span>
-                          <input
-                            type="text"
-                            value={card.draft.startDate}
-                            onChange={(e) => updateDraft(card.id, 'startDate', e.target.value)}
-                            placeholder="YYYY.MM"
-                            className="w-35 rounded-lg border border-gray-200 px-3 py-1.5 text-[13px] text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
-                          />
-                          <span className="text-gray-400">–</span>
-                          <input
-                            type="text"
-                            value={card.draft.endDate}
-                            onChange={(e) => updateDraft(card.id, 'endDate', e.target.value)}
-                            placeholder="YYYY.MM (미입력 시 현재)"
-                            className="w-50 rounded-lg border border-gray-200 px-3 py-1.5 text-[13px] text-gray-800 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
-                          />
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex flex-col gap-2">
-                          <span className="text-[13px] font-semibold text-gray-700">경험 내용</span>
-                          <textarea
-                            value={card.draft.experienceContent}
-                            onChange={(e) =>
-                              updateDraft(card.id, 'experienceContent', e.target.value)
-                            }
-                            placeholder="경험 내용을 입력하세요"
-                            rows={4}
-                            className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-[14px] leading-[1.7] text-gray-700 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Edit Footer */}
-                      <div className="flex justify-end border-t border-gray-200 px-5 py-3">
-                        <button
-                          type="button"
-                          onClick={() => handleSave(card.id)}
-                          className="rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700"
-                        >
-                          저장
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    /* View Mode */
-                    <div className="flex items-center justify-between gap-3 px-5 py-3.5">
-                      <div className="flex flex-1 items-center gap-2.5 overflow-hidden">
-                        <span
-                          className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-semibold ${EXP_TYPE_BADGE[card.experienceType]}`}
-                        >
-                          {EXP_TYPE_LABELS[card.experienceType]}
-                        </span>
-                        <span className="truncate text-[15px] font-semibold text-gray-900">
-                          {card.title}
-                        </span>
-                        <span className="shrink-0 text-[13px] text-gray-400">
-                          {card.startDate ? toDisplayDate(card.startDate) : ''}
-                          {card.endDate
-                            ? ` – ${toDisplayDate(card.endDate)}`
-                            : card.startDate
-                              ? ' – 현재'
-                              : ''}
-                        </span>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={() => handleStartEdit(card.id)}
-                          className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1.5 text-[12px] font-medium text-gray-600 hover:bg-gray-200"
-                        >
-                          <Pencil className="h-3 w-3" />
-                          수정
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(card.id)}
-                          aria-label="삭제"
-                        >
-                          <Trash2 className="h-3.75 w-3.75 text-gray-400 hover:text-gray-600" />
-                        </button>
+                      {/* Content */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-gray-700">경험 내용</span>
+                        <textarea
+                          value={card.draft.experienceContent}
+                          onChange={(e) =>
+                            updateDraft(card.id, 'experienceContent', e.target.value)
+                          }
+                          placeholder="경험 내용을 입력하세요"
+                          rows={4}
+                          className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-[14px] leading-[1.7] text-gray-700 placeholder:text-gray-400 focus:border-blue-400 focus:outline-none"
+                        />
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
 
-              {/* Add Experience Button */}
-              <button
-                type="button"
-                onClick={handleAddExperience}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 hover:bg-gray-50"
-              >
-                <CirclePlus className="h-4.5 w-4.5 text-gray-500" />
-                <span className="text-[14px] font-semibold text-gray-600">경험 추가</span>
-              </button>
-            </div>
-          )}
-        </div>
+                    {/* Edit Footer */}
+                    <div className="flex justify-end border-t border-gray-200 px-5 py-3">
+                      <button
+                        type="button"
+                        onClick={() => handleSave(card.id)}
+                        className="rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700"
+                      >
+                        저장
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  /* View Mode */
+                  <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+                    <div className="flex flex-1 items-center gap-2.5 overflow-hidden">
+                      <span
+                        className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-semibold ${EXP_TYPE_BADGE[card.experienceType]}`}
+                      >
+                        {EXP_TYPE_LABELS[card.experienceType]}
+                      </span>
+                      <span className="truncate text-[15px] font-semibold text-gray-900">
+                        {card.title}
+                      </span>
+                      <span className="shrink-0 text-[13px] text-gray-400">
+                        {card.startDate ? toDisplayDate(card.startDate) : ''}
+                        {card.endDate
+                          ? ` – ${toDisplayDate(card.endDate)}`
+                          : card.startDate
+                            ? ' – 현재'
+                            : ''}
+                      </span>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => handleStartEdit(card.id)}
+                        className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1.5 text-[12px] font-medium text-gray-600 hover:bg-gray-200"
+                      >
+                        <Pencil className="h-3 w-3" />
+                        수정
+                      </button>
+                      <button type="button" onClick={() => handleDelete(card.id)} aria-label="삭제">
+                        <Trash2 className="h-3.75 w-3.75 text-gray-400 hover:text-gray-600" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Add Experience Button */}
+            <button
+              type="button"
+              onClick={handleAddExperience}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 hover:bg-gray-50"
+            >
+              <CirclePlus className="h-4.5 w-4.5 text-gray-500" />
+              <span className="text-[14px] font-semibold text-gray-600">경험 추가</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* File Extraction Modal */}

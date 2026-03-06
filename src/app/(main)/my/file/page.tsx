@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { FolderOpen, FileText, File, Trash2, Upload, X } from 'lucide-react';
 import { mockFiles } from '@/mocks/file.mock';
 import type { File as UserFile, FileCategory } from '@/features/file/types';
-import MyNav from '@/features/user/components/MyNav';
+import MyTitle from '@/features/user/components/MyTitle';
 
 const MAX_FILES = 10;
 
@@ -87,120 +87,111 @@ export default function FilePage() {
   const canUpload = files.length < MAX_FILES;
 
   return (
-    <div className="flex min-h-screen flex-col bg-white font-sans">
-      {/* Body */}
-      <div className="flex flex-1 gap-12 px-30 py-10">
-        <MyNav activePath="/my/file" />
+    <div className="flex min-h-screen flex-col w-full bg-white">
+      {/* Right Content */}
+      <div className="flex flex-1 flex-col gap-8">
+        {/* Page Title */}
+        <MyTitle
+          title={'내 파일'}
+          description={'포트폴리오, 이력서 등 첨부파일을 관리할 수 있습니다'}
+        />
 
-        {/* Right Content */}
-        <div className="flex flex-1 flex-col gap-8">
-          {/* Page Title */}
-          <div className="flex flex-col gap-1">
-            <h1 className="text-[22px] font-bold text-gray-900">내 파일</h1>
-            <p className="text-sm text-gray-500">
-              포트폴리오, 이력서 등 첨부파일을 관리할 수 있습니다
-            </p>
+        {/* Count Row */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <span className="text-sm font-medium text-gray-500">파일</span>
+            <span className="text-sm font-bold text-gray-900">{files.length}</span>
+            <span className="text-sm text-gray-400">/</span>
+            <span className="text-sm text-gray-400">{MAX_FILES}</span>
           </div>
+          <button
+            type="button"
+            onClick={handleOpenModal}
+            disabled={!canUpload}
+            className="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            첨부파일 등록
+          </button>
+        </div>
 
-          {/* Count Row */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">
-              <span className="text-sm font-medium text-gray-500">파일</span>
-              <span className="text-sm font-bold text-gray-900">{files.length}</span>
-              <span className="text-sm text-gray-400">/</span>
-              <span className="text-sm text-gray-400">{MAX_FILES}</span>
+        {/* File Table */}
+        <div className="overflow-hidden rounded-xl border border-gray-100">
+          {/* Table Header */}
+          <div className="flex w-full items-center border-b border-gray-100 bg-gray-50">
+            <div className="w-25 shrink-0 px-4 py-3">
+              <span className="text-sm font-semibold text-gray-600">구분</span>
             </div>
-            <button
-              type="button"
-              onClick={handleOpenModal}
-              disabled={!canUpload}
-              className="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              첨부파일 등록
-            </button>
-          </div>
-
-          {/* File Table */}
-          <div className="overflow-hidden rounded-xl border border-gray-100">
-            {/* Table Header */}
-            <div className="flex w-full items-center border-b border-gray-100 bg-gray-50">
-              <div className="w-25 shrink-0 px-4 py-3">
-                <span className="text-sm font-semibold text-gray-600">구분</span>
-              </div>
-              <div className="flex-1 px-4 py-3">
-                <span className="text-sm font-semibold text-gray-600">파일 제목</span>
-              </div>
-              <div className="w-25 shrink-0 px-4 py-3">
-                <span className="text-sm font-semibold text-gray-600">용량</span>
-              </div>
-              <div className="w-30 shrink-0 px-4 py-3">
-                <span className="text-sm font-semibold text-gray-600">등록일</span>
-              </div>
-              <div className="flex w-18 shrink-0 items-center justify-center px-4 py-3">
-                <span className="text-sm font-semibold text-gray-600">삭제</span>
-              </div>
+            <div className="flex-1 px-4 py-3">
+              <span className="text-sm font-semibold text-gray-600">파일 제목</span>
             </div>
-
-            {/* Table Body */}
-            {files.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-4 py-16">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
-                  <FolderOpen className="h-6 w-6 text-gray-400" />
-                </div>
-                <div className="flex flex-col items-center gap-1.5">
-                  <p className="text-sm font-semibold text-gray-900">등록된 파일이 없어요</p>
-                  <p className="text-sm text-gray-500">
-                    포트폴리오, 이력서 등 파일을 등록해 보세요
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleOpenModal}
-                  className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
-                >
-                  파일 등록하기
-                </button>
-              </div>
-            ) : (
-              files.map((file, index) => (
-                <div
-                  key={file.fileId}
-                  className={`flex w-full items-center ${index < files.length - 1 ? 'border-b border-gray-100' : ''}`}
-                >
-                  <div className="w-25 shrink-0 px-4 py-3.5">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-xs font-semibold ${categoryBadgeClass[file.category]}`}
-                    >
-                      {categoryLabel[file.category]}
-                    </span>
-                  </div>
-                  <div className="flex flex-1 items-center gap-2 px-4 py-3.5">
-                    {isPdf(file.title) ? (
-                      <FileText className="h-4 w-4 shrink-0 text-gray-500" />
-                    ) : (
-                      <File className="h-4 w-4 shrink-0 text-gray-500" />
-                    )}
-                    <span className="text-sm font-medium text-gray-900">{file.title}</span>
-                  </div>
-                  <div className="w-25 shrink-0 px-4 py-3.5">
-                    <span className="text-sm text-gray-600">{formatFileSize(file.sizeBytes)}</span>
-                  </div>
-                  <div className="w-30 shrink-0 px-4 py-3.5">
-                    <span className="text-sm text-gray-600">{formatDate(file.createdAt)}</span>
-                  </div>
-                  <div className="flex w-18 shrink-0 items-center justify-center px-4 py-3.5">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(file.fileId)}
-                      aria-label="파일 삭제"
-                    >
-                      <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
-                    </button>
-                  </div>
-                </div>
-              ))
-            )}
+            <div className="w-25 shrink-0 px-4 py-3">
+              <span className="text-sm font-semibold text-gray-600">용량</span>
+            </div>
+            <div className="w-30 shrink-0 px-4 py-3">
+              <span className="text-sm font-semibold text-gray-600">등록일</span>
+            </div>
+            <div className="flex w-18 shrink-0 items-center justify-center px-4 py-3">
+              <span className="text-sm font-semibold text-gray-600">삭제</span>
+            </div>
           </div>
+
+          {/* Table Body */}
+          {files.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-4 py-16">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+                <FolderOpen className="h-6 w-6 text-gray-400" />
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <p className="text-sm font-semibold text-gray-900">등록된 파일이 없어요</p>
+                <p className="text-sm text-gray-500">포트폴리오, 이력서 등 파일을 등록해 보세요</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleOpenModal}
+                className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+              >
+                파일 등록하기
+              </button>
+            </div>
+          ) : (
+            files.map((file, index) => (
+              <div
+                key={file.fileId}
+                className={`flex w-full items-center ${index < files.length - 1 ? 'border-b border-gray-100' : ''}`}
+              >
+                <div className="w-25 shrink-0 px-4 py-3.5">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${categoryBadgeClass[file.category]}`}
+                  >
+                    {categoryLabel[file.category]}
+                  </span>
+                </div>
+                <div className="flex flex-1 items-center gap-2 px-4 py-3.5">
+                  {isPdf(file.title) ? (
+                    <FileText className="h-4 w-4 shrink-0 text-gray-500" />
+                  ) : (
+                    <File className="h-4 w-4 shrink-0 text-gray-500" />
+                  )}
+                  <span className="text-sm font-medium text-gray-900">{file.title}</span>
+                </div>
+                <div className="w-25 shrink-0 px-4 py-3.5">
+                  <span className="text-sm text-gray-600">{formatFileSize(file.sizeBytes)}</span>
+                </div>
+                <div className="w-30 shrink-0 px-4 py-3.5">
+                  <span className="text-sm text-gray-600">{formatDate(file.createdAt)}</span>
+                </div>
+                <div className="flex w-18 shrink-0 items-center justify-center px-4 py-3.5">
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(file.fileId)}
+                    aria-label="파일 삭제"
+                  >
+                    <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
