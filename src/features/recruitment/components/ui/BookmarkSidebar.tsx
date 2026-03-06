@@ -1,11 +1,7 @@
 import Link from 'next/link';
 import { Bookmark, ChevronRight } from 'lucide-react';
-
-type BookmarkItem = {
-  postId: number | string;
-  postTitle: string;
-  deadline: string | null;
-};
+import type { Bookmark as BookmarkItem } from '@/features/bookmark/types';
+import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 
 type BookmarkSidebarProps = {
   isLoggedIn: boolean;
@@ -72,15 +68,4 @@ function BookmarkSidebarState({ title, description }: { title: string; descripti
       <p className="mt-1 text-xs leading-relaxed text-gray-400">{description}</p>
     </div>
   );
-}
-
-function formatBookmarkDate(deadline: string | null): string {
-  if (!deadline) return '상시 모집';
-
-  const d = new Date(deadline);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-
-  return `${y}.${m}.${day}`;
 }
