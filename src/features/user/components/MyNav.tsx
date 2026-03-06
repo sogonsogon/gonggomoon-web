@@ -1,5 +1,5 @@
-import { MY_PAGE_NAV_ITEMS } from '../constants/navigation';
-import MyNavItem from './MyNavItem';
+import { MY_PAGE_NAV_ITEMS } from '@/features/user/constants/navigation';
+import MyNavItem from '@/features/user/components/MyNavItem';
 
 export default function MyNav() {
   return (

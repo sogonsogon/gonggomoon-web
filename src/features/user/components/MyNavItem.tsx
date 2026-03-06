@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { ICON_MAP, NavItemKey } from '../constants/navigation';
+import { ICON_MAP, NavItemKey } from '@/features/user/constants/navigation';
 
 interface MyNavItemProps {
   href: string;

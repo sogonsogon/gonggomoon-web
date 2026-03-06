@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/shared/components/ui/button';
-import ProfileWithdrawDialog from './ProfileWithdrawDialog';
+import ProfileWithdrawDialog from '@/features/user/components/ProfileWithdrawDialog';
 
 interface ProfileWithdrawButtonProps {
   userEmail: string;

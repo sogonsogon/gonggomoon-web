@@ -1,5 +1,5 @@
 import { UserIcon } from 'lucide-react';
-import { User } from '../types';
+import { User } from '@/features/user/types';
 import Image from 'next/image';
 
 interface ProfileCardProps {
