@@ -1,47 +1,30 @@
----
 # Gonggomoon Frontend
 
-Next.js 16+ App Router 기반 서비스입니다.
-Feature-based architecture를 사용하여 도메인 단위 책임을 분리합니다.
+This project is a service based on the Next.js 16+ App Router.
+It utilizes a feature-based architecture to separate responsibilities by domain.
 
-본 문서는 프로젝트 협업 기준 및 아키텍처 설계 규칙을 정의합니다.
+This document defines the project collaboration standards and architectural design rules.
+
 ---
 
 # 1. Tech Stack
 
-Framework
-Next.js 16+ (App Router)
-
-Language
-TypeScript
-
-Styling
-Tailwind CSS
-
-UI
-shadcn/ui
-
-Package Manager
-pnpm
-
-Global State
-Zustand
-
-Server State
-TanStack Query
-
-Data Layer
-Server Actions + Route Handlers
-
-Fetch
-shared/lib API wrapper 사용
+- **Framework**: Next.js 16+ (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI**: shadcn/ui
+- **Package Manager**: pnpm
+- **Global State**: Zustand
+- **Server State**: TanStack Query
+- **Data Layer**: Server Actions + Route Handlers
+- **Fetch**: Uses `shared/lib` API wrapper
 
 ---
 
 # 2. Project Structure
 
 ```
-src/ (또는 root)
+src/ (or root)
 ├── app/
 │   ├── (main)/
 │   │   ├── recruitment/
@@ -63,7 +46,7 @@ src/ (또는 root)
 │   │   │   │   └── page.tsx
 │   │   │   └── interview/
 │   │   │       └── page.tsx
-│   │   └── layout.tsx  // (콘텐츠, 푸터)
+│   │   └── layout.tsx  // (Main content, Footer)
 │   ├── (sidebar)/
 │   │   ├── strategy/
 │   │   │   ├── create/
@@ -77,11 +60,11 @@ src/ (또는 root)
 │   │   │   └── result/
 │   │   │       └── [interviewId]/
 │   │   │           └── page.tsx
-│   │   └── layout.tsx  // (사이드바 레이아웃: 사이드바 + (콘텐츠, 푸터))
+│   │   └── layout.tsx  // (Sidebar Layout: Sidebar + (Content, Footer))
 │   ├── not-found.tsx
 │   ├── error.tsx
 │   ├── loading.tsx
-│   └── layout.tsx      // (최상위: 폰트, 헤더, 메타데이터)
+│   └── layout.tsx      // (Root: Fonts, Header, Metadata)
 │
 ├── features/
 │   ├── user/
@@ -107,7 +90,8 @@ src/ (또는 root)
 │   ├── store/
 │   └── hooks/
 │
-└── mock/   // mock 데이터
+└── mock/   // Mock data
+
 ```
 
 ---
@@ -116,44 +100,27 @@ src/ (또는 root)
 
 ## 3.1 App Router
 
-Next.js App Router 구조 사용
-
-- `src/app` 기반 파일 시스템 라우팅
-- 기본은 Server Component
-- 필요한 경우에만 `'use client'`
-- layout 기반 계층 구조
-
-공식 문서
-[https://nextjs.org/docs/app](https://nextjs.org/docs/app)
-
----
+- Follow the Next.js App Router structure.
+- Use `src/app` based file-system routing.
+- Server Components by default; use `'use client'` only when necessary.
+- Leverage layout-based hierarchical structures.
 
 ## 3.2 Feature-Based Architecture
 
-도메인 단위 코드 분리
+Separate code by domain units. Each feature folder is responsible for:
 
-각 feature는 다음 책임을 가짐
-
-```
-features/{domain}
-
-actions.ts   → server actions
-queries.ts   → tanstack query
-types.ts     → domain types
-components   → feature UI
-hooks        → feature hooks
-```
-
-도메인 공통 로직은 `shared`로 이동
+- `actions.ts`: Server actions.
+- `queries.ts`: TanStack Query hooks/logic.
+- `types.ts`: Domain-specific types.
+- `components/`: Feature-specific UI components.
+- `hooks/`: Feature-specific hooks.
+  _Note: Move shared domain logic to the `shared` directory._
 
 ## 3.3 Mock-Driven Development
 
-데이터 구조 준수: 기능을 구현할 때 반드시 mock/data 내에 정의된 데이터 구조를 먼저 확인하고, 이를 기반으로 UI 및 로직을 설계합니다.
-
-적절한 데이터 활용: 개발 단계에서 서버 API가 완성되지 않았더라도 mock/ 폴더 내의 적절한 데이터를 사용하여 실제 서비스와 동일한 동작을 보장하도록 구현합니다.
-
-타입 동기화: Mock 데이터의 인터페이스는 shared/types 또는 features 내부의 types.ts와 일관성을 유지해야 합니다.
-타입이 존재하지 않는 경우, shared/types 또는 features 내부의 types.ts에 추가합니다.
+- **Data Structure Compliance**: Always verify the data structure defined in `mock/data` before implementing features, and design UI/logic based on it.
+- **Data Utilization**: If server APIs are not ready, use appropriate data from the `mock/` folder to ensure the service behaves as expected.
+- **Type Synchronization**: Ensure Mock data interfaces are consistent with `shared/types` or `features/**/types.ts`. Add missing types to these locations as needed.
 
 ---
 
@@ -161,52 +128,34 @@ hooks        → feature hooks
 
 ## Formatter
 
-Indent
-2 spaces
-
-String
-single quote
-
-Semicolon
-required
-
----
+- **Indent**: 2 spaces
+- **String**: Single quote
+- **Semicolon**: Required
 
 ## Naming
 
-Variables / Functions
-camelCase
-
-Components
-PascalCase
-
-Boolean
-is / has prefix
-
-CRUD
-
-```
-get
-create
-update
-delete
-```
-
-Event Handler
-
-```
-handleEventName
-```
+- **Variables / Functions**: `camelCase`
+- **Components**: `PascalCase`
+- **Boolean**: Prefix with `is` / `has`
+- **CRUD**: Use `get`, `create`, `update`, `delete`
+- **Event Handler**: `handleEventName`
 
 ---
 
-# 5. Architectural Goals
+# 5. Design System and Styling Rules
 
-본 프로젝트의 설계 목표
-
-- Feature 중심 구조
-- Server / Client data layer 분리
-- 확장 가능한 도메인 구조
-- 예측 가능한 상태 흐름
+- **Prioritize shadcn/ui Components**: Use components located in `shared/components/ui` as the primary building blocks for the UI. Avoid recreating standard components (buttons, inputs, dialogs, etc.) if they are already available in this directory.
+- **Prioritize Design Tokens**: Always use the custom design system (DS) tokens defined in `globals.css` as the primary source for styling.
+- **Variable Usage**: Use CSS variables prefixed with `ds-` (e.g., `var(--ds-primary)`, `var(--ds-surface-bg)`) instead of hardcoded hex codes, RGB values, or arbitrary spacing.
+- **Tailwind Integration**: When using Tailwind CSS, prioritize utility classes mapped to these design tokens (e.g., `text-ds-main`, `bg-ds-brand`) over standard Tailwind colors or arbitrary values (e.g., `text-blue-500` or `bg-[#f0f0f0]`).
+- **Token Discovery**: Reference `globals.css` to identify the correct token for colors, typography, spacing, and border-radius to ensure visual consistency.
+- **Constraint**: Do not introduce new style values that bypass the established design system or duplicate existing `shadcn/ui` components unless explicitly instructed.
 
 ---
+
+# 6. Architectural Goals
+
+- Feature-centric architecture.
+- Separation of Server / Client data layers.
+- Scalable domain structures.
+- Predictable state flow.
