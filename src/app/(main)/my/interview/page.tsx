@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Trash2, Calendar, MessageCircle, CirclePlus } from 'lucide-react';
 import { mockInterviewSets } from '@/mocks/interview.mock';
 import type { Interview } from '@/features/interview/types';
-import MyTitle from '@/features/user/components/MyTitle';
+import Title from '@/shared/components/ui/Title';
 
 function formatCreatedDate(isoDate: string): string {
   const d = new Date(isoDate);
@@ -27,7 +27,7 @@ export default function InterviewPage() {
       {/* Right Content */}
       <div className="flex flex-1 flex-col gap-8">
         {/* Page Title */}
-        <MyTitle
+        <Title
           title={'면접 질문'}
           description={'포트폴리오를 기반으로 생성된 면접 질문을 확인하고 관리하세요'}
         />

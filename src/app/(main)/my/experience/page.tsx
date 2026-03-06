@@ -19,8 +19,7 @@ import { mockExperiences } from '@/mocks/experience.mock';
 import { mockFiles } from '@/mocks/file.mock';
 import type { Experience, ExperienceType } from '@/features/experience/types';
 import type { FileCategory } from '@/features/file/types';
-import MyNav from '@/features/user/components/MyNav';
-import MyTitle from '@/features/user/components/MyTitle';
+import Title from '@/shared/components/ui/Title';
 
 type DraftData = {
   title: string;
@@ -181,7 +180,7 @@ export default function ExperiencePage() {
       {/* Right Content */}
       <div className="flex flex-1 flex-col gap-8">
         {/* Page Title */}
-        <MyTitle
+        <Title
           title={'내 경험'}
           description={'나의 경험을 기록하고 AI로 의미 있는 단위로 추출해보세요'}
         />

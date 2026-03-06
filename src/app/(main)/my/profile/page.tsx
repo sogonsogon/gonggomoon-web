@@ -1,5 +1,5 @@
 import { mockUser } from '@/mocks/auth.mock';
-import MyTitle from '@/features/user/components/MyTitle';
+import Title from '@/shared/components/ui/Title';
 import ProfileCard from '@/features/user/components/ProfileCard';
 import ProfileLogoutButton from '@/features/user/components/ProfileLogoutButton';
 import ProfileWithdrawButton from '@/features/user/components/ProfileWithdrawButton';
@@ -12,7 +12,7 @@ export default function ProfilePage() {
       {/* Right Content */}
       <div className="flex flex-1 flex-col gap-8">
         {/* Page Title */}
-        <MyTitle title={'프로필'} description={'계정 정보를 확인하고 관리할 수 있습니다'} />
+        <Title title={'프로필'} description={'계정 정보를 확인하고 관리할 수 있습니다'} />
 
         {/* Profile Card */}
         <ProfileCard user={user} />

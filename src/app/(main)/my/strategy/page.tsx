@@ -6,7 +6,7 @@ import { Trash2, Calendar, Lightbulb, CirclePlus } from 'lucide-react';
 import { mockStrategies } from '@/mocks/strategy.mock';
 import type { Strategy } from '@/features/strategy/types';
 import type { IndustryType } from '@/features/industry/types';
-import MyTitle from '@/features/user/components/MyTitle';
+import Title from '@/shared/components/ui/Title';
 
 const INDUSTRY_LABELS: Record<IndustryType, string> = {
   MEDIA_CONTENT: '미디어 / 컨텐츠',
@@ -100,7 +100,7 @@ export default function StrategyPage() {
       {/* Right Content */}
       <div className="flex flex-1 flex-col gap-8">
         {/* Page Title */}
-        <MyTitle
+        <Title
           title={'포폴 전략'}
           description={'AI가 생성한 나만의 포트폴리오 전략을 확인하고 관리하세요'}
         />

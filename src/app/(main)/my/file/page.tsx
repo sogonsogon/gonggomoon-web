@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { FolderOpen, FileText, File, Trash2, Upload, X } from 'lucide-react';
 import { mockFiles } from '@/mocks/file.mock';
 import type { File as UserFile, FileCategory } from '@/features/file/types';
-import MyTitle from '@/features/user/components/MyTitle';
+import Title from '@/shared/components/ui/Title';
 
 const MAX_FILES = 10;
 
@@ -91,7 +91,7 @@ export default function FilePage() {
       {/* Right Content */}
       <div className="flex flex-1 flex-col gap-8">
         {/* Page Title */}
-        <MyTitle
+        <Title
           title={'내 파일'}
           description={'포트폴리오, 이력서 등 첨부파일을 관리할 수 있습니다'}
         />

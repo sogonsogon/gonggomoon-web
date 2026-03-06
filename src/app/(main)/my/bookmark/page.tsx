@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { BookmarkIcon, Building2, Calendar, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Bookmark } from '@/features/bookmark/types';
 import { mockBookmarks } from '@/mocks/bookmark.mock';
-import MyTitle from '@/features/user/components/MyTitle';
+import Title from '@/shared/components/ui/Title';
 
 // 오늘 날짜 (mock 기준)
 const TODAY = new Date('2026-03-05');
@@ -59,7 +59,7 @@ export default function BookmarkPage() {
       {/* Right Content */}
       <div className="flex flex-1 flex-col gap-5">
         {/* Page Title */}
-        <MyTitle title={'북마크'} description={'저장한 채용 공고를 확인하고 관리할 수 있습니다'} />
+        <Title title={'북마크'} description={'저장한 채용 공고를 확인하고 관리할 수 있습니다'} />
 
         {/* Count Row */}
         <div className="flex items-center justify-between">
