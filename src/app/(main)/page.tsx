@@ -204,12 +204,14 @@ export default function MainPage() {
             <div className="flex flex-col gap-3">
               {mockBookmarks.slice(0, 4).map((bm) => (
                 <Link
-                  key={bm.bookmarkId}
-                  href={`/recruitment/${bm.recruitmentId}`}
+                  key={bm.postId}
+                  href={`/recruitment/${bm.postId}`}
                   className="flex flex-col gap-2.5 rounded-[10px] border border-gray-100 bg-gray-50 p-4 hover:bg-gray-100"
                 >
-                  <p className="text-sm font-medium leading-relaxed text-gray-900">{bm.title}</p>
-                  <span className="text-xs text-gray-400">{formatBookmarkDate(bm.dueDate)}</span>
+                  <p className="text-sm font-medium leading-relaxed text-gray-900">
+                    {bm.postTitle}
+                  </p>
+                  <span className="text-xs text-gray-400">{formatBookmarkDate(bm.deadline)}</span>
                 </Link>
               ))}
             </div>

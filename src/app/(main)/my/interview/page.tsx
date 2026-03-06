@@ -6,7 +6,7 @@ import { Trash2, Calendar, MessageCircle, CirclePlus } from 'lucide-react';
 import { mockInterviewSets } from '@/mocks/interview.mock';
 import type { Interview } from '@/features/interview/types';
 import Header from '@/shared/components/layout/Header';
-import MyNav from '@/shared/components/layout/MyNav';
+import MyNav from '@/features/user/components/MyNav';
 import Footer from '@/shared/components/layout/Footer';
 
 function formatCreatedDate(isoDate: string): string {

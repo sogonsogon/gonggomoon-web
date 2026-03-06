@@ -20,7 +20,7 @@ import { mockFiles } from '@/mocks/file.mock';
 import type { Experience, ExperienceType } from '@/features/experience/types';
 import type { FileCategory } from '@/features/file/types';
 import Header from '@/shared/components/layout/Header';
-import MyNav from '@/shared/components/layout/MyNav';
+import MyNav from '@/features/user/components/MyNav';
 import Footer from '@/shared/components/layout/Footer';
 
 type DraftData = {

@@ -1,7 +1,6 @@
 export type Bookmark = {
-  bookmarkId: number;
-  recruitmentId: number;
-  title: string;
+  postId: number;
+  postTitle: string;
   companyName: string;
-  dueDate: string | null;
+  deadline: string | null;
 };

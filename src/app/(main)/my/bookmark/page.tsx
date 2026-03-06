@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Bookmark, Building2, Calendar, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
-import { mockBookmarks, type BookmarkedItem } from '@/mocks/bookmark.mock';
+import { BookmarkIcon, Building2, Calendar, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { type Bookmark } from '@/features/bookmark/types';
+import { mockBookmarks } from '@/mocks/bookmark.mock';
 import Header from '@/shared/components/layout/Header';
-import MyNav from '@/shared/components/layout/MyNav';
+import MyNav from '@/features/user/components/MyNav';
 import Footer from '@/shared/components/layout/Footer';
 
 // 오늘 날짜 (mock 기준)
@@ -42,7 +43,7 @@ const ddayVariantClass: Record<string, string> = {
 };
 
 export default function BookmarkPage() {
-  const [bookmarks, setBookmarks] = useState<BookmarkedItem[]>(mockBookmarks);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(mockBookmarks);
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.max(1, Math.ceil(bookmarks.length / ITEMS_PER_PAGE));
@@ -51,8 +52,8 @@ export default function BookmarkPage() {
     currentPage * ITEMS_PER_PAGE,
   );
 
-  function handleDelete(bookmarkId: number) {
-    setBookmarks((prev) => prev.filter((b) => b.bookmarkId !== bookmarkId));
+  function handleDelete(postId: number) {
+    setBookmarks((prev) => prev.filter((b) => b.postId !== postId));
   }
 
   return (
@@ -82,7 +83,7 @@ export default function BookmarkPage() {
           {paginated.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 py-24">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
-                <Bookmark className="h-6 w-6 text-gray-400" />
+                <BookmarkIcon className="h-6 w-6 text-gray-400" />
               </div>
               <div className="flex flex-col items-center gap-1.5">
                 <p className="text-sm font-semibold text-gray-900">저장된 북마크가 없어요</p>
@@ -98,10 +99,10 @@ export default function BookmarkPage() {
           ) : (
             <div className="flex flex-col gap-3">
               {paginated.map((item) => {
-                const dday = getDDayInfo(item.dueDate);
+                const dday = getDDayInfo(item.deadline);
                 return (
                   <div
-                    key={item.bookmarkId}
+                    key={item.postId}
                     className="flex items-center justify-between rounded-xl border border-gray-100 px-6 py-5"
                   >
                     <div className="flex flex-col gap-2">
@@ -111,11 +112,13 @@ export default function BookmarkPage() {
                           {item.companyName}
                         </span>
                       </div>
-                      <span className="text-base font-semibold text-gray-900">{item.title}</span>
+                      <span className="text-base font-semibold text-gray-900">
+                        {item.postTitle}
+                      </span>
                       <div className="flex items-center gap-1.5">
                         <Calendar className="h-3 w-3 text-gray-500" />
                         <span className="text-xs text-gray-500">
-                          {formatDeadline(item.dueDate)}
+                          {formatDeadline(item.deadline)}
                         </span>
                       </div>
                     </div>
@@ -127,7 +130,7 @@ export default function BookmarkPage() {
                       </span>
                       <button
                         type="button"
-                        onClick={() => handleDelete(item.bookmarkId)}
+                        onClick={() => handleDelete(item.postId)}
                         className="rounded-md border border-gray-200 p-2 hover:bg-gray-50"
                         aria-label="북마크 삭제"
                       >

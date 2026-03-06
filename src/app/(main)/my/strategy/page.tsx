@@ -7,7 +7,7 @@ import { mockStrategies } from '@/mocks/strategy.mock';
 import type { Strategy } from '@/features/strategy/types';
 import type { IndustryType } from '@/features/industry/types';
 import Header from '@/shared/components/layout/Header';
-import MyNav from '@/shared/components/layout/MyNav';
+import MyNav from '@/features/user/components/MyNav';
 import Footer from '@/shared/components/layout/Footer';
 
 const INDUSTRY_LABELS: Record<IndustryType, string> = {

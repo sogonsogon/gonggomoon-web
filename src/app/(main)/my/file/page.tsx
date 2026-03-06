@@ -5,7 +5,7 @@ import { FolderOpen, FileText, File, Trash2, Upload, X } from 'lucide-react';
 import { mockFiles } from '@/mocks/file.mock';
 import type { File as UserFile, FileCategory } from '@/features/file/types';
 import Header from '@/shared/components/layout/Header';
-import MyNav from '@/shared/components/layout/MyNav';
+import MyNav from '@/features/user/components/MyNav';
 import Footer from '@/shared/components/layout/Footer';
 
 const MAX_FILES = 10;

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Search,
   User,
@@ -38,14 +38,20 @@ const BENEFITS = [
   { icon: MessagesSquare, label: '맞춤 면접 질문 자동 생성' },
 ];
 
+const SEARCH_BAR_ALLOWED_PREFIXES = ['/recruitment/', '/company/'];
+
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const user = mockUser;
   const [query, setQuery] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const showSearchBar =
+    pathname === '/' || SEARCH_BAR_ALLOWED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 
   const handleSearch = () => {
     if (!query) router.replace('/');
@@ -102,20 +108,22 @@ export default function Header() {
         </div>
 
         {/* Center Search */}
-        <div className="flex w-105 items-center gap-2.5 rounded-full bg-gray-100 px-5 py-2.5">
-          <Search
-            className="h-4.5 w-4.5 shrink-0 cursor-pointer text-gray-500"
-            onClick={handleSearch}
-          />
-          <input
-            type="text"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            onKeyDown={(event) => handleEnter(event)}
-            placeholder="공고명을 검색하세요"
-            className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
-          />
-        </div>
+        {showSearchBar && (
+          <div className="flex w-105 items-center gap-2.5 rounded-full bg-gray-100 px-5 py-2.5">
+            <Search
+              className="h-4.5 w-4.5 shrink-0 cursor-pointer text-gray-500"
+              onClick={handleSearch}
+            />
+            <input
+              type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => handleEnter(event)}
+              placeholder="공고명을 검색하세요"
+              className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+            />
+          </div>
+        )}
 
         {isLoggedIn ? (
           /* Avatar + Dropdown */
