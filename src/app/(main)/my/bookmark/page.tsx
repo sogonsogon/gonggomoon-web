@@ -5,9 +5,7 @@ import Link from 'next/link';
 import { BookmarkIcon, Building2, Calendar, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Bookmark } from '@/features/bookmark/types';
 import { mockBookmarks } from '@/mocks/bookmark.mock';
-import Header from '@/shared/components/layout/Header';
 import MyNav from '@/features/user/components/MyNav';
-import Footer from '@/shared/components/layout/Footer';
 
 // 오늘 날짜 (mock 기준)
 const TODAY = new Date('2026-03-05');
@@ -58,8 +56,6 @@ export default function BookmarkPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-12 px-30 py-10">
         <MyNav activePath="/my/bookmark" />
@@ -182,8 +178,6 @@ export default function BookmarkPage() {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

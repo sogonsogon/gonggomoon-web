@@ -5,9 +5,7 @@ import Link from 'next/link';
 import { Trash2, Calendar, MessageCircle, CirclePlus } from 'lucide-react';
 import { mockInterviewSets } from '@/mocks/interview.mock';
 import type { Interview } from '@/features/interview/types';
-import Header from '@/shared/components/layout/Header';
 import MyNav from '@/features/user/components/MyNav';
-import Footer from '@/shared/components/layout/Footer';
 
 function formatCreatedDate(isoDate: string): string {
   const d = new Date(isoDate);
@@ -26,8 +24,6 @@ export default function InterviewPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-12 px-30 py-10">
         <MyNav activePath="/my/interview" />
@@ -125,8 +121,6 @@ export default function InterviewPage() {
           )}
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

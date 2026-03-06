@@ -2,8 +2,8 @@ import { Instagram, Facebook, Youtube, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-gray-50">
-      <div className="flex flex-col gap-6 px-30 py-10">
+    <footer className="flex flex-col items-center w-full border-t border-gray-200 bg-gray-50">
+      <div className="flex flex-col gap-6 py-10 w-full max-w-7xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-900">
@@ -45,7 +45,7 @@ export default function Footer() {
           <span className="cursor-pointer text-xs text-gray-500">IR 문의</span>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t border-gray-200 px-30 py-5">
+      <div className="flex items-center justify-between border-t border-gray-200  w-full max-w-7xl py-5">
         <span className="text-xs text-gray-400">© 2026 소곤소곤, Inc.</span>
         <div className="flex items-center gap-4">
           <Instagram className="h-4.5 w-4.5 text-gray-400" />

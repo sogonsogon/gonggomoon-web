@@ -19,9 +19,7 @@ import { mockExperiences } from '@/mocks/experience.mock';
 import { mockFiles } from '@/mocks/file.mock';
 import type { Experience, ExperienceType } from '@/features/experience/types';
 import type { FileCategory } from '@/features/file/types';
-import Header from '@/shared/components/layout/Header';
 import MyNav from '@/features/user/components/MyNav';
-import Footer from '@/shared/components/layout/Footer';
 
 type DraftData = {
   title: string;
@@ -179,8 +177,6 @@ export default function ExperiencePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-12 px-30 py-10">
         <MyNav activePath="/my/experience" />
@@ -403,8 +399,6 @@ export default function ExperiencePage() {
           )}
         </div>
       </div>
-
-      <Footer />
 
       {/* File Extraction Modal */}
       {isModalOpen && (

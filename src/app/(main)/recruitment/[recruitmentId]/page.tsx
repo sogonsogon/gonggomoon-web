@@ -12,8 +12,6 @@ import { mockRecruitments } from '@/mocks/recruitment.mock';
 import { mockCompanies } from '@/mocks/company.mock';
 import type { IndustryType } from '@/features/industry/types';
 import type { JobType } from '@/features/recruitment/types';
-import Header from '@/shared/components/layout/Header';
-import Footer from '@/shared/components/layout/Footer';
 import Link from 'next/link';
 
 const TODAY = new Date('2026-03-05');
@@ -67,11 +65,9 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
   if (!recruitment) {
     return (
       <div className="flex min-h-screen flex-col bg-white font-sans">
-        <Header />
         <div className="flex flex-1 items-center justify-center">
           <p className="text-gray-500">공고를 찾을 수 없습니다.</p>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -80,8 +76,6 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans">
-      <Header />
-
       {/* Body */}
       <div className="flex flex-1 gap-10 px-30 py-10">
         {/* Left: Job Info */}
@@ -303,8 +297,6 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
