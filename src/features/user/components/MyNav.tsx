@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { User, Bookmark, Folder, Briefcase, Lightbulb, MessageCircle } from 'lucide-react';
 
-type MyPageNavProps = {
+type MyNavProps = {
   activePath:
     | '/my/profile'
     | '/my/bookmark'
@@ -20,7 +20,7 @@ const navItems = [
   { href: '/my/interview', icon: MessageCircle, label: '면접 질문' },
 ] as const;
 
-export default function MyNav({ activePath }: MyPageNavProps) {
+export default function MyNav({ activePath }: MyNavProps) {
   return (
     <nav className="w-45 shrink-0">
       <div className="rounded-lg p-2">
