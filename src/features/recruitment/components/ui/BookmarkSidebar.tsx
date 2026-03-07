@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { Bookmark, ChevronRight } from 'lucide-react';
-import type { Bookmark as BookmarkItem } from '@/features/bookmark/types';
+import { Bookmark as BookmarkIcon, ChevronRight } from 'lucide-react';
+import type { Bookmark } from '@/features/bookmark/types';
 import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 
 interface BookmarkSidebarProps {
   isLoggedIn: boolean;
-  bookmarks: BookmarkItem[];
+  bookmarks: Bookmark[];
 }
 
 export default function BookmarkSidebar({ isLoggedIn, bookmarks }: BookmarkSidebarProps) {
@@ -61,7 +61,7 @@ function BookmarkSidebarState({ title, description }: { title: string; descripti
   return (
     <div className="flex flex-col items-center px-6 py-10 text-center">
       <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
-        <Bookmark className="h-5 w-5 text-gray-400" />
+        <BookmarkIcon className="h-5 w-5 text-gray-400" />
       </div>
 
       <p className="text-sm font-semibold text-gray-900">{title}</p>
