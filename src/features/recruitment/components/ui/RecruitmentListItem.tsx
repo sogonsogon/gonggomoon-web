@@ -42,7 +42,7 @@ export default function RecruitmentListItem({
           <div className="flex items-center gap-1">
             <Briefcase className="h-3 w-3 text-gray-400" />
             <span className="text-xs text-gray-500">
-              {experienceLevel === 0 ? '신입' : `경력 ${experienceLevel}년차`}
+              {experienceLevel === 0 ? '신입' : `경력 ${experienceLevel}년 이상`}
             </span>
           </div>
         </div>
