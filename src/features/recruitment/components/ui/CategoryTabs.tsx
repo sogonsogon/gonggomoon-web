@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { TABS, TabValue } from '@/features/recruitment/constants/tabs';
 
-type CategoryTabsProps = {
+interface CategoryTabsProps {
   activeTab: TabValue;
-};
+}
 
 export default function CategoryTabs({ activeTab }: CategoryTabsProps) {
   const createHref = (tab: TabValue) => {

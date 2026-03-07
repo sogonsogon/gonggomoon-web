@@ -1,9 +1,9 @@
 import { Recruitment } from '@/features/recruitment/types';
 import RecruitmentListItem from '@/features/recruitment/components/ui/RecruitmentListItem';
 
-type RecruitmentListProps = {
+interface RecruitmentListProps {
   recruitments: Recruitment[];
-};
+}
 
 export default function RecruitmentList({ recruitments }: RecruitmentListProps) {
   return (

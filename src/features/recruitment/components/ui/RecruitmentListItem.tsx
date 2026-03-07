@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { Sparkles, Calendar, Briefcase } from 'lucide-react';
 import { formatDeadline } from '@/shared/utils/formatDeadline';
 
-type RecruitmentListItemProps = {
+interface RecruitmentListItemProps {
   postId: number | string;
   title: string;
   deadline: string | null | undefined;
   experienceLevel: number | undefined;
   companyName: string;
   analysisSummary?: string | null;
-};
+}
 
 export default function RecruitmentListItem({
   postId,

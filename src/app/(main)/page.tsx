@@ -6,11 +6,11 @@ import BookmarkSidebarSection from '@/features/recruitment/components/sections/B
 
 const TAB_VALUES = new Set<string>(TABS.map((t) => t.value));
 
-type PageProps = {
+interface PageProps {
   searchParams: Promise<{
     tab?: string;
   }>;
-};
+}
 
 export default async function MainPage({ searchParams }: PageProps) {
   const { tab } = await searchParams;

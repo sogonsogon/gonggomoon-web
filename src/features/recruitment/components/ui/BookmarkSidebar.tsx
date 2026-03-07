@@ -3,10 +3,10 @@ import { Bookmark, ChevronRight } from 'lucide-react';
 import type { Bookmark as BookmarkItem } from '@/features/bookmark/types';
 import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 
-type BookmarkSidebarProps = {
+interface BookmarkSidebarProps {
   isLoggedIn: boolean;
   bookmarks: BookmarkItem[];
-};
+}
 
 export default function BookmarkSidebar({ isLoggedIn, bookmarks }: BookmarkSidebarProps) {
   const hasBookmarks = bookmarks.length > 0;

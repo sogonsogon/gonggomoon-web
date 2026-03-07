@@ -2,9 +2,9 @@ import { mockRecruitments } from '@/mocks/recruitment.mock';
 import { TabValue } from '@/features/recruitment/constants/tabs';
 import RecruitmentList from '@/features/recruitment/components/ui/RecruitmentList';
 
-type RecruitmentListSectionProps = {
+interface RecruitmentListSectionProps {
   activeTab: TabValue;
-};
+}
 
 export default async function RecruitmentListSection({ activeTab }: RecruitmentListSectionProps) {
   const filtered = mockRecruitments.filter((recruitment) => {
