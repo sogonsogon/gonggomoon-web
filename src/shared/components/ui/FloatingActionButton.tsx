@@ -2,13 +2,13 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import { cn } from '@/shared/lib/cn';
 
-type FloatingActionButtonProps = {
+interface FloatingActionButtonProps {
   icon: ReactNode;
   label: ReactNode;
   href?: string;
   onClick?: () => void;
   className?: string;
-};
+}
 
 export default function FloatingActionButton({
   icon,
