@@ -1,6 +1,6 @@
 import { Bookmark } from '@/features/bookmark/types';
-import { formatDDay } from '@/shared/lib/formatDDay';
-import { formatDeadline } from '@/shared/lib/formatDeadline';
+import { formatDDay } from '@/shared/utils/formatDDay';
+import { formatDeadline } from '@/shared/utils/formatDeadline';
 import { Building2Icon, CalendarIcon } from 'lucide-react';
 import { DDAY_VARIANT_CLASS } from '@/features/bookmark/constants/styles';
 import BookmarkDeleteButton from '@/features/bookmark/components/ui/BookmarkDeleteButton';

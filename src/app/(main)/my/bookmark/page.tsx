@@ -3,6 +3,8 @@ import Title from '@/shared/components/ui/Title';
 import BookmarkEmpty from '@/features/bookmark/components/sections/BookmarkEmpty';
 import BookmarkList from '@/features/bookmark/components/sections/BookmarkList';
 
+const ITEMS_PER_PAGE = 10;
+
 export default function BookmarkPage() {
   // TODO: getBookmark API 호출
   const bookmarks = mockBookmarks;
