@@ -2,9 +2,14 @@ import { Bookmark } from '@/features/bookmark/types';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import { formatDeadline } from '@/shared/utils/formatDeadline';
 import { Building2Icon, CalendarIcon } from 'lucide-react';
-import { DDAY_VARIANT_CLASS } from '@/features/bookmark/constants/styles';
 import BookmarkDeleteButton from '@/features/bookmark/components/ui/BookmarkDeleteButton';
 import Link from 'next/link';
+
+export const DDAY_VARIANT_CLASS: Record<string, string> = {
+  red: 'bg-[#FEF2F2] text-red-500',
+  blue: 'bg-blue-50 text-blue-600',
+  closed: 'bg-gray-100 text-gray-500',
+};
 
 interface BookmarkListItem {
   bookmark: Bookmark;
