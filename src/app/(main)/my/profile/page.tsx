@@ -1,8 +1,8 @@
 import { mockUser } from '@/mocks/auth.mock';
 import Title from '@/shared/components/ui/Title';
-import ProfileCard from '@/features/user/components/ProfileCard';
-import ProfileLogoutButton from '@/features/user/components/ProfileLogoutButton';
-import ProfileWithdrawButton from '@/features/user/components/ProfileWithdrawButton';
+import ProfileCard from '@/features/user/components/sections/ProfileCard';
+import ProfileLogoutButton from '@/features/user/components/ui/ProfileLogoutButton';
+import ProfileWithdrawButton from '@/features/user/components/ui/ProfileWithdrawButton';
 
 export default function ProfilePage() {
   const user = mockUser;
