@@ -1,5 +1,5 @@
 import { Bookmark } from '@/features/bookmark/types';
-import BookmarkListItem from './BookmarkListItem';
+import BookmarkListItem from '@/features/bookmark/components/sections/BookmarkListItem';
 
 interface BookmarkListProps {
   bookmarks: Bookmark[];

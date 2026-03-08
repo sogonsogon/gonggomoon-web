@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/shared/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
-import BookmarkDeleteDialog from './BookmarkDeleteDialog';
+import BookmarkDeleteDialog from '@/features/bookmark/components/ui/BookmarkDeleteDialog';
 
 interface BookmarkDeleteButton {
   postId: number;

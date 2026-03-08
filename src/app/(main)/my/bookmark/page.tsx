@@ -1,7 +1,7 @@
 import { mockBookmarks } from '@/mocks/bookmark.mock';
 import Title from '@/shared/components/ui/Title';
-import BookmarkEmpty from '@/features/user/components/sections/BookmarkEmpty';
-import BookmarkList from '@/features/user/components/sections/BookmarkList';
+import BookmarkEmpty from '@/features/bookmark/components/sections/BookmarkEmpty';
+import BookmarkList from '@/features/bookmark/components/sections/BookmarkList';
 
 export default function BookmarkPage() {
   // TODO: getBookmark API 호출
