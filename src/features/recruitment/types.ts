@@ -26,15 +26,17 @@ export type RecruitmentAnalysis = {
 };
 
 export type Recruitment = {
-  recruitmentId: number;
+  postId: number;
   title: string;
+  companyName: string;
   companyId: number;
-  jobType: JobType;
+  jobType?: JobType;
   industryType?: IndustryType;
-  status: PostStatus;
+  experienceLevel?: number;
+  deadline?: string | null;
+  postDescription?: string;
+  status?: PostStatus;
   url?: string;
-  startDate?: string | null;
-  dueDate?: string | null;
-  createdAt: string;
+  analysisSummary?: string;
   analysis?: RecruitmentAnalysis;
 };
