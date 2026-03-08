@@ -1,4 +1,4 @@
-import MyNav from '@/features/user/components/MyNav';
+import MyNav from '@/features/user/components/layout/MyNav';
 
 export default function MyLayout({
   children,
