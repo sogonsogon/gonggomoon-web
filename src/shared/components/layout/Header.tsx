@@ -13,7 +13,7 @@ export default function Header() {
     SEARCH_BAR_ALLOWED_PREFIXES.some((prefix) => currentPath.startsWith(prefix));
 
   return (
-    <header className="flex h-20 w-full justify-center border-b border-gray-100">
+    <header className="sticky top-0 z-50 flex h-20 w-full justify-center border-b border-gray-100 bg-white">
       <div className="relative flex h-full w-full max-w-7xl items-center px-4">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-1.5">
