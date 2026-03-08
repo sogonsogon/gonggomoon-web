@@ -3,6 +3,7 @@ import Banner from '@/features/recruitment/components/ui/Banner';
 import CategoryTabs from '@/features/recruitment/components/ui/CategoryTabs';
 import RecruitmentListSection from '@/features/recruitment/components/sections/RecruitmentListSection';
 import BookmarkSidebarSection from '@/features/recruitment/components/sections/BookmarkSidebarSection';
+import RecruitmentRequestAction from '@/features/recruitment/components/ui/RecruitmentRequestAction';
 
 const TAB_VALUES = new Set<string>(TABS.map((t) => t.value));
 
@@ -29,7 +30,7 @@ export default async function MainPage({ searchParams }: PageProps) {
           <BookmarkSidebarSection />
         </div>
 
-        {/*  TODO: 공고 추가 요청 FAB*/}
+        <RecruitmentRequestAction />
       </div>
     </div>
   );
