@@ -3,7 +3,6 @@ import { mockCompanies } from '@/mocks/company.mock';
 import RecruitmentDetailOverview from '@/features/recruitment/components/ui/RecruitmentDetailOverview';
 import RecruitmentDetailContent from '@/features/recruitment/components/ui/RecruitmentDetailContent';
 import RecruitmentAnalysisSection from '@/features/recruitment/components/sections/RecruitmentAnalysisSection';
-import { formatDDay } from '@/shared/utils/formatDDay';
 
 interface RecruitmentDetailPageProps {
   params: Promise<{ postId: string }>;
@@ -24,17 +23,11 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
     );
   }
 
-  const dDayInfo = formatDDay(recruitment.deadline);
-
   return (
     <div className="min-h-screen w-full bg-white font-sans">
       <div className="mx-auto flex w-full max-w-7xl gap-10 px-4 py-10">
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <RecruitmentDetailOverview
-            recruitment={recruitment}
-            companyName={company?.companyName}
-            dDayInfo={dDayInfo}
-          />
+          <RecruitmentDetailOverview recruitment={recruitment} companyName={company?.companyName} />
 
           <div className="h-px bg-gray-100" />
 

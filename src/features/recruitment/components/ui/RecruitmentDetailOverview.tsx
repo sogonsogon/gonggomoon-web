@@ -5,20 +5,20 @@ import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import BookmarkButton from '@/features/recruitment/components/ui/BookmarkButton';
+import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
 
 interface RecruitmentDetailOverviewProps {
   recruitment: Recruitment;
   companyName?: string;
   initialBookmarked?: boolean;
-  dDayInfo: ReturnType<typeof formatDDay>;
 }
 
 export default function RecruitmentDetailOverview({
   recruitment,
   companyName,
   initialBookmarked = false,
-  dDayInfo,
 }: RecruitmentDetailOverviewProps) {
+  const dDayInfo = formatDDay(recruitment.deadline);
   const dDayStyle = DDAY_VARIANT_CLASS[dDayInfo.variant];
 
   return (
@@ -77,21 +77,3 @@ export default function RecruitmentDetailOverview({
     </section>
   );
 }
-
-const DDAY_VARIANT_CLASS = {
-  blue: {
-    container: 'bg-blue-50',
-    icon: 'text-blue-700',
-    label: 'text-blue-700',
-  },
-  red: {
-    container: 'bg-[#FEF2F2]',
-    icon: 'text-red-500',
-    label: 'text-red-500',
-  },
-  closed: {
-    container: 'bg-gray-100',
-    icon: 'text-gray-500',
-    label: 'text-gray-600',
-  },
-} as const;
