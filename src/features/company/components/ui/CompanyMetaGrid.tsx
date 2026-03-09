@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Calendar, Globe, MapPin, Users } from 'lucide-react';
 import type { Company } from '@/features/company/types';
 
@@ -45,14 +46,14 @@ export default function CompanyMetaGrid({ company }: CompanyMetaGridProps) {
           <Globe className="h-4 w-4 shrink-0 text-gray-400" />
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] text-gray-400">홈페이지</span>
-            <a
+            <Link
               href={company.websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[13px] font-semibold text-blue-500 hover:underline"
             >
               바로가기
-            </a>
+            </Link>
           </div>
         </div>
       )}
