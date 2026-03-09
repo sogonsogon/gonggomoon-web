@@ -3,6 +3,7 @@ import { IndustryType } from '@/features/industry/types';
 export type JobType =
   | 'FRONTEND'
   | 'BACKEND'
+  | 'EMBEDDED'
   | 'DEVOPS'
   | 'DATA_ANALYSIS'
   | 'AI'

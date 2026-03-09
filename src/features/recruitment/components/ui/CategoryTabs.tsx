@@ -3,11 +3,23 @@ import { TABS, TabValue } from '@/features/recruitment/constants/tabs';
 
 interface CategoryTabsProps {
   activeTab: TabValue;
+  search: string;
 }
 
-export default function CategoryTabs({ activeTab }: CategoryTabsProps) {
+export default function CategoryTabs({ activeTab, search }: CategoryTabsProps) {
   const createHref = (tab: TabValue) => {
-    return tab === 'ALL' ? '/' : `/?tab=${tab}`;
+    const params = new URLSearchParams();
+
+    if (tab !== 'ALL') {
+      params.set('tab', tab);
+    }
+
+    if (search.trim()) {
+      params.set('search', search.trim());
+    }
+
+    const queryString = params.toString();
+    return queryString ? `/?${queryString}` : '/';
   };
 
   return (
