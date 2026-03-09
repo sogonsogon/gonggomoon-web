@@ -1,4 +1,4 @@
-export function formatDDay(dueDate: string | null) {
+export function formatDDay(dueDate: string | null | undefined) {
   const TODAY = new Date();
 
   if (!dueDate) return { label: '상시', variant: 'blue' as const };

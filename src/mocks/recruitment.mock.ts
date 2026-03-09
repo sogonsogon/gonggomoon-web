@@ -13,7 +13,7 @@ export const mockRecruitments: Recruitment[] = [
     url: 'https://example.com/jobs/3001',
     deadline: '2026-03-31T23:59:59',
     analysisSummary: '커머스 플랫폼 사용자 경험 개선을 담당할 프론트엔드 엔지니어를 찾습니다.',
-    postDescription: `[공고원문]
+    postDescription: `
 커머스랩은 대규모 사용자 트래픽 환경에서 더 빠르고 직관적인 쇼핑 경험을 만들어갈 프론트엔드 엔지니어를 찾고 있습니다.
 주문/결제, 상품 상세, 장바구니, 프로모션 영역 전반에서 사용자 경험 개선과 성능 최적화를 함께 고민할 분을 기다립니다.
 
@@ -78,7 +78,7 @@ export const mockRecruitments: Recruitment[] = [
     url: 'https://example.com/jobs/3002',
     deadline: null,
     analysisSummary: '핀테크 서비스 UI 개발을 지원할 프론트엔드 인턴을 모집합니다.',
-    postDescription: `[공고원문]
+    postDescription: `
 페이웨이브는 결제와 금융 데이터를 기반으로 더 나은 사용자 경험을 만들어가는 핀테크 스타트업입니다.
 프론트엔드 인턴은 실제 서비스 화면 개선과 공통 UI 컴포넌트 운영 업무를 함께 수행하게 됩니다.
 
@@ -133,7 +133,7 @@ export const mockRecruitments: Recruitment[] = [
     url: 'https://example.com/jobs/3003',
     deadline: '2026-04-30T23:59:59',
     analysisSummary: 'AI 기반 서비스의 백엔드 시스템을 개발할 엔지니어를 찾습니다.',
-    postDescription: `[공고원문]
+    postDescription: `
 에이아이코어는 다양한 산업군의 데이터를 분석하고 AI 기반 자동화 솔루션을 제공하는 기술 스타트업입니다.
 서비스 확장에 따라 안정적인 API 서버, 데이터 처리 파이프라인, 모델 서빙 환경을 함께 구축할 백엔드 엔지니어를 찾고 있습니다.
 

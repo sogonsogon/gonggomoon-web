@@ -12,3 +12,7 @@ export const JOB_OPTIONS: { value: JobType; label: string }[] = [
   { value: 'PM_PO', label: 'PM/PO' },
   { value: 'QA', label: 'QA' },
 ];
+
+export const JOB_LABEL_MAP = Object.fromEntries(
+  JOB_OPTIONS.map(({ value, label }) => [value, label]),
+) as Record<JobType, string>;
