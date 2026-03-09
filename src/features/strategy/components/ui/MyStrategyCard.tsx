@@ -1,7 +1,7 @@
 'use client';
 
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
-import { StrategyCardTheme, Strategy, StrategyIndustry } from '@/features/strategy/types';
+import { Strategy, StrategyIndustry } from '@/features/strategy/types';
 import { formatCreatedDate } from '@/features/strategy/utils/formatCreatedDate';
 import { Button } from '@/shared/components/ui/button';
 import { CalendarIcon, Trash2Icon } from 'lucide-react';
@@ -10,49 +10,6 @@ import Link from 'next/link';
 interface MyStrategyCardProps {
   strategy: Strategy;
 }
-
-const INDUSTRY_THEMES: Record<StrategyIndustry, StrategyCardTheme> = {
-  MEDIA_CONTENT: {
-    bg: '#e8f3ff',
-    titleColor: '#1b64da',
-    accentColor: '#4593e6',
-  },
-  COMMERCE: {
-    bg: '#e8f3ff',
-    titleColor: '#1b64da',
-    accentColor: '#4593e6',
-  },
-  FINTECH_FINANCIAL: {
-    bg: '#e8f4fd',
-    titleColor: '#1557a0',
-    accentColor: '#5a9fd4',
-  },
-  MOBILITY_LOGISTICS: {
-    bg: '#fff7ed',
-    titleColor: '#92400e',
-    accentColor: '#d97706',
-  },
-  AI: {
-    bg: '#edf7ee',
-    titleColor: '#1a6b2a',
-    accentColor: '#4aaa5c',
-  },
-  HEALTHCARE_BIO: {
-    bg: '#fce7f3',
-    titleColor: '#9d174d',
-    accentColor: '#ec4899',
-  },
-  MANUFACTURING_INDUSTRY: {
-    bg: '#f1f5f9',
-    titleColor: '#334155',
-    accentColor: '#64748b',
-  },
-  MASTER: {
-    bg: '#f9fafb',
-    titleColor: '#374151',
-    accentColor: '#6b7280',
-  },
-};
 
 export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
   const theme = INDUSTRY_THEMES[strategy.industryType ?? 'MASTER'];
@@ -109,3 +66,52 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
     </div>
   );
 }
+
+type StrategyCardTheme = {
+  bg: string;
+  titleColor: string;
+  accentColor: string;
+};
+
+const INDUSTRY_THEMES: Record<StrategyIndustry, StrategyCardTheme> = {
+  MEDIA_CONTENT: {
+    bg: '#e8f3ff',
+    titleColor: '#1b64da',
+    accentColor: '#4593e6',
+  },
+  COMMERCE: {
+    bg: '#e8f3ff',
+    titleColor: '#1b64da',
+    accentColor: '#4593e6',
+  },
+  FINTECH_FINANCIAL: {
+    bg: '#e8f4fd',
+    titleColor: '#1557a0',
+    accentColor: '#5a9fd4',
+  },
+  MOBILITY_LOGISTICS: {
+    bg: '#fff7ed',
+    titleColor: '#92400e',
+    accentColor: '#d97706',
+  },
+  AI: {
+    bg: '#edf7ee',
+    titleColor: '#1a6b2a',
+    accentColor: '#4aaa5c',
+  },
+  HEALTHCARE_BIO: {
+    bg: '#fce7f3',
+    titleColor: '#9d174d',
+    accentColor: '#ec4899',
+  },
+  MANUFACTURING_INDUSTRY: {
+    bg: '#f1f5f9',
+    titleColor: '#334155',
+    accentColor: '#64748b',
+  },
+  MASTER: {
+    bg: '#f9fafb',
+    titleColor: '#374151',
+    accentColor: '#6b7280',
+  },
+};

@@ -28,9 +28,3 @@ export type OrderedExperience = {
 };
 
 export type StrategyIndustry = Exclude<IndustryType, 'OTHER'> | 'MASTER';
-
-export type StrategyCardTheme = {
-  bg: string;
-  titleColor: string;
-  accentColor: string;
-};
