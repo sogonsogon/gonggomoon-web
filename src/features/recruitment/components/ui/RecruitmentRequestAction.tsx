@@ -7,12 +7,12 @@ import RecruitmentRequestDialog from '@/features/recruitment/components/ui/Recru
 import { PlatformType } from '@/features/recruitment/types';
 
 export default function RecruitmentRequestAction() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (payload: { platform: PlatformType; url: string }) => {
     // TODO: 공고 추가 요청 API 연동 후 성공 시 모달 닫힘 처리
     console.log(payload);
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
@@ -26,10 +26,10 @@ export default function RecruitmentRequestAction() {
             요청하기
           </>
         }
-        onClick={() => setOpen(true)}
+        onClick={() => setIsOpen(true)}
       />
 
-      <RecruitmentRequestDialog open={open} onOpenChange={setOpen} onSubmit={handleSubmit} />
+      <RecruitmentRequestDialog open={isOpen} onOpenChange={setIsOpen} onSubmit={handleSubmit} />
     </>
   );
 }
