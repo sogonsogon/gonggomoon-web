@@ -4,7 +4,7 @@ export type Experience = {
   id: number;
   title: string;
   experienceType: ExperienceType;
-  experienceContent?: string;
+  experienceContent: string;
   startDate: string;
   endDate: string | null;
 };
