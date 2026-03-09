@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import SearchBar from '@/shared/components/ui/SearchBar';
 import ProfileMenu from '@/features/auth/components/ui/ProfileMenu';
+import { Suspense } from 'react';
 
 export default function Header() {
   const currentPath = usePathname();
@@ -46,7 +47,9 @@ export default function Header() {
 
         {showSearchBar && (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <SearchBar />
+            <Suspense fallback={null}>
+              <SearchBar />
+            </Suspense>
           </div>
         )}
 
