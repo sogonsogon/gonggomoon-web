@@ -5,28 +5,30 @@ import RecruitmentListSection from '@/features/recruitment/components/sections/R
 import BookmarkSidebarSection from '@/features/recruitment/components/sections/BookmarkSidebarSection';
 import RecruitmentRequestAction from '@/features/recruitment/components/ui/RecruitmentRequestAction';
 
-const TAB_VALUES = new Set<string>(TABS.map((t) => t.value));
+const TAB_VALUES = new Set<string>(TABS.map((tab) => tab.value));
 
-interface PageProps {
+interface MainPageProps {
   searchParams: Promise<{
     tab?: string;
+    search?: string;
   }>;
 }
 
-export default async function MainPage({ searchParams }: PageProps) {
-  const { tab } = await searchParams;
+export default async function MainPage({ searchParams }: MainPageProps) {
+  const { tab, search } = await searchParams;
 
   const activeTab: TabValue = tab && TAB_VALUES.has(tab) ? (tab as TabValue) : 'ALL';
+  const searchText = search?.trim() ?? '';
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white font-sans">
       <div className="flex flex-1 flex-col gap-7 py-8">
         <Banner />
 
-        <CategoryTabs activeTab={activeTab} />
+        <CategoryTabs activeTab={activeTab} search={searchText} />
 
         <div className="flex flex-1 gap-10">
-          <RecruitmentListSection activeTab={activeTab} />
+          <RecruitmentListSection activeTab={activeTab} search={searchText} />
           <BookmarkSidebarSection />
         </div>
 
