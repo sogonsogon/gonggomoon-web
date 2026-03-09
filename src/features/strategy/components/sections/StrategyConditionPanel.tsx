@@ -1,5 +1,3 @@
-'use client';
-
 import { Code, Info, Server, Sparkles, Timer } from 'lucide-react';
 import type { StrategyJobType } from '@/features/strategy/types';
 import type { IndustryType } from '@/features/industry/types';
