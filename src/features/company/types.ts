@@ -13,7 +13,6 @@ export type Company = {
   companyType: CompanyType;
   industryId?: number;
   description?: string; // 기업 소개
-  revenue?: number; // 매출액
   websiteUrl?: string;
   foundedYear?: number;
   address?: string;
