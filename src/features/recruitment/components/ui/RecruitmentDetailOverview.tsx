@@ -49,7 +49,7 @@ export default function RecruitmentDetailOverview({
       </div>
 
       {recruitment.url && (
-        <a
+        <Link
           href={recruitment.url}
           target="_blank"
           rel="noopener noreferrer"
@@ -57,7 +57,7 @@ export default function RecruitmentDetailOverview({
         >
           <ExternalLink className="h-3.5 w-3.5 text-blue-500" />
           <span className="text-[13px] font-medium text-blue-500">공고 원문 보기</span>
-        </a>
+        </Link>
       )}
 
       <div className="flex items-start justify-between gap-4">
