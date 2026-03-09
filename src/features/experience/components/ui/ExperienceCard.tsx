@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { EXP_TYPE_LABELS } from '@/features/experience/constants/experienceType';
+import { EXP_TYPE_LABELS } from '@/features/experience/constants/experienceLabels';
 import { Experience, ExperienceType } from '@/features/experience/types';
 import { toDisplayDate } from '@/features/experience/utils/toDisplayDate';
 import { Button } from '@/shared/components/ui/button';
@@ -161,8 +161,9 @@ export default function ExperienceCard({
               size="icon"
               onClick={handleDelete}
               aria-label="삭제"
+              className="text-gray-400 hover:text-red-500 hover:bg-red-50"
             >
-              <Trash2Icon className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+              <Trash2Icon className="h-4 w-4 " />
             </Button>
           </div>
 
@@ -207,7 +208,7 @@ export default function ExperienceCard({
               type="button"
               variant="secondary"
               onClick={handleSave}
-              className="rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700"
+              className="rounded-lg bg-gray-900 text-white hover:bg-gray-800"
             >
               저장
             </Button>
@@ -247,7 +248,7 @@ export default function ExperienceCard({
               type="button"
               variant="ghost"
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1.5 text-[12px] font-medium text-gray-600 hover:bg-gray-200"
+              className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200"
             >
               <PencilIcon className="h-3 w-3" />
               수정
@@ -258,7 +259,7 @@ export default function ExperienceCard({
               size="icon"
               onClick={handleDelete}
               aria-label="삭제"
-              className="text-gray-400 hover:text-red-500"
+              className="text-gray-400 hover:text-red-500 hover:bg-red-50"
             >
               <Trash2Icon className="h-3.75 w-3.75 " />
             </Button>

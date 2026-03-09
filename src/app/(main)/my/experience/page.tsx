@@ -5,7 +5,7 @@ import { mockFiles } from '@/mocks/file.mock';
 import { Experience } from '@/features/experience/types';
 
 export default function ExperiencePage() {
-  const experiences: Experience[] = [];
+  const experiences: Experience[] = mockExperiences;
   const files = mockFiles;
 
   return (

@@ -7,15 +7,15 @@ import { CheckIcon, FileTextIcon } from 'lucide-react';
 
 interface ExperienceFileItemProps {
   file: File;
-  isDisabled: boolean;
-  isSelected: boolean;
+  isDisabled?: boolean;
+  isSelected?: boolean;
   handleToggleFile: (fileId: number) => void;
 }
 
 export default function ExperienceFileItem({
   file,
-  isDisabled,
-  isSelected,
+  isDisabled = false,
+  isSelected = false,
   handleToggleFile,
 }: ExperienceFileItemProps) {
   return (
