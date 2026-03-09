@@ -1,6 +1,6 @@
 import { mockFiles } from '@/mocks/file.mock';
 import Title from '@/shared/components/ui/Title';
-import FileTable from '@/features/file/components/sections/FileTable';
+import FileTable from '@/features/file/components/ui/FileTable';
 import FileUploadButton from '@/features/file/components/ui/FileUploadButton';
 import { File } from '@/features/file/types';
 import FileUploadDialog from '@/features/file/components/ui/FileUploadDialog';

@@ -1,6 +1,6 @@
 import { File } from '@/features/file/types';
-import FileTableEmpty from '@/features/file/components/sections/FileTableEmpty';
-import FileTableRow from '@/features/file/components/sections/FileTableRow';
+import FileTableEmpty from '@/features/file/components/ui/FileTableEmpty';
+import FileTableRow from '@/features/file/components/ui/FileTableRow';
 import {
   Table,
   TableBody,

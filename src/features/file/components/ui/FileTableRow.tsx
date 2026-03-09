@@ -1,6 +1,6 @@
 import { formatDate } from '@/shared/utils/formatDate';
-import { formatFileSize } from '@/shared/utils/formatFileSize';
-import { isPdf } from '@/shared/utils/isPdf';
+import { formatFileSize } from '@/features/file/utils/formatFileSize';
+import { isPdf } from '@/features/file/utils/isPdf';
 import type { File, FileCategory } from '@/features/file/types';
 import FileDeleteButton from '@/features/file/components/ui/FileDeleteButton';
 import { FileIcon, FileTextIcon } from 'lucide-react';
