@@ -1,14 +1,14 @@
 'use client';
 
 import { Button } from '@/shared/components/ui/button';
-import { useFileUpload } from '@/features/file/hooks/useFileUpload';
+import { useFileUploadDialog } from '@/features/file/hooks/useFileUploadDialog';
 
 interface FileUploadButtonProps {
   canUpload: boolean;
 }
 
 export default function FileUploadButton({ canUpload }: FileUploadButtonProps) {
-  const { openDialog } = useFileUpload();
+  const { openDialog } = useFileUploadDialog();
 
   return (
     <Button

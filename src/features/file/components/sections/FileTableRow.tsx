@@ -5,12 +5,7 @@ import type { File, FileCategory } from '@/features/file/types';
 import FileDeleteButton from '@/features/file/components/ui/FileDeleteButton';
 import { FileIcon, FileTextIcon } from 'lucide-react';
 import { TableCell, TableRow } from '@/shared/components/ui/table';
-
-const CATEGORY_LABEL: Record<FileCategory, string> = {
-  PORTFOLIO: '포폴',
-  RESUME: '이력서',
-  OTHER: '기타',
-};
+import { CATEGORY_LABEL } from '@/features/file/constants/fileCategory';
 
 const CATEGORY_BADGE_CLASS: Record<FileCategory, string> = {
   PORTFOLIO: 'bg-[#e8f3ff] text-[#3182f6]',

@@ -1,6 +1,6 @@
 import { File } from '@/features/file/types';
-import FileTableEmpty from './FileTableEmpty';
-import FileTableRow from './FileTableRow';
+import FileTableEmpty from '@/features/file/components/sections/FileTableEmpty';
+import FileTableRow from '@/features/file/components/sections/FileTableRow';
 import {
   Table,
   TableBody,
@@ -20,11 +20,21 @@ export default function FileTable({ files }: FileTableProps) {
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-50 hover:bg-gray-50">
-            <TableHead className="w-25 px-4 py-3 text-sm font-semibold text-gray-600">구분</TableHead>
-            <TableHead className="px-4 py-3 text-sm font-semibold text-gray-600">파일 제목</TableHead>
-            <TableHead className="w-25 px-4 py-3 text-sm font-semibold text-gray-600">용량</TableHead>
-            <TableHead className="w-30 px-4 py-3 text-sm font-semibold text-gray-600">등록일</TableHead>
-            <TableHead className="w-18 px-4 py-3 text-center text-sm font-semibold text-gray-600">삭제</TableHead>
+            <TableHead className="w-25 px-4 py-3 text-sm font-semibold text-gray-600">
+              구분
+            </TableHead>
+            <TableHead className="px-4 py-3 text-sm font-semibold text-gray-600">
+              파일 제목
+            </TableHead>
+            <TableHead className="w-25 px-4 py-3 text-sm font-semibold text-gray-600">
+              용량
+            </TableHead>
+            <TableHead className="w-30 px-4 py-3 text-sm font-semibold text-gray-600">
+              등록일
+            </TableHead>
+            <TableHead className="w-18 px-4 py-3 text-center text-sm font-semibold text-gray-600">
+              삭제
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

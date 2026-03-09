@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { File, FileCategory } from '@/features/file/types';
-import { useFileUpload } from '@/features/file/hooks/useFileUpload';
-import FileUploadArea from './FileUploadArea';
+import { useFileUploadDialog } from '@/features/file/hooks/useFileUploadDialog';
+import FileUploadArea from '@/features/file/components/ui/FileUploadArea';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -23,17 +23,24 @@ import {
 } from '@/shared/components/ui/select';
 
 export default function FileUploadDialog() {
-  const { isDialogOpen, openDialog, closeDialog } = useFileUpload();
+  const { isDialogOpen, openDialog, closeDialog } = useFileUploadDialog();
   const [selectedCategory, setSelectedCategory] = useState<FileCategory>();
   // 선택된 파일(업로드할 파일)
   const [pickedFile, setPickedFile] = useState<globalThis.File | null>(null);
 
-  useEffect(() => {
-    if (!isDialogOpen) {
-      setSelectedCategory(undefined);
-      setPickedFile(null);
+  const resetForm = () => {
+    setSelectedCategory(undefined);
+    setPickedFile(null);
+  };
+
+  const handleDialogOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      resetForm();
+      closeDialog();
+      return;
     }
-  }, [isDialogOpen]);
+    openDialog();
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
@@ -52,8 +59,8 @@ export default function FileUploadDialog() {
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={(open) => (open ? openDialog() : closeDialog())}>
-      <DialogContent className="max-w-[480px]">
+    <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
+      <DialogContent className="max-w-120">
         <DialogHeader>
           <DialogTitle>첨부파일 등록</DialogTitle>
           <DialogDescription>파일 구분을 선택하고 첨부할 파일을 업로드해주세요</DialogDescription>

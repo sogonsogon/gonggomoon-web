@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface FileUploadStore {
+interface FileUploadDialogStore {
   isDialogOpen: boolean;
   openDialog: () => void;
   closeDialog: () => void;
 }
 
-export const useFileUpload = create<FileUploadStore>()((set) => ({
+export const useFileUploadDialog = create<FileUploadDialogStore>()((set) => ({
   isDialogOpen: false,
   openDialog: () => set({ isDialogOpen: true }),
   closeDialog: () => set({ isDialogOpen: false }),

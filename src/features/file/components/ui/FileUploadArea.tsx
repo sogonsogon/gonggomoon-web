@@ -1,3 +1,5 @@
+'use client';
+
 import { Input } from '@/shared/components/ui/input';
 import { formatFileSize } from '@/shared/utils/formatFileSize';
 import { FileTextIcon, UploadIcon } from 'lucide-react';

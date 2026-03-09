@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@/shared/components/ui/button';
-import { useFileUpload } from '@/features/file/hooks/useFileUpload';
+import { useFileUploadDialog } from '@/features/file/hooks/useFileUploadDialog';
 import { FolderOpenIcon } from 'lucide-react';
 
 export default function FileTableEmpty() {
-  const { openDialog } = useFileUpload();
+  const { openDialog } = useFileUploadDialog();
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-16">
