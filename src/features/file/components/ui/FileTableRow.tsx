@@ -5,7 +5,7 @@ import type { File, FileCategory } from '@/features/file/types';
 import FileDeleteButton from '@/features/file/components/ui/FileDeleteButton';
 import { FileIcon, FileTextIcon } from 'lucide-react';
 import { TableCell, TableRow } from '@/shared/components/ui/table';
-import { CATEGORY_LABEL } from '@/features/file/constants/fileCategory';
+import { FILE_CATEGORY_LABEL } from '@/features/file/constants/fileCategory';
 
 const CATEGORY_BADGE_CLASS: Record<FileCategory, string> = {
   PORTFOLIO: 'bg-[#e8f3ff] text-[#3182f6]',
@@ -25,7 +25,7 @@ export default function FileTableRow({ file }: FileTableRowProps) {
         <span
           className={`rounded-full px-2 py-0.5 text-xs font-semibold ${CATEGORY_BADGE_CLASS[file.category]}`}
         >
-          {CATEGORY_LABEL[file.category]}
+          {FILE_CATEGORY_LABEL[file.category]}
         </span>
       </TableCell>
 
