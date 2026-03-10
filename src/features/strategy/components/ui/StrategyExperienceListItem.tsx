@@ -12,6 +12,7 @@ interface StrategyExperienceListItemProps {
   checked: boolean;
   onToggle: (id: number) => void;
   onDetailClick: (experience: Experience) => void;
+  disabled?: boolean;
 }
 
 export default function StrategyExperienceListItem({
@@ -19,12 +20,16 @@ export default function StrategyExperienceListItem({
   checked,
   onToggle,
   onDetailClick,
+  disabled = false,
 }: StrategyExperienceListItemProps) {
   function handleToggle() {
+    if (disabled) return;
     onToggle(experience.id);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (disabled) return;
+
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       handleToggle();
@@ -34,12 +39,19 @@ export default function StrategyExperienceListItem({
   return (
     <div
       role="button"
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       aria-pressed={checked}
+      aria-disabled={disabled}
       onClick={handleToggle}
       onKeyDown={handleKeyDown}
-      className={`flex cursor-pointer items-center gap-3 rounded-[10px] border px-4 py-3.5 transition-colors ${
-        checked ? 'border-blue-100 bg-blue-50' : 'border-gray-200 bg-white hover:bg-gray-50'
+      className={`flex items-center gap-3 rounded-[10px] border px-4 py-3.5 transition-colors ${
+        disabled
+          ? checked
+            ? 'cursor-not-allowed border-blue-100 bg-blue-50 opacity-60'
+            : 'cursor-not-allowed border-gray-200 bg-white opacity-60'
+          : checked
+            ? 'cursor-pointer border-blue-100 bg-blue-50'
+            : 'cursor-pointer border-gray-200 bg-white hover:bg-gray-50'
       }`}
     >
       <div
@@ -74,14 +86,20 @@ export default function StrategyExperienceListItem({
 
       <button
         type="button"
+        disabled={disabled}
         onClick={(e) => {
           e.stopPropagation();
+          if (disabled) return;
           onDetailClick(experience);
         }}
-        className={`inline-flex h-8 shrink-0 cursor-pointer items-center gap-1 rounded-md border px-2.5 text-[11px] leading-none font-medium ${
-          checked
-            ? 'border-[#90c2ff] text-[#2272eb] hover:bg-blue-100'
-            : 'border-gray-200 text-gray-500 hover:bg-gray-50'
+        className={`inline-flex h-8 shrink-0 items-center gap-1 rounded-md border px-2.5 text-[11px] leading-none font-medium ${
+          checked ? 'border-[#90c2ff] text-[#2272eb]' : 'border-gray-200 text-gray-500'
+        } ${
+          disabled
+            ? 'cursor-not-allowed opacity-60'
+            : checked
+              ? 'cursor-pointer hover:bg-blue-100'
+              : 'cursor-pointer hover:bg-gray-50'
         }`}
       >
         상세보기
