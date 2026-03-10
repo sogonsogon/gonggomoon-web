@@ -1,23 +1,19 @@
-import { getStrategyHistoryItems } from '@/features/strategy/utils/getStrategyHistoryItems';
+import { mockStrategies } from '@/mocks/strategy.mock';
 import Footer from '@/shared/components/layout/Footer';
-import HistorySidebar from '@/shared/components/layout/HistorySidebar';
+import StrategyHistorySidebar from '@/features/strategy/components/layout/StrategyHistorySidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
+import { getStrategyHistoryItems } from '@/features/strategy/utils/getStrategyHistoryItems';
 
 export default function StrategyLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const historyItems = getStrategyHistoryItems(mockStrategies);
+
   return (
     <SidebarProvider defaultOpen>
-      <HistorySidebar
-        title="포폴 전략"
-        createLabel="새 포폴 전략 생성"
-        createHref="/strategy/create"
-        manageLabel="포폴 전략 관리"
-        manageHref="/my/strategy"
-        items={getStrategyHistoryItems()}
-      />
+      <StrategyHistorySidebar items={historyItems} />
 
       <SidebarInset className="min-h-[calc(100svh-5rem)] bg-white">
         <div className="flex min-h-[calc(100svh-5rem)] flex-col">
