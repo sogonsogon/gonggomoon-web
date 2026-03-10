@@ -8,3 +8,5 @@ export type User = {
   profileImageUrl: string | null;
   roles: UserRole[];
 };
+
+export type GetUserResponse = User;

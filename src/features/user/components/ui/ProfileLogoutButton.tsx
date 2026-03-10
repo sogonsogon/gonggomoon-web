@@ -1,11 +1,15 @@
 'use client';
 
+import { useLogout } from '@/features/auth/queries';
 import { Button } from '@/shared/components/ui/button';
 import { LogOutIcon } from 'lucide-react';
 
 export default function ProfileLogoutButton() {
+  // const { mutate: logout, isPending } = useLogout();
+
   const handleLogout = async () => {
-    // TODO: 로그아웃 API 호출 및 리다이렉트
+    // 로그아웃은 우선 배제하고 진행
+    // logout();
   };
 
   return (

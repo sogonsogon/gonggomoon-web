@@ -12,20 +12,22 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import { useWithdrawUser } from '@/features/user/queries';
 
 interface ProfileWithdrawDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   userEmail: string;
-  onConfirm: () => void;
 }
 
 export default function ProfileWithdrawDialog({
   open,
   onOpenChange,
   userEmail,
-  onConfirm,
 }: ProfileWithdrawDialogProps) {
+  // 회원 탈퇴도 우선 제외하고 진행
+  // const { mutate: withdraw, isPending } = useWithdrawUser();
+
   const [emailInput, setEmailInput] = useState('');
 
   const isMatch = emailInput === userEmail;
@@ -39,8 +41,8 @@ export default function ProfileWithdrawDialog({
 
   const handleConfirm = () => {
     if (!isMatch) return;
-    onConfirm();
-    setEmailInput('');
+    // withdraw();
+    handleOpenChange(false);
   };
 
   return (
