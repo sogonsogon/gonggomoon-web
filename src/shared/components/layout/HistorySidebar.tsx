@@ -24,6 +24,8 @@ interface HistorySidebarProps {
   manageLabel: string;
   manageHref: string;
   items: HistorySidebarItem[];
+  processingLabel?: string;
+  processingItems?: HistorySidebarItem[];
 }
 
 export default function HistorySidebar({
@@ -33,8 +35,47 @@ export default function HistorySidebar({
   manageLabel,
   manageHref,
   items,
+  processingLabel,
+  processingItems = [],
 }: HistorySidebarProps) {
   const pathname = usePathname();
+
+  const renderMenuItems = (menuItems: HistorySidebarItem[]) =>
+    menuItems.map((item) => {
+      const isActive = pathname === item.href;
+
+      return (
+        <SidebarMenuItem key={item.href}>
+          <SidebarMenuButton asChild isActive={isActive} className="h-auto p-0">
+            <Link
+              href={item.href}
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 ${
+                isActive ? 'border-[#90c2ff] bg-[#e8f3ff]' : 'border-transparent hover:bg-gray-100'
+              }`}
+            >
+              <div
+                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                  isActive ? 'bg-[#2272eb]' : 'bg-gray-300'
+                }`}
+              />
+
+              <div className="flex min-w-0 flex-col gap-0.5">
+                <span
+                  className={`truncate text-[12px] font-semibold ${
+                    isActive ? 'text-[#1b64da]' : 'text-gray-700'
+                  }`}
+                >
+                  {item.title}
+                </span>
+                <span className={`text-[11px] ${isActive ? 'text-[#4593e6]' : 'text-gray-400'}`}>
+                  {item.date}
+                </span>
+              </div>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      );
+    });
 
   return (
     <Sidebar
@@ -56,55 +97,25 @@ export default function HistorySidebar({
       </SidebarHeader>
 
       <SidebarContent className="px-2">
+        {processingItems.length > 0 && processingLabel && (
+          <SidebarGroup className="gap-2 p-0">
+            <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400">
+              {processingLabel}
+            </SidebarGroupLabel>
+
+            <SidebarGroupContent>
+              <SidebarMenu className="gap-0.5">{renderMenuItems(processingItems)}</SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
         <SidebarGroup className="gap-2 p-0">
           <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400">
             히스토리
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu className="gap-0.5">
-              {items.map((item) => {
-                const isActive = pathname === item.href;
-
-                return (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild isActive={isActive} className="h-auto p-0">
-                      <Link
-                        href={item.href}
-                        className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 ${
-                          isActive
-                            ? 'border-[#90c2ff] bg-[#e8f3ff]'
-                            : 'border-transparent hover:bg-gray-100'
-                        }`}
-                      >
-                        <div
-                          className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                            isActive ? 'bg-[#2272eb]' : 'bg-gray-300'
-                          }`}
-                        />
-
-                        <div className="flex min-w-0 flex-col gap-0.5">
-                          <span
-                            className={`truncate text-[12px] font-semibold ${
-                              isActive ? 'text-[#1b64da]' : 'text-gray-700'
-                            }`}
-                          >
-                            {item.title}
-                          </span>
-                          <span
-                            className={`text-[11px] ${
-                              isActive ? 'text-[#4593e6]' : 'text-gray-400'
-                            }`}
-                          >
-                            {item.date}
-                          </span>
-                        </div>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
+            <SidebarMenu className="gap-0.5">{renderMenuItems(items)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
