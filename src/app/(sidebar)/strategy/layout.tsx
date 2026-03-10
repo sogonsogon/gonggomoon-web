@@ -2,14 +2,14 @@ import { mockStrategies } from '@/mocks/strategy.mock';
 import Footer from '@/shared/components/layout/Footer';
 import StrategyHistorySidebar from '@/features/strategy/components/layout/StrategyHistorySidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
-import { getStrategyHistoryItems } from '@/features/strategy/utils/getStrategyHistoryItems';
+import { createStrategyHistoryItems } from '@/features/strategy/utils/createStrategyHistoryItems';
 
 export default function StrategyLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const historyItems = getStrategyHistoryItems(mockStrategies);
+  const historyItems = createStrategyHistoryItems(mockStrategies);
 
   return (
     <SidebarProvider defaultOpen>
