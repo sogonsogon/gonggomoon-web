@@ -1,7 +1,7 @@
 'use client';
 
 import { Interview } from '@/features/interview/types';
-import { toInterviewTitle } from '@/features/interview/utils/toInterviewTitle';
+import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 import { Button } from '@/shared/components/ui/button';
 import { FileTextIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
       <div className="flex h-30 flex-col justify-between px-5 pb-4 pt-5 border-b border-b-gray-100">
         <div className="flex items-center justify-between gap-2">
           <span className="line-clamp-3 text-[15px] font-semibold leading-snug text-gray-900">
-            {toInterviewTitle(interview.createdAt) ?? '면접 질문'}
+            {formatInterviewTitle(interview.createdAt) ?? '면접 질문'}
           </span>
           <Button
             type="button"

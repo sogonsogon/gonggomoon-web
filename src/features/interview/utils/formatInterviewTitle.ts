@@ -1,4 +1,4 @@
-export function toInterviewTitle(isoDate: string): string {
+export function formatInterviewTitle(isoDate: string): string {
   const d = new Date(isoDate);
   const y = String(d.getFullYear()).slice(2, 4);
   const mo = String(d.getMonth() + 1).padStart(2, '0');
