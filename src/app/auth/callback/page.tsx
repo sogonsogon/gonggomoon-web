@@ -7,4 +7,7 @@ export default async function CallbackPage() {
 
   // 유저 정보 가져와서 관리
   await queryClient.prefetchQuery(userQueryOptions);
+
+  // 메인페이지로 이동
+  redirect('/');
 }

@@ -28,7 +28,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="gap-0 overflow-hidden rounded-2xl border-gray-100 p-0 max-w-[25rem]">
+      <DialogContent className="gap-0 overflow-hidden rounded-2xl border-gray-100 p-0 max-w-100">
         <DialogHeader className="flex flex-col items-center gap-3 px-8 pb-7 pt-8">
           <DialogTitle className="flex items-center gap-1.5">
             <MoonStar className="h-5.5 w-5.5 text-blue-600" />
