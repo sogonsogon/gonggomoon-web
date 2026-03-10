@@ -16,6 +16,7 @@ import type { StrategyJobType } from '@/features/strategy/types';
 import { startStrategyGeneration } from '@/features/strategy/services/startStrategyGeneration';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
+import { Button } from '@/shared/components/ui/button';
 
 export default function StrategyConditionPanel() {
   const formData = useStrategyCreateFormStore((state) => state.formData);
@@ -61,7 +62,7 @@ export default function StrategyConditionPanel() {
               const isActive = formData.selectedJob === job;
 
               return (
-                <button
+                <Button
                   key={job}
                   type="button"
                   onClick={() => handleJobChange(job)}
@@ -78,7 +79,7 @@ export default function StrategyConditionPanel() {
                     <Server className="h-3.5 w-3.5" />
                   )}
                   {JOB_LABEL_MAP[job]}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -166,7 +167,7 @@ export default function StrategyConditionPanel() {
         </div>
       </div>
 
-      <button
+      <Button
         type="button"
         onClick={handleGenerateClick}
         disabled={formData.selectedExperienceIds.length === 0 || isFormLocked}
@@ -174,7 +175,7 @@ export default function StrategyConditionPanel() {
       >
         <Sparkles className="h-4 w-4" />
         {isFormLocked ? '포트폴리오 전략 생성 중...' : '포트폴리오 전략 생성'}
-      </button>
+      </Button>
 
       <div className="flex items-center justify-center gap-1">
         <Timer className="h-3 w-3 text-gray-400" />
