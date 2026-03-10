@@ -1,6 +1,6 @@
+'use client';
+
 import { Code, Info, Server, Sparkles, Timer } from 'lucide-react';
-import type { StrategyJobType } from '@/features/strategy/types';
-import type { IndustryType } from '@/features/industry/types';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { Switch } from '@/shared/components/ui/switch';
@@ -11,26 +11,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
+import type { IndustryType } from '@/features/industry/types';
+import type { StrategyJobType } from '@/features/strategy/types';
+import { startStrategyGeneration } from '@/features/strategy/services/startStrategyGeneration';
+import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
+import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 
-interface StrategyConditionPanelProps {
-  selectedJob: StrategyJobType;
-  onSelectJob: (job: StrategyJobType) => void;
-  isIndustryOn: boolean;
-  onToggleIndustry: (checked: boolean) => void;
-  selectedIndustry: IndustryType;
-  onSelectIndustry: (industry: IndustryType) => void;
-  selectedCount: number;
-}
+export default function StrategyConditionPanel() {
+  const formData = useStrategyCreateFormStore((state) => state.formData);
+  const updateFormData = useStrategyCreateFormStore((state) => state.updateFormData);
 
-export default function StrategyConditionPanel({
-  selectedJob,
-  onSelectJob,
-  isIndustryOn,
-  onToggleIndustry,
-  selectedIndustry,
-  onSelectIndustry,
-  selectedCount,
-}: StrategyConditionPanelProps) {
+  const submitLoading = useStrategyGenerationStore((state) => state.submitLoading);
+  const generationStatus = useStrategyGenerationStore((state) => state.generationStatus);
+
+  const isFormLocked = submitLoading || generationStatus === 'PROCESSING';
+
+  const handleJobChange = (job: StrategyJobType) => {
+    if (isFormLocked) return;
+    updateFormData('selectedJob', job);
+  };
+
+  const handleIndustryToggle = () => {
+    if (isFormLocked) return;
+    updateFormData('isIndustryOn', !formData.isIndustryOn);
+  };
+
+  const handleIndustryChange = (industry: IndustryType) => {
+    if (isFormLocked) return;
+    updateFormData('selectedIndustry', industry);
+  };
+
+  const handleGenerateClick = async () => {
+    try {
+      await startStrategyGeneration();
+    } catch {}
+  };
+
   return (
     <div className="sticky top-6 flex w-80 shrink-0 self-start flex-col gap-4">
       <div className="flex flex-col gap-4 rounded-xl border border-gray-100 p-5">
@@ -42,14 +58,15 @@ export default function StrategyConditionPanel({
 
           <div className="flex gap-2">
             {(['FRONTEND', 'BACKEND'] as StrategyJobType[]).map((job) => {
-              const isActive = selectedJob === job;
+              const isActive = formData.selectedJob === job;
 
               return (
                 <button
                   key={job}
                   type="button"
-                  onClick={() => onSelectJob(job)}
-                  className={`inline-flex h-10 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border px-3 text-[13px] font-semibold transition-colors ${
+                  onClick={() => handleJobChange(job)}
+                  disabled={isFormLocked}
+                  className={`inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 text-[13px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                     isActive
                       ? 'border-[#2272eb] bg-[#2272eb] text-white'
                       : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
@@ -77,41 +94,45 @@ export default function StrategyConditionPanel({
             <div className="flex items-center gap-2 pt-0.5">
               <span
                 className={`text-[11px] font-bold ${
-                  isIndustryOn ? 'text-[#2272eb]' : 'text-gray-400'
+                  formData.isIndustryOn ? 'text-[#2272eb]' : 'text-gray-400'
                 }`}
               >
-                {isIndustryOn ? 'ON' : 'OFF'}
+                {formData.isIndustryOn ? 'ON' : 'OFF'}
               </span>
 
               <Switch
-                checked={isIndustryOn}
-                onCheckedChange={onToggleIndustry}
+                checked={formData.isIndustryOn}
+                onCheckedChange={handleIndustryToggle}
+                disabled={isFormLocked}
                 className="cursor-pointer"
                 aria-label="산업 특화 토글"
               />
             </div>
           </div>
 
-          {isIndustryOn && (
+          {formData.isIndustryOn && (
             <div className="flex flex-col gap-1.5">
               <Select
-                value={selectedIndustry}
-                onValueChange={(value) => onSelectIndustry(value as IndustryType)}
+                value={formData.selectedIndustry}
+                onValueChange={(value) => handleIndustryChange(value as IndustryType)}
+                disabled={isFormLocked}
               >
-                <SelectTrigger className="h-10 w-full cursor-pointer border-[1.5px] border-[#4593e6] text-[13px] font-medium text-gray-900">
-                  <SelectValue>{INDUSTRY_LABEL_MAP[selectedIndustry]}</SelectValue>
+                <SelectTrigger className="h-10 w-full cursor-pointer border-[1.5px] border-[#4593e6] text-[13px] font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50">
+                  <SelectValue>{INDUSTRY_LABEL_MAP[formData.selectedIndustry]}</SelectValue>
                 </SelectTrigger>
 
                 <SelectContent position="popper">
-                  {(Object.keys(INDUSTRY_LABEL_MAP) as IndustryType[]).map((industry) => (
-                    <SelectItem
-                      key={industry}
-                      value={industry}
-                      className="cursor-pointer text-[13px]"
-                    >
-                      {INDUSTRY_LABEL_MAP[industry]}
-                    </SelectItem>
-                  ))}
+                  {(Object.keys(INDUSTRY_LABEL_MAP) as IndustryType[])
+                    .filter((industry) => industry !== 'OTHER')
+                    .map((industry) => (
+                      <SelectItem
+                        key={industry}
+                        value={industry}
+                        className="cursor-pointer text-[13px]"
+                      >
+                        {INDUSTRY_LABEL_MAP[industry]}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
 
@@ -130,41 +151,29 @@ export default function StrategyConditionPanel({
         <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3.5 py-3">
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] text-gray-500">선택된 경험</span>
-            <span className="text-[13px] font-bold text-gray-900">{selectedCount}개 선택됨</span>
+            <span className="text-[13px] font-bold text-gray-900">
+              {formData.selectedExperienceIds.length}개 선택됨
+            </span>
           </div>
 
           <div className="flex flex-col items-end gap-0.5 text-right">
             <span className="text-[11px] text-gray-500">직무 · 산업</span>
             <span className="text-[12px] font-semibold text-[#1b64da]">
-              {JOB_LABEL_MAP[selectedJob]}
-              {isIndustryOn ? ` · ${INDUSTRY_LABEL_MAP[selectedIndustry]}` : ''}
+              {JOB_LABEL_MAP[formData.selectedJob]}
+              {formData.isIndustryOn ? ` · ${INDUSTRY_LABEL_MAP[formData.selectedIndustry]}` : ''}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
-        <div className="flex flex-col gap-0.5">
-          <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
-          <div className="flex items-center gap-1">
-            <span className="text-[20px] font-bold text-blue-700">1</span>
-            <span className="text-[13px] font-medium text-blue-400">/ 1회</span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-blue-500" />
-          <div className="h-2.5 w-2.5 rounded-full bg-blue-200" />
-          <div className="h-2.5 w-2.5 rounded-full bg-blue-200" />
-        </div>
-      </div>
-
       <button
         type="button"
-        className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700"
+        onClick={handleGenerateClick}
+        disabled={formData.selectedExperienceIds.length === 0 || isFormLocked}
+        className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
       >
         <Sparkles className="h-4 w-4" />
-        포트폴리오 전략 생성
+        {isFormLocked ? '포트폴리오 전략 생성 중...' : '포트폴리오 전략 생성'}
       </button>
 
       <div className="flex items-center justify-center gap-1">
