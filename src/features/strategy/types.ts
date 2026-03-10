@@ -7,7 +7,7 @@ export type StrategyJobType = Extract<JobType, 'FRONTEND' | 'BACKEND'>;
 export type Strategy = {
   strategyId: number;
   jobType: StrategyJobType;
-  industryType: IndustryType;
+  industryType?: Exclude<IndustryType, 'OTHER'>;
   createdDate: string;
   experienceTotalCount?: number;
   detail?: StrategyDetail;
@@ -28,6 +28,7 @@ export type OrderedExperience = {
   reason: string;
 };
 
+<<<<<<< feat/39
 export type CreateStrategyRequest = {
   jobType: StrategyJobType;
   industryType: IndustryType | null;
@@ -38,3 +39,6 @@ export type CreateStrategyResponse = {
   strategyId: number;
   status: GenerationStatus;
 };
+=======
+export type StrategyIndustry = Exclude<IndustryType, 'OTHER'> | 'MASTER';
+>>>>>>> develop
