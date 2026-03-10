@@ -6,7 +6,7 @@ export type StrategyJobType = Extract<JobType, 'FRONTEND' | 'BACKEND'>;
 export type Strategy = {
   strategyId: number;
   jobType: StrategyJobType;
-  industryType: IndustryType;
+  industryType?: Exclude<IndustryType, 'OTHER'>;
   createdDate: string;
   experienceTotalCount?: number;
   detail?: StrategyDetail;
@@ -26,3 +26,5 @@ export type OrderedExperience = {
   title: string;
   reason: string;
 };
+
+export type StrategyIndustry = Exclude<IndustryType, 'OTHER'> | 'MASTER';
