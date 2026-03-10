@@ -111,40 +111,42 @@ export default function StrategyConditionPanel() {
             </div>
           </div>
 
-          {formData.isIndustryOn && (
-            <div className="flex flex-col gap-1.5">
-              <Select
-                value={formData.selectedIndustry}
-                onValueChange={(value) => handleIndustryChange(value as IndustryType)}
-                disabled={isFormLocked}
-              >
-                <SelectTrigger className="h-10 w-full cursor-pointer border-[1.5px] border-[#4593e6] text-[13px] font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50">
-                  <SelectValue>{INDUSTRY_LABEL_MAP[formData.selectedIndustry]}</SelectValue>
-                </SelectTrigger>
+          <div
+            className={`flex flex-col gap-1.5 transition-opacity ${
+              formData.isIndustryOn ? 'opacity-100' : 'opacity-50'
+            }`}
+          >
+            <Select
+              value={formData.selectedIndustry}
+              onValueChange={(value) => handleIndustryChange(value as IndustryType)}
+              disabled={!formData.isIndustryOn || isFormLocked}
+            >
+              <SelectTrigger className="h-10 w-full cursor-pointer border-[1.5px] border-[#4593e6] text-[13px] font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50">
+                <SelectValue>{INDUSTRY_LABEL_MAP[formData.selectedIndustry]}</SelectValue>
+              </SelectTrigger>
 
-                <SelectContent position="popper">
-                  {(Object.keys(INDUSTRY_LABEL_MAP) as IndustryType[])
-                    .filter((industry) => industry !== 'OTHER')
-                    .map((industry) => (
-                      <SelectItem
-                        key={industry}
-                        value={industry}
-                        className="cursor-pointer text-[13px]"
-                      >
-                        {INDUSTRY_LABEL_MAP[industry]}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+              <SelectContent position="popper">
+                {(Object.keys(INDUSTRY_LABEL_MAP) as IndustryType[])
+                  .filter((industry) => industry !== 'OTHER')
+                  .map((industry) => (
+                    <SelectItem
+                      key={industry}
+                      value={industry}
+                      className="cursor-pointer text-[13px]"
+                    >
+                      {INDUSTRY_LABEL_MAP[industry]}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
 
-              <div className="flex items-center gap-1">
-                <Info className="h-3 w-3 text-[#4593e6]" />
-                <span className="text-[11px] text-[#4593e6]">
-                  공고 상세 페이지에서 진입 시 자동으로 채워집니다
-                </span>
-              </div>
+            <div className="flex items-center gap-1">
+              <Info className="h-3 w-3 text-[#4593e6]" />
+              <span className="text-[11px] text-[#4593e6]">
+                공고 상세 페이지에서 진입 시 자동으로 채워집니다
+              </span>
             </div>
-          )}
+          </div>
         </div>
 
         <div className="h-px bg-gray-100" />
