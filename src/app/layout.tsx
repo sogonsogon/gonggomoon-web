@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/app/globals.css';
 import Header from '@/shared/components/layout/Header';
+import QueryProvider from '@/shared/provider/QueryProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -23,8 +24,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${pretendard.variable} ${pretendard.className}`}>
       <body>
-        <Header />
-        {children}
+        <QueryProvider>
+          <Header />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
