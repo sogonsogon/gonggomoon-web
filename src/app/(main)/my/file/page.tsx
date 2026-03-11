@@ -12,7 +12,7 @@ export default function FilePage() {
   const canUpload = files.length < MAX_FILES;
 
   return (
-    <div className="flex min-h-screen flex-col w-full bg-white">
+    <div className="flex flex-col w-full bg-white">
       {/* 메인 영역 */}
       <div className="flex flex-1 flex-col gap-8">
         {/* 페이지 타이틀 */}
