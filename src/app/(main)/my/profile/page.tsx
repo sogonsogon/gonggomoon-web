@@ -3,7 +3,7 @@ import ProfileSection from '@/features/user/components/sections/ProfileSection';
 
 export default async function ProfilePage() {
   return (
-    <div className="flex min-h-screen flex-col w-full">
+    <div className="flex flex-col w-full">
       {/* 메인 영역*/}
       <div className="flex flex-1 flex-col gap-8">
         {/* 페이지 타이틀 */}

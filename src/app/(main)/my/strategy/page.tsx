@@ -9,7 +9,7 @@ export default function StrategyPage() {
   const strategies = mockStrategies;
 
   return (
-    <div className="flex min-h-screen flex-col w-full">
+    <div className="flex flex-col w-full">
       {/* 메인 영역 */}
       <div className="flex flex-1 flex-col gap-8">
         {/* 페이지 타이틀 */}

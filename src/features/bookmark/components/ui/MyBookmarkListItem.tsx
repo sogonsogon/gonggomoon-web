@@ -2,8 +2,8 @@ import { Bookmark } from '@/features/bookmark/types';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import { formatDeadline } from '@/shared/utils/formatDeadline';
 import { Building2Icon, CalendarIcon } from 'lucide-react';
-import BookmarkDeleteButton from '@/features/bookmark/components/ui/BookmarkDeleteButton';
 import Link from 'next/link';
+import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 
 export const DDAY_VARIANT_CLASS: Record<string, string> = {
   red: 'bg-[#FEF2F2] text-red-500',
@@ -15,7 +15,7 @@ interface BookmarkListItem {
   bookmark: Bookmark;
 }
 
-export default function BookmarkListItem({ bookmark }: BookmarkListItem) {
+export default function MyBookmarkListItem({ bookmark }: BookmarkListItem) {
   const dday = formatDDay(bookmark.deadline);
 
   return (
@@ -35,15 +35,15 @@ export default function BookmarkListItem({ bookmark }: BookmarkListItem) {
           <span className="text-xs text-gray-500">{formatDeadline(bookmark.deadline)}</span>
         </div>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="relative flex items-center gap-2 z-10">
         <span
           className={`rounded-md px-2 py-1 text-xs font-semibold ${DDAY_VARIANT_CLASS[dday.variant]}`}
         >
           {dday.label}
         </span>
 
-        {/* 북마크 삭제 버튼 */}
-        <BookmarkDeleteButton postId={bookmark.postId} />
+        {/* 북마크 토글 버튼 */}
+        <BookmarkButton postId={bookmark.postId} initialBookmarked={true} variant="icon" />
       </div>
     </div>
   );

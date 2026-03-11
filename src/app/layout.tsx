@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import '@/app/globals.css';
 import Header from '@/shared/components/layout/Header';
 import QueryProvider from '@/shared/provider/QueryProvider';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { userQueryOptions } from '@/features/user/queries';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,17 +18,21 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(userQueryOptions);
   return (
     <html lang="ko" className={`${pretendard.variable} ${pretendard.className}`}>
       <body>
         <QueryProvider>
-          <Header />
-          {children}
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <Header />
+            {children}
+          </HydrationBoundary>
         </QueryProvider>
       </body>
     </html>

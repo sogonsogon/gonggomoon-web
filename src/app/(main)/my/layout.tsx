@@ -6,7 +6,7 @@ export default function MyLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-1 w-full py-10 gap-12">
+    <div className="flex flex-1 w-full min-h-180 pt-10 pb-20 gap-12">
       <MyNav />
       {children}
     </div>

@@ -1,5 +1,5 @@
 import { getUser, deleteUser } from '@/features/user/actions';
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 
 export const userQueryOptions = {
@@ -21,8 +21,6 @@ export const userQueryOptions = {
 
 // 회원 정보 조회
 export function useUser() {
-  // useSuspenseQuery를 사용하면, 로딩과 에러 처리를 외부로 위임
-  // Next.js 프레임워크가 가로채서 loading.tsx, error.tsx 띄움
   return useQuery(userQueryOptions);
 }
 
