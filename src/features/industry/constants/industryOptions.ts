@@ -7,7 +7,7 @@ export const INDUSTRY_OPTIONS: { value: IndustryType; label: string }[] = [
   { value: 'MOBILITY_LOGISTICS', label: '모빌리티 / 물류' },
   { value: 'AI', label: '인공지능' },
   { value: 'HEALTHCARE_BIO', label: '헬스케어 / 바이오' },
-  { value: 'MANUFACTURING_INDUSTRY', label: '제조업' },
+  { value: 'MANUFACTURING_INDUSTRY', label: '제조/중공업' },
   { value: 'OTHER', label: '기타' },
 ];
 

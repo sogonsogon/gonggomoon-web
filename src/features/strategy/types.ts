@@ -1,5 +1,6 @@
 import { IndustryType } from '@/features/industry/types';
 import { JobType } from '@/features/recruitment/types';
+import { GenerationStatus } from '@/shared/types';
 
 export type StrategyJobType = Extract<JobType, 'FRONTEND' | 'BACKEND'>;
 
@@ -27,4 +28,17 @@ export type OrderedExperience = {
   reason: string;
 };
 
+<<<<<<< feat/39
+export type CreateStrategyRequest = {
+  jobType: StrategyJobType;
+  industryType: IndustryType | null;
+  experienceIds: number[];
+};
+
+export type CreateStrategyResponse = {
+  strategyId: number;
+  status: GenerationStatus;
+};
+=======
 export type StrategyIndustry = Exclude<IndustryType, 'OTHER'> | 'MASTER';
+>>>>>>> develop

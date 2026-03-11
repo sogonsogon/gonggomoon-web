@@ -21,7 +21,7 @@ export default async function MainPage({ searchParams }: MainPageProps) {
   const searchText = search?.trim() ?? '';
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-white font-sans">
+    <div className="flex min-h-screen w-full flex-col px-4 bg-white font-sans">
       <div className="flex flex-1 flex-col gap-7 py-8">
         <Banner />
 

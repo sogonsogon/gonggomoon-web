@@ -105,7 +105,7 @@ export default function RecruitmentRequestDialog({
               <SelectTrigger className="h-11 w-full rounded-lg border-gray-200 text-sm text-gray-900">
                 <SelectValue placeholder="플랫폼을 선택해주세요" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent position="popper">
                 {PLATFORM_OPTIONS.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
