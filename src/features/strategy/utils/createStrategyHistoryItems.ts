@@ -7,7 +7,7 @@ import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOption
 export function createStrategyHistoryItems(strategies: Strategy[]): HistorySidebarItem[] {
   return strategies.map((strategy) => ({
     title: `${JOB_LABEL_MAP[strategy.jobType]} · ${INDUSTRY_LABEL_MAP[strategy.industryType]}`,
-    date: formatHistoryDate(strategy.createdDate),
+    date: formatHistoryDate(strategy.createdAt),
     href: `/strategy/result/${strategy.strategyId}`,
   }));
 }
