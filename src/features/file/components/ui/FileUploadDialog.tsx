@@ -21,15 +21,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
+import { useUploadFile } from '@/features/file/queries';
 
 export default function FileUploadDialog() {
   const { isDialogOpen, openDialog, closeDialog } = useFileUploadDialog();
-  const [selectedCategory, setSelectedCategory] = useState<FileCategory>();
+  const [selectedCategory, setSelectedCategory] = useState<FileCategory | ''>('');
   // 선택된 파일(업로드할 파일)
   const [pickedFile, setPickedFile] = useState<globalThis.File | null>(null);
+  const { mutate: uploadFile, isPending } = useUploadFile();
 
   const resetForm = () => {
-    setSelectedCategory(undefined);
+    setSelectedCategory('');
     setPickedFile(null);
   };
 
@@ -47,15 +49,10 @@ export default function FileUploadDialog() {
     setPickedFile(file);
   };
 
-  const handleUpload = async () => {
-    if (!selectedCategory || !pickedFile) return;
-    const newFile: Pick<File, 'category' | 'title' | 'sizeBytes'> = {
-      category: selectedCategory,
-      title: pickedFile.name,
-      sizeBytes: pickedFile.size,
-    };
+  const handleUpload = () => {
+    if (!selectedCategory || !pickedFile || isPending) return;
 
-    // TODO: 파일 업로드 API 요청
+    uploadFile({ file: pickedFile, category: selectedCategory });
   };
 
   return (

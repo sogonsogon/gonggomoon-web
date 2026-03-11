@@ -9,23 +9,22 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
+import { useDeleteFile } from '@/features/file/queries';
+import { File } from '@/features/file/types';
 
 interface FileDeleteDialogProps {
-  fileName: string;
+  file: File;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onConfirm: () => void;
 }
 
-export default function FileDeleteDialog({
-  fileName,
-  open,
-  onOpenChange,
-  onConfirm,
-}: FileDeleteDialogProps) {
+export default function FileDeleteDialog({ file, open, onOpenChange }: FileDeleteDialogProps) {
+  const { mutate: deleteFile, isPending } = useDeleteFile();
+
   // 파일 삭제
-  const handleConfirm = () => {
-    onConfirm();
+  const handleDelete = () => {
+    if (isPending) return;
+    deleteFile(file.fileAssetId);
     onOpenChange(false);
   };
 
@@ -34,13 +33,13 @@ export default function FileDeleteDialog({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>파일 삭제</DialogTitle>
-          <DialogDescription>{fileName} 파일을 삭제하시겠습니까?</DialogDescription>
+          <DialogDescription>{file.originalFileName} 파일을 삭제하시겠습니까?</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             취소
           </Button>
-          <Button variant="destructive" onClick={handleConfirm}>
+          <Button variant="destructive" onClick={handleDelete} disabled={isPending}>
             삭제
           </Button>
         </DialogFooter>
