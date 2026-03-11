@@ -1,32 +1,24 @@
-import { mockBookmarks } from '@/mocks/bookmark.mock';
 import Title from '@/shared/components/ui/Title';
-import BookmarkEmpty from '@/features/bookmark/components/sections/BookmarkEmpty';
-import BookmarkList from '@/features/bookmark/components/sections/BookmarkList';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { bookmarkQueryOptions } from '@/features/bookmark/queries';
+import BookmarkSection from '@/features/bookmark/components/sections/BookmarkSection';
 
 const ITEMS_PER_PAGE = 10;
 
 export default function BookmarkPage() {
-  // TODO: getBookmark API 호출
-  const bookmarks = mockBookmarks;
+  const queryClient = new QueryClient();
 
-  // TODO: 무한 스크롤 구현
+  queryClient.prefetchQuery(bookmarkQueryOptions);
 
   return (
-    <div className="flex min-h-screen flex-col w-full">
+    <div className="flex flex-col w-full">
       {/* 북마크 영역 */}
-      <div className="flex flex-1 flex-col gap-5">
+      <div className="flex flex-col gap-5">
         {/* 페이지 제목 */}
         <Title title={'북마크'} description={'저장한 채용 공고를 확인하고 관리할 수 있습니다'} />
-
-        {/* 북마크 개수 */}
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-600">
-            총 {bookmarks.length}개의 북마크
-          </span>
-        </div>
-
-        {/* 빈 리스트 or 북마크 리스트 */}
-        {bookmarks.length === 0 ? <BookmarkEmpty /> : <BookmarkList bookmarks={bookmarks} />}
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <BookmarkSection />
+        </HydrationBoundary>
       </div>
     </div>
   );
