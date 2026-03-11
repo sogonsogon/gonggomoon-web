@@ -15,7 +15,7 @@ interface BookmarkListItem {
   bookmark: Bookmark;
 }
 
-export default function BookmarkListItem({ bookmark }: BookmarkListItem) {
+export default function MyBookmarkListItem({ bookmark }: BookmarkListItem) {
   const dday = formatDDay(bookmark.deadline);
 
   return (

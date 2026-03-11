@@ -1,8 +1,12 @@
 import { addBookmark, deleteBookmark, getBookmarks } from '@/features/bookmark/actions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+export const bookmarkKeys = {
+  all: ['bookmarks'] as const,
+};
+
 export const bookmarkQueryOptions = {
-  queryKey: ['bookmarks'],
+  queryKey: bookmarkKeys.all,
   queryFn: async () => {
     const result = await getBookmarks();
 
@@ -17,7 +21,7 @@ export const bookmarkQueryOptions = {
 };
 
 // 북마크 목록 조회
-export function useBookmarks() {
+export function useGetBookmarks() {
   return useQuery(bookmarkQueryOptions);
 }
 
@@ -36,7 +40,7 @@ export function useAddBookmark() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bookmarks'] });
+      queryClient.invalidateQueries({ queryKey: bookmarkKeys.all });
     },
     onError: (error) => {
       console.error('북마크 추가 실패:', error);
@@ -59,7 +63,7 @@ export function useDeleteBookmark() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.removeQueries({ queryKey: ['bookmarks'] });
+      queryClient.invalidateQueries({ queryKey: bookmarkKeys.all });
     },
     onError: (error) => {
       console.error('북마크 삭제 실패:', error);

@@ -3,8 +3,6 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { bookmarkQueryOptions } from '@/features/bookmark/queries';
 import BookmarkSection from '@/features/bookmark/components/sections/BookmarkSection';
 
-const ITEMS_PER_PAGE = 10;
-
 export default function BookmarkPage() {
   const queryClient = new QueryClient();
 
