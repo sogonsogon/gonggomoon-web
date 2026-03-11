@@ -2,10 +2,12 @@ import { deleteFile, getFiles, uploadFile } from '@/features/file/actions';
 import { UploadFileRequest } from '@/features/file/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const FILE_QUERY_KEY = ['files'];
+export const fileKeys = {
+  all: ['files'],
+};
 
 export const fileQueryOptions = {
-  queryKey: FILE_QUERY_KEY,
+  queryKey: fileKeys.all,
   queryFn: async () => {
     const result = await getFiles();
 
@@ -37,7 +39,7 @@ export function useUploadFile() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: FILE_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: fileKeys.all });
     },
     onError: (error) => {
       console.error('파일 업로드 실패:', error);
@@ -58,7 +60,7 @@ export function useDeleteFile() {
       return result.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: FILE_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: fileKeys.all });
     },
     onError: (error) => {
       console.error('파일 삭제 실패:', error);
