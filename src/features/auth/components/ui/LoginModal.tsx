@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoginModal } from '@/features/auth/stores/useLoginModal';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -10,16 +11,17 @@ import {
 } from '@/shared/components/ui/dialog';
 import { MoonStar, Search, Sparkles, MessagesSquare } from 'lucide-react';
 
-interface LoginModalProps {
-  open: boolean;
-  onClose: () => void;
-}
-
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function LoginModal({ open, onClose }: LoginModalProps) {
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) onClose();
+export default function LoginModal() {
+  const { isDialogOpen, openDialog, closeDialog } = useLoginModal();
+
+  const handleOpenChange = () => {
+    if (isDialogOpen) {
+      closeDialog();
+      return;
+    }
+    openDialog();
   };
 
   const handleLogin = async () => {
@@ -27,7 +29,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="gap-0 overflow-hidden rounded-2xl border-gray-100 p-0 max-w-100">
         <DialogHeader className="flex flex-col items-center gap-3 px-8 pb-7 pt-8">
           <DialogTitle className="flex items-center gap-1.5">
