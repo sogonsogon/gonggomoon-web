@@ -1,7 +1,7 @@
 'use client';
 
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
-import { Strategy, StrategyIndustry } from '@/features/strategy/types';
+import { Strategy, StrategyIndustryType } from '@/features/strategy/types';
 import { formatCreatedDate } from '@/features/strategy/utils/formatCreatedDate';
 import { Button } from '@/shared/components/ui/button';
 import { CalendarIcon, Trash2Icon } from 'lucide-react';
@@ -51,7 +51,7 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
         <div className="flex items-center gap-1.5">
           <CalendarIcon className="h-3 w-3" style={{ color: theme.accentColor }} />
           <span className="text-xs" style={{ color: theme.accentColor }}>
-            {formatCreatedDate(strategy.createdDate)}
+            {formatCreatedDate(strategy.createdAt)}
           </span>
         </div>
       </div>
@@ -73,7 +73,7 @@ type StrategyCardTheme = {
   accentColor: string;
 };
 
-const INDUSTRY_THEMES: Record<StrategyIndustry, StrategyCardTheme> = {
+const INDUSTRY_THEMES: Record<StrategyIndustryType, StrategyCardTheme> = {
   MEDIA_CONTENT: {
     bg: '#e8f3ff',
     titleColor: '#1b64da',
