@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Sparkles, Calendar, Briefcase } from 'lucide-react';
 import { formatDeadline } from '@/shared/utils/formatDeadline';
-import BookmarkButton from '@/features/recruitment/components/ui/BookmarkButton';
+import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 
 interface RecruitmentListItemProps {
   postId: number | string;

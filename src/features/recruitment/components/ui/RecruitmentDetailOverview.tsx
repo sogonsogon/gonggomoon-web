@@ -4,7 +4,7 @@ import type { Recruitment } from '@/features/recruitment/types';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { formatDDay } from '@/shared/utils/formatDDay';
-import BookmarkButton from '@/features/recruitment/components/ui/BookmarkButton';
+import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
 
 interface RecruitmentDetailOverviewProps {
