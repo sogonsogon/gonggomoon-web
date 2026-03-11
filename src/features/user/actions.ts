@@ -9,7 +9,7 @@ export async function getUser(): Promise<ApiResponse<GetUserResponse>> {
   return response;
 }
 
-export async function withdrawUser(): Promise<ApiResponse<null>> {
+export async function deleteUser(): Promise<ApiResponse<null>> {
   const response = await privateFetch<null>('/api/v1/users/me', {
     method: 'DELETE',
   });

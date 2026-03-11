@@ -1,4 +1,4 @@
-import { getUser, withdrawUser } from '@/features/user/actions';
+import { getUser, deleteUser } from '@/features/user/actions';
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 
@@ -27,11 +27,11 @@ export function useUser() {
 }
 
 // 회원 탈퇴
-export function useWithdrawUser() {
+export function useDeleteUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => withdrawUser(),
+    mutationFn: () => deleteUser(),
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ['user'] });
       redirect('/login');
