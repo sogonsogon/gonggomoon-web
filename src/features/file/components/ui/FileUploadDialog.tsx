@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { File, FileCategory } from '@/features/file/types';
-import { useFileUploadDialog } from '@/features/file/hooks/useFileUploadDialog';
+import { useFileUploadDialog } from '@/features/file/stores/useFileUploadDialog';
 import FileUploadArea from '@/features/file/components/ui/FileUploadArea';
 import { Button } from '@/shared/components/ui/button';
 import {

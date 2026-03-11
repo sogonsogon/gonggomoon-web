@@ -16,12 +16,13 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/features/auth/queries';
 import { useUser } from '@/features/user/queries';
+import { useLoginModal } from '@/features/auth/stores/useLoginModal';
 
 export default function ProfileMenu() {
   const { data: user } = useUser();
   const { mutate: logout, isPending } = useLogout();
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { openDialog } = useLoginModal();
 
   const handleLogout = () => {
     if (isPending) return;
@@ -34,7 +35,7 @@ export default function ProfileMenu() {
         <Button
           type="button"
           variant="outline"
-          onClick={() => setIsLoginModalOpen(true)}
+          onClick={openDialog}
           className="cursor-pointer rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
         >
           로그인
@@ -100,7 +101,7 @@ export default function ProfileMenu() {
         </DropdownMenu>
       )}
 
-      <LoginModal open={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      <LoginModal />
     </>
   );
 }
