@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/components/ui/button';
-import { useFileUploadDialog } from '@/features/file/hooks/useFileUploadDialog';
+import { useFileUploadDialog } from '@/features/file/stores/useFileUploadDialog';
 import { FolderOpenIcon } from 'lucide-react';
 
 export default function FileTableEmpty() {
