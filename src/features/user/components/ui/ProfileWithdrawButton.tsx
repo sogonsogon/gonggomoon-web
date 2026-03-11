@@ -11,10 +11,6 @@ interface ProfileWithdrawButtonProps {
 export default function ProfileWithdrawButton({ userEmail }: ProfileWithdrawButtonProps) {
   const [open, setOpen] = useState(false);
 
-  const handleWithdraw = async () => {
-    // TODO: 회원 탈퇴 API 호출 및 리다이렉트
-  };
-
   return (
     <>
       <Button
@@ -25,12 +21,7 @@ export default function ProfileWithdrawButton({ userEmail }: ProfileWithdrawButt
       >
         회원 탈퇴
       </Button>
-      <ProfileWithdrawDialog
-        open={open}
-        onOpenChange={setOpen}
-        userEmail={userEmail}
-        onConfirm={handleWithdraw}
-      />
+      <ProfileWithdrawDialog open={open} onOpenChange={setOpen} userEmail={userEmail} />
     </>
   );
 }

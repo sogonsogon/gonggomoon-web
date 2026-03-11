@@ -1,57 +1,57 @@
-import { MoonStar, Search, Sparkles, MessagesSquare, X } from 'lucide-react';
+'use client';
+
+import { Button } from '@/shared/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/shared/components/ui/dialog';
+import { MoonStar, Search, Sparkles, MessagesSquare } from 'lucide-react';
 
 interface LoginModalProps {
   open: boolean;
   onClose: () => void;
-  onLogin: () => void;
 }
 
-export default function LoginModal({ open, onClose, onLogin }: LoginModalProps) {
-  if (!open) return null;
+const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export default function LoginModal({ open, onClose }: LoginModalProps) {
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) onClose();
+  };
+
+  const handleLogin = async () => {
+    window.location.href = `${BASE_API_URL}/api/v1/auth/social/login/naver`;
+  };
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-      onClick={onClose}
-    >
-      <div
-        className="flex w-100 flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.16)]"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="flex justify-end px-4 pt-4">
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="닫기"
-            className="flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200"
-          >
-            <X className="h-3.5 w-3.5 text-gray-500" />
-          </button>
-        </div>
-
-        <div className="flex flex-col items-center gap-3 px-8 pb-7 pt-2">
-          <div className="flex items-center gap-1.5">
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="gap-0 overflow-hidden rounded-2xl border-gray-100 p-0 max-w-100">
+        <DialogHeader className="flex flex-col items-center gap-3 px-8 pb-7 pt-8">
+          <DialogTitle className="flex items-center gap-1.5">
             <MoonStar className="h-5.5 w-5.5 text-blue-600" />
             <span className="text-xl font-bold text-gray-900">공고문</span>
-          </div>
-          <p className="text-center text-sm text-gray-500">
+          </DialogTitle>
+          <DialogDescription className="text-center text-sm text-gray-500">
             취업 준비의 모든 것, 공고문과 함께하세요
-          </p>
-        </div>
+          </DialogDescription>
+        </DialogHeader>
 
         <div className="h-px bg-gray-100" />
 
         <div className="flex flex-col gap-5 px-8 py-6">
-          <button
+          <Button
             type="button"
-            onClick={onLogin}
+            onClick={handleLogin}
             className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#03a94d] cursor-pointer hover:bg-[#029944]"
           >
             <span className="flex h-4.5 w-4.5 items-center justify-center text-[15px] font-extrabold leading-none text-white">
               N
             </span>
             <span className="text-lg font-semibold tracking-tight text-white">네이버 로그인</span>
-          </button>
+          </Button>
 
           <div className="h-px bg-gray-200" />
 
@@ -77,8 +77,8 @@ export default function LoginModal({ open, onClose, onLogin }: LoginModalProps) 
             동의하게 됩니다.
           </p>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
