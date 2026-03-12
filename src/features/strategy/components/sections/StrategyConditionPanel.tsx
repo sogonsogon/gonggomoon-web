@@ -1,6 +1,6 @@
 'use client';
 
-import { Code, Info, Server, Sparkles, Timer } from 'lucide-react';
+import { Code, Info, Loader2, Server, Sparkles, Timer } from 'lucide-react';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { Switch } from '@/shared/components/ui/switch';
@@ -175,8 +175,17 @@ export default function StrategyConditionPanel() {
         disabled={formData.selectedExperienceIds.length === 0 || isFormLocked}
         className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
       >
-        <Sparkles className="h-4 w-4" />
-        {isFormLocked ? '포트폴리오 전략 생성 중...' : '포트폴리오 전략 생성'}
+        {isFormLocked ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            포트폴리오 전략 생성 중...
+          </>
+        ) : (
+          <>
+            <Sparkles className="h-4 w-4" />
+            포트폴리오 전략 생성
+          </>
+        )}
       </Button>
 
       <div className="flex items-center justify-center gap-1">
