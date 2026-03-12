@@ -1,6 +1,6 @@
 'use client';
 
-import { useExperienceExtractDialog } from '@/features/experience/hooks/useExperienceExtractDialog';
+import { useExperienceExtractDialog } from '@/features/experience/stores/useExperienceExtractDialog';
 import { Button } from '@/shared/components/ui/button';
 
 export default function ExperienceExtractButton() {

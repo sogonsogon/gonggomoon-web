@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useExperienceExtractDialog } from '@/features/experience/hooks/useExperienceExtractDialog';
+import { useExperienceExtractDialog } from '@/features/experience/stores/useExperienceExtractDialog';
 import ExperienceFileEmpty from '@/features/experience/components/ui/ExperienceFileEmpty';
 import ExperienceFileItem from '@/features/experience/components/ui/ExperienceFileItem';
 import { File } from '@/features/file/types';

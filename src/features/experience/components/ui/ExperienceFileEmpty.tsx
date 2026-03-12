@@ -1,6 +1,6 @@
 'use client';
 
-import { useExperienceExtractDialog } from '@/features/experience/hooks/useExperienceExtractDialog';
+import { useExperienceExtractDialog } from '@/features/experience/stores/useExperienceExtractDialog';
 import { FolderOpenIcon } from 'lucide-react';
 import Link from 'next/link';
 
