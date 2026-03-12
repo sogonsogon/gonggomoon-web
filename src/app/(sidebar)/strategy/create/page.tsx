@@ -1,4 +1,3 @@
-import { mockExperiences } from '@/mocks/experience.mock';
 import Title from '@/shared/components/ui/Title';
 import StrategyConditionPanel from '@/features/strategy/components/sections/StrategyConditionPanel';
 import StrategyExperienceSelectionSection from '@/features/strategy/components/sections/StrategyExperienceSelectionSection';
