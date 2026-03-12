@@ -16,7 +16,7 @@ export default function ExperienceDetailDialog({
 }: ExperienceDetailDialogProps) {
   return (
     <Dialog open={!!experience} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-h-[80svh] max-w-125 gap-0 overflow-hidden p-0 [&>button]:cursor-pointer">
+      <DialogContent aria-describedby={undefined} className="max-h-[80svh] max-w-125 gap-0 overflow-hidden p-0 [&>button]:cursor-pointer">
         {experience && (
           <>
             <DialogHeader className="gap-0 border-b border-gray-100 px-6 pb-5 pt-6 text-left">

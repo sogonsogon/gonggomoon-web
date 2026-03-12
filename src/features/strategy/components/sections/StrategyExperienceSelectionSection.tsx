@@ -8,15 +8,12 @@ import StrategyExperienceListItem from '@/features/strategy/components/ui/Strate
 import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
+import { useGetExperienceList } from '@/features/experience/queries';
 
-interface StrategyExperienceSelectionSectionProps {
-  experiences: Experience[];
-}
-
-export default function StrategyExperienceSelectionSection({
-  experiences,
-}: StrategyExperienceSelectionSectionProps) {
+export default function StrategyExperienceSelectionSection() {
+  const { data: experienceData } = useGetExperienceList();
   const [detailExp, setDetailExp] = useState<Experience | null>(null);
+  const experienceList = experienceData?.contents || [];
 
   const formData = useStrategyCreateFormStore((state) => state.formData);
   const updateFormData = useStrategyCreateFormStore((state) => state.updateFormData);
@@ -30,8 +27,8 @@ export default function StrategyExperienceSelectionSection({
   const isFormLocked = submitLoading || generationStatus === 'PROCESSING';
 
   useEffect(() => {
-    initializeSelectedExperienceIds(experiences.map((experience) => experience.id));
-  }, [experiences, initializeSelectedExperienceIds]);
+    initializeSelectedExperienceIds(experienceList?.map((experience) => experience.experienceId));
+  }, [experienceList, initializeSelectedExperienceIds]);
 
   const handleToggleExp = (id: number) => {
     if (isFormLocked) return;
@@ -51,15 +48,15 @@ export default function StrategyExperienceSelectionSection({
     if (isFormLocked) return;
 
     const newExperienceIds =
-      formData.selectedExperienceIds.length === experiences.length
+      formData.selectedExperienceIds.length === experienceList.length
         ? []
-        : experiences.map((experience) => experience.id);
+        : experienceList.map((experience) => experience.experienceId);
 
     updateFormData('selectedExperienceIds', newExperienceIds);
   };
 
   const allSelected =
-    experiences.length > 0 && formData.selectedExperienceIds.length === experiences.length;
+    experienceList.length > 0 && formData.selectedExperienceIds.length === experienceList.length;
 
   return (
     <>
@@ -73,7 +70,7 @@ export default function StrategyExperienceSelectionSection({
           </div>
 
           <div className="flex items-center gap-2">
-            {experiences.length > 0 && (
+            {experienceList.length > 0 && (
               <button
                 type="button"
                 onClick={handleToggleAllExp}
@@ -94,7 +91,7 @@ export default function StrategyExperienceSelectionSection({
           </div>
         </div>
 
-        {experiences.length === 0 ? (
+        {experienceList.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 py-20">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
               <Briefcase className="h-6 w-6 text-gray-400" />
@@ -116,11 +113,11 @@ export default function StrategyExperienceSelectionSection({
           </div>
         ) : (
           <div className="flex flex-col gap-2.5">
-            {experiences.map((experience) => (
+            {experienceList.map((experience) => (
               <StrategyExperienceListItem
-                key={experience.id}
+                key={experience.experienceId}
                 experience={experience}
-                checked={formData.selectedExperienceIds.includes(experience.id)}
+                checked={formData.selectedExperienceIds.includes(experience.experienceId)}
                 onToggle={handleToggleExp}
                 onDetailClick={setDetailExp}
                 disabled={isFormLocked}
