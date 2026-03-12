@@ -18,7 +18,10 @@ export async function uploadFile(
   payload: UploadFileRequest,
 ): Promise<ApiResponse<UploadFileResponse>> {
   const formData = new FormData();
-  formData.append('category', payload.category);
+  formData.append(
+    'request',
+    new Blob([JSON.stringify({ category: payload.category })], { type: 'application/json' }),
+  );
   formData.append('file', payload.file);
 
   const response = await privateFetch<UploadFileResponse>('/api/v1/uploads/experiences', {
@@ -29,11 +32,8 @@ export async function uploadFile(
 }
 
 export async function deleteFile({ fileAssetId }: DeleteFileRequest): Promise<ApiResponse<null>> {
-  const response = await privateFetch<null>(
-    `/api/v1/uploads/experiences?fileAssetId=${fileAssetId}`,
-    {
-      method: 'DELETE',
-    },
-  );
+  const response = await privateFetch<null>(`/api/v1/uploads/experiences/${fileAssetId}`, {
+    method: 'DELETE',
+  });
   return response;
 }

@@ -20,10 +20,10 @@ export default function ExperienceFileItem({
 }: ExperienceFileItemProps) {
   return (
     <Button
-      key={file.fileId}
+      key={file.fileAssetId}
       type="button"
       variant="outline"
-      onClick={() => !isDisabled && handleToggleFile(file.fileId)}
+      onClick={() => !isDisabled && handleToggleFile(file.fileAssetId)}
       disabled={isDisabled}
       className={`flex h-auto w-full items-center gap-3 rounded-xl border px-4 py-3.5 text-left transition-colors hover:bg-blue-100 ${
         isSelected
@@ -59,7 +59,9 @@ export default function ExperienceFileItem({
 
       {/* 파일 정보 */}
       <div className="flex flex-1 flex-col gap-0.5 overflow-hidden">
-        <span className="truncate text-[14px] font-medium text-gray-900">{file.title}</span>
+        <span className="truncate text-[14px] font-medium text-gray-900">
+          {file.originalFileName}
+        </span>
         <span className="text-[12px] text-gray-400">
           {formatFileSize(file.sizeBytes)} · {formatDate(file.createdAt)}
         </span>

@@ -11,6 +11,7 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { useDeleteFile } from '@/features/file/queries';
 import { File } from '@/features/file/types';
+import { toast } from 'sonner';
 
 interface FileDeleteDialogProps {
   file: File;
@@ -24,7 +25,14 @@ export default function FileDeleteDialog({ file, open, onOpenChange }: FileDelet
   // 파일 삭제
   const handleDelete = () => {
     if (isPending) return;
-    deleteFile(file.fileAssetId);
+    deleteFile(file.fileAssetId, {
+      onSuccess: () => {
+        toast.success(`${file.originalFileName} 파일이 삭제되었습니다.`);
+      },
+      onError: () => {
+        toast.error('파일 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      },
+    });
     onOpenChange(false);
   };
 
