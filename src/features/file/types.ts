@@ -1,9 +1,9 @@
 export type FileCategory = 'RESUME' | 'PORTFOLIO' | 'OTHER';
 
 export type File = {
-  fileId: number;
+  fileAssetId: number;
   category: FileCategory;
-  title: string;
+  originalFileName: string;
   sizeBytes: number;
   createdAt: string;
 };
