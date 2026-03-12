@@ -32,12 +32,12 @@ export default function FileTableRow({ file }: FileTableRowProps) {
       {/* 파일 제목 */}
       <TableCell className="px-4 py-3.5">
         <div className="flex items-center gap-2">
-          {isPdf(file.title) ? (
+          {isPdf(file.originalFileName) ? (
             <FileTextIcon className="h-4 w-4 shrink-0 text-gray-500" />
           ) : (
             <FileIcon className="h-4 w-4 shrink-0 text-gray-500" />
           )}
-          <span className="text-sm font-medium text-gray-900">{file.title}</span>
+          <span className="text-sm font-medium text-gray-900">{file.originalFileName}</span>
         </div>
       </TableCell>
 

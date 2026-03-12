@@ -13,16 +13,6 @@ interface FileDeleteButtonProps {
 export default function FileDeleteButton({ file }: FileDeleteButtonProps) {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-  const handleOpenDialog = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-    setIsDialogOpen(true);
-  };
-
-  const handleDeleteFile = async () => {
-    // TODO: 파일 삭제 API 호출
-  };
-
   return (
     <>
       <Button
@@ -34,12 +24,7 @@ export default function FileDeleteButton({ file }: FileDeleteButtonProps) {
       >
         <Trash2Icon className="h-4 w-4" />
       </Button>
-      <FileDeleteDialog
-        fileName={file.title}
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        onConfirm={handleDeleteFile}
-      />
+      <FileDeleteDialog file={file} open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </>
   );
 }
