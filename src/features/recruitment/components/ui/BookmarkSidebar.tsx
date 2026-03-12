@@ -1,22 +1,23 @@
+'use client';
+
 import Link from 'next/link';
 import { Bookmark as BookmarkIcon, ChevronRight } from 'lucide-react';
-import type { Bookmark } from '@/features/bookmark/types';
 import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
+import { useUser } from '@/features/user/queries';
+import { useBookmarks } from '@/features/bookmark/queries';
 
-interface BookmarkSidebarProps {
-  isLoggedIn: boolean;
-  bookmarks: Bookmark[];
-}
+export default function BookmarkSidebar() {
+  const { data: user } = useUser();
+  const { data: bookmarks } = useBookmarks();
 
-export default function BookmarkSidebar({ isLoggedIn, bookmarks }: BookmarkSidebarProps) {
-  const hasBookmarks = bookmarks.length > 0;
+  const hasBookmarks = bookmarks && bookmarks.length > 0;
 
   return (
     <div className="flex w-80 shrink-0 flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-gray-900">북마크한 공고</span>
 
-        {isLoggedIn && hasBookmarks && (
+        {user && hasBookmarks && (
           <Link
             href="/my/bookmark"
             className="flex items-center gap-1 text-[13px] text-gray-500 hover:text-gray-700"
@@ -27,7 +28,7 @@ export default function BookmarkSidebar({ isLoggedIn, bookmarks }: BookmarkSideb
         )}
       </div>
 
-      {!isLoggedIn ? (
+      {!user ? (
         <BookmarkSidebarState
           title="로그인 후 북마크를 저장할 수 있어요"
           description="로그인하면 관심 공고를 모아보고 빠르게 확인할 수 있어요"

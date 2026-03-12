@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { Bookmark } from 'lucide-react';
+import { useUser } from '@/features/user/queries';
+import { useLoginModal } from '@/features/auth/stores/useLoginModal';
+import { useAddBookmark, useDeleteBookmark } from '@/features/bookmark/queries';
 
 interface BookmarkButtonProps {
   postId: number | string;
@@ -16,6 +19,12 @@ export default function BookmarkButton({
   disabled = false,
   variant = 'default',
 }: BookmarkButtonProps) {
+  const { data: user } = useUser();
+  const { mutate: addBookmark } = useAddBookmark();
+  const { mutate: deleteBookmark } = useDeleteBookmark();
+
+  const { openDialog } = useLoginModal();
+
   const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
 
   const isIconOnly = variant === 'icon';
@@ -24,13 +33,23 @@ export default function BookmarkButton({
     event.preventDefault();
     event.stopPropagation();
 
-    setIsBookmarked((prev) => !prev);
+    // 비로그인 사용자인 경우 로그인 모달 open
+    if (!user) {
+      openDialog();
+      return;
+    }
 
-    // TODO:
-    // 1) 비로그인 사용자인 경우 로그인 모달 open
-    // 2) 로그인 사용자인 경우 북마크 토글 API 연결
-    // 3) API 실패 시 optimistic update rollback 처리
-    console.log('bookmark toggle', postId);
+    // 로그인 사용자인 경우 북마크 토글 API 연결
+    setIsBookmarked((prev) => !prev);
+    if (!isBookmarked) {
+      addBookmark(Number(postId), {
+        onError: () => setIsBookmarked(false),
+      });
+    } else {
+      deleteBookmark(Number(postId), {
+        onError: () => setIsBookmarked(true),
+      });
+    }
   };
 
   return (

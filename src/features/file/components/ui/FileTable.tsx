@@ -45,7 +45,7 @@ export default function FileTable({ files }: FileTableProps) {
               </TableCell>
             </TableRow>
           ) : (
-            files.map((file) => <FileTableRow key={file.fileId} file={file} />)
+            files.map((file) => <FileTableRow key={file.fileAssetId} file={file} />)
           )}
         </TableBody>
       </Table>

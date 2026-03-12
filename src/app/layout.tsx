@@ -4,6 +4,8 @@ import '@/app/globals.css';
 import Header from '@/shared/components/layout/Header';
 import QueryProvider from '@/shared/provider/QueryProvider';
 import { Toaster } from 'sonner';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { userQueryOptions } from '@/features/user/queries';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,18 +19,22 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(userQueryOptions);
   return (
     <html lang="ko" className={`${pretendard.variable} ${pretendard.className}`}>
       <body>
         <QueryProvider>
-          <Header />
-          {children}
-          <Toaster richColors position="top-right" />
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <Header />
+            {children}
+            <Toaster richColors position="top-right" />
+          </HydrationBoundary>
         </QueryProvider>
       </body>
     </html>

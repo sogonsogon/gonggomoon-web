@@ -9,7 +9,7 @@ export default function ExperiencePage() {
   const files = mockFiles;
 
   return (
-    <div className="flex min-h-screen flex-col w-full bg-white">
+    <div className="flex flex-col w-full bg-white">
       {/* 메인 영역 */}
       <div className="flex flex-1 flex-col gap-8">
         {/* 페이지 타이틀 */}

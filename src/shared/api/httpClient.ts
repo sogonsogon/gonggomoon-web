@@ -36,11 +36,18 @@ export async function privateFetch<T>(
   // }
 
   try {
+    const defaultHeaders: Record<string, string> = {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+    };
+
+    if (!(options.body instanceof FormData)) {
+      defaultHeaders['Content-Type'] = 'application/json';
+    }
+
     const response = await fetch(`${BASE_API_URL}${endpoint}`, {
       ...options,
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        ...defaultHeaders,
         ...options.headers,
       },
     });
