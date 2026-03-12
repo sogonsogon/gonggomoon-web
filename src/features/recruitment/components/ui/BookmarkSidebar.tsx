@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { Bookmark as BookmarkIcon, ChevronRight } from 'lucide-react';
 import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 import { useUser } from '@/features/user/queries';
-import { useBookmarks } from '@/features/bookmark/queries';
+import { useGetBookmarks } from '@/features/bookmark/queries';
 
 export default function BookmarkSidebar() {
   const { data: user } = useUser();
-  const { data: bookmarks } = useBookmarks();
+  const { data: bookmarks } = useGetBookmarks();
 
   const hasBookmarks = bookmarks && bookmarks.length > 0;
 
