@@ -2,7 +2,7 @@
 
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { Strategy, StrategyIndustryType } from '@/features/strategy/types';
-import { formatCreatedDate } from '@/features/strategy/utils/formatCreatedDate';
+import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
 import { Button } from '@/shared/components/ui/button';
 import { CalendarIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';

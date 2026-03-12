@@ -2,8 +2,8 @@ import { CircleCheck, Code, Layers, Server } from 'lucide-react';
 import type { StrategyDetail } from '@/features/strategy/types';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
-import { formatHistoryDate } from '@/shared/utils/formatHistoryDate';
 import StrategyDeleteButton from '@/features/strategy/components/ui/StrategyDeleteButton';
+import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
 
 interface StrategyMetaBarProps {
   strategy: StrategyDetail;
@@ -64,8 +64,4 @@ export default function StrategyMetaBar({ strategy }: StrategyMetaBarProps) {
       </div>
     </div>
   );
-}
-
-function formatCreatedDate(iso: string): string {
-  return `${formatHistoryDate(iso)} 생성`;
 }
