@@ -17,3 +17,9 @@ export type GenerationRequestState = {
   error: string | null;
   createdAt: number;
 };
+
+export type GetGenerationStatusResponse = {
+  id: number;
+  status: GenerationRequestStatus;
+  error: string | null;
+};
