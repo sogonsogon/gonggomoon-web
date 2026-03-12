@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import '@/app/globals.css';
 import Header from '@/shared/components/layout/Header';
 import QueryProvider from '@/shared/provider/QueryProvider';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -27,6 +28,7 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           {children}
+          <Toaster richColors position="top-right" />
         </QueryProvider>
       </body>
     </html>
