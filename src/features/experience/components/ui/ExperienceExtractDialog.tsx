@@ -96,11 +96,11 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
             {/* 파일 리스트 */}
             <div className="flex flex-col gap-2 py-2">
               {files.map((file) => {
-                const isSelected = selectedFileIds.has(file.fileId);
+                const isSelected = selectedFileIds.has(file.fileAssetId);
                 const isDisabled = !isSelected && selectedFileIds.size >= MAX_FILE_SELECTIONS;
                 return (
                   <ExperienceFileItem
-                    key={file.fileId}
+                    key={file.fileAssetId}
                     file={file}
                     isSelected={isSelected}
                     isDisabled={isDisabled}
