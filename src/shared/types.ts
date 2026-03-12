@@ -5,3 +5,21 @@ export interface HistorySidebarItem {
 }
 
 export type GenerationStatus = 'READY' | 'PROCESSING' | 'FAILED';
+
+export type GenerationRequestType = 'EXPERIENCE_EXTRACTION' | 'STRATEGY' | 'INTERVIEW';
+
+export type GenerationRequestStatus = 'PROCESSING' | 'FAILED' | 'COMPLETED';
+
+export type GenerationRequestState = {
+  id: number;
+  type: GenerationRequestType;
+  status: GenerationRequestStatus;
+  error: string | null;
+  createdAt: number;
+};
+
+export type GetGenerationStatusResponse = {
+  id: number;
+  status: GenerationRequestStatus;
+  error: string | null;
+};

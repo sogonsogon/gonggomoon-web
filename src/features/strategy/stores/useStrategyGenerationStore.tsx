@@ -24,6 +24,8 @@ export const useStrategyGenerationStore = create<StrategyGenerationStore>((set) 
   startSubmit: () =>
     set({
       submitLoading: true,
+      generationStatus: 'READY',
+      currentStrategyId: null,
       error: null,
     }),
 
@@ -39,6 +41,7 @@ export const useStrategyGenerationStore = create<StrategyGenerationStore>((set) 
     set({
       submitLoading: false,
       generationStatus: 'FAILED',
+      currentStrategyId: null,
       error,
     }),
 

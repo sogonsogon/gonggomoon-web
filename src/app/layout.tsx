@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import '@/app/globals.css';
 import Header from '@/shared/components/layout/Header';
 import QueryProvider from '@/shared/provider/QueryProvider';
+import { Toaster } from 'sonner';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { userQueryOptions } from '@/features/user/queries';
 
@@ -32,6 +33,7 @@ export default async function RootLayout({
           <HydrationBoundary state={dehydrate(queryClient)}>
             <Header />
             {children}
+            <Toaster richColors position="top-right" />
           </HydrationBoundary>
         </QueryProvider>
       </body>

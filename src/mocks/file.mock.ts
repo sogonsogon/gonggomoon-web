@@ -24,4 +24,11 @@ export const mockFiles: File[] = [
     sizeBytes: 512_400,
     createdAt: '2026-02-22T12:00:00.000Z',
   },
+  {
+    fileAssetId: 4,
+    category: 'PORTFOLIO',
+    originalFileName: '포트폴리오_김수연2_2026Q2.pdf',
+    sizeBytes: 1_245_992,
+    createdAt: '2026-02-21T03:10:00.000Z',
+  },
 ];
