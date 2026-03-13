@@ -40,7 +40,7 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
   const filteredRecruitments = recruitments.filter((item) => {
     const matchesSearch =
       !normalizedSearch ||
-      item.title.toLowerCase().includes(normalizedSearch) ||
+      item.postTitle.toLowerCase().includes(normalizedSearch) ||
       item.companyName.toLowerCase().includes(normalizedSearch);
 
     return matchesSearch;
