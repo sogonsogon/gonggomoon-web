@@ -28,7 +28,7 @@ export type RecruitmentAnalysis = {
 
 export type Recruitment = {
   postId: number;
-  title: string;
+  companyId: number;
   companyName: string;
   platformName: string;
   postTitle: string;
