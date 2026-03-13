@@ -1,10 +1,12 @@
-import { mockExperiences } from '@/mocks/experience.mock';
 import Title from '@/shared/components/ui/Title';
 import StrategyConditionPanel from '@/features/strategy/components/sections/StrategyConditionPanel';
 import StrategyExperienceSelectionSection from '@/features/strategy/components/sections/StrategyExperienceSelectionSection';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { experienceListQueryOptions } from '@/features/experience/queries';
 
 export default async function StrategyCreatePage() {
-  const experiences = mockExperiences;
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(experienceListQueryOptions());
 
   return (
     <div className="flex flex-col gap-8 bg-white font-sans">
@@ -15,7 +17,9 @@ export default async function StrategyCreatePage() {
         />
 
         <div className="flex items-start gap-6">
-          <StrategyExperienceSelectionSection experiences={experiences} />
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <StrategyExperienceSelectionSection />
+          </HydrationBoundary>
 
           <StrategyConditionPanel />
         </div>

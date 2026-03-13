@@ -1,22 +1,31 @@
 'use client';
 import ProfileCard from '@/features/user/components/ui/ProfileCard';
+import ProfileError from '@/features/user/components/ui/ProfileError';
+import ProfileLoading from '@/features/user/components/ui/ProfileLoading';
 import ProfileLogoutButton from '@/features/user/components/ui/ProfileLogoutButton';
 import ProfileWithdrawButton from '@/features/user/components/ui/ProfileWithdrawButton';
 import { useUser } from '@/features/user/queries';
-import { mockUser } from '@/mocks/auth.mock';
 
 export default function ProfileSection() {
-  const { data: user } = useUser();
+  const { data: user, isLoading, isError, error } = useUser();
+
+  if (isLoading) {
+    return <ProfileLoading />;
+  }
+
+  if (isError) {
+    return <ProfileError errorMessage={error.message} />;
+  }
 
   return (
     <>
       {/* 프로필 카드 */}
-      <ProfileCard />
+      <ProfileCard user={user!} />
 
       {/* 액션 버튼 */}
       <div className="flex items-center gap-3">
         <ProfileLogoutButton />
-        <ProfileWithdrawButton userEmail={user!.email} />
+        {user && <ProfileWithdrawButton userEmail={user.email} />}
       </div>
     </>
   );
