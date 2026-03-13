@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { Code, Info, Loader2, Server, Sparkles, Timer } from 'lucide-react';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
@@ -19,13 +21,20 @@ import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreate
 import { Button } from '@/shared/components/ui/button';
 
 export default function StrategyConditionPanel() {
+  const router = useRouter();
+
   const formData = useStrategyCreateFormStore((state) => state.formData);
   const updateFormData = useStrategyCreateFormStore((state) => state.updateFormData);
 
   const submitLoading = useStrategyGenerationStore((state) => state.submitLoading);
-  const generationStatus = useStrategyGenerationStore((state) => state.generationStatus);
+  const requests = useStrategyGenerationStore((state) => state.requests);
+  const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
 
-  const isFormLocked = submitLoading || generationStatus === 'PROCESSING';
+  const isFormLocked = submitLoading;
+
+  const processingCount = useMemo(() => {
+    return requestOrder.filter((id) => requests[id]?.status === 'PROCESSING').length;
+  }, [requestOrder, requests]);
 
   const handleJobChange = (job: StrategyJobType) => {
     if (isFormLocked) return;
@@ -43,9 +52,14 @@ export default function StrategyConditionPanel() {
   };
 
   const handleGenerateClick = async () => {
+    if (formData.selectedExperienceIds.length === 0 || isFormLocked) return;
+
     try {
-      await startStrategyGeneration();
-    } catch {}
+      const response = await startStrategyGeneration();
+      router.push(`/strategy/result/${response.strategyId}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -175,10 +189,10 @@ export default function StrategyConditionPanel() {
         disabled={formData.selectedExperienceIds.length === 0 || isFormLocked}
         className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
       >
-        {isFormLocked ? (
+        {submitLoading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />
-            포트폴리오 전략 생성 중...
+            전략 생성 요청 중...
           </>
         ) : (
           <>
@@ -188,10 +202,19 @@ export default function StrategyConditionPanel() {
         )}
       </Button>
 
-      <div className="flex items-center justify-center gap-1">
-        <Timer className="h-3 w-3 text-gray-400" />
-        <span className="text-[11px] text-gray-400">생성 후 자동 저장 · 결과 페이지로 이동</span>
-      </div>
+      {processingCount > 0 ? (
+        <div className="flex items-center justify-center gap-1">
+          <Timer className="h-3 w-3 text-gray-400" />
+          <span className="text-[11px] text-gray-400">
+            현재 생성 중인 전략 {processingCount}건 · 추가 생성은 가능합니다.
+          </span>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center gap-1">
+          <Timer className="h-3 w-3 text-gray-400" />
+          <span className="text-[11px] text-gray-400">생성 후 자동 저장 · 결과 페이지로 이동</span>
+        </div>
+      )}
     </div>
   );
 }
