@@ -1,31 +1,39 @@
 import { addBookmark, deleteBookmark, getBookmarks } from '@/features/bookmark/actions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Bookmark } from '@/features/bookmark/types';
 
 export const bookmarkKeys = {
-  all: ['bookmarks'] as const,
+  all: ['bookmark'] as const,
 };
 
-export const bookmarkQueryOptions = {
-  queryKey: bookmarkKeys.all,
-  queryFn: async () => {
-    const result = await getBookmarks();
+export function bookmarkQueryOptions() {
+  return {
+    queryKey: bookmarkKeys.all,
+    queryFn: async (): Promise<Bookmark[]> => {
+      const result = await getBookmarks();
 
-    if (!result.success) {
-      return Promise.reject(result);
-    }
+      if (!result.success) {
+        return Promise.reject(result);
+      }
 
-    return result.data;
-  },
-  // 1분
-  staleTime: 60 * 1000,
-};
-
-// 북마크 목록 조회
-export function useGetBookmarks() {
-  return useQuery(bookmarkQueryOptions);
+      return result.data;
+    },
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 30,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  };
 }
 
-// 북마크 추가(생성)
+// 북마크 목록 조회
+export function useGetBookmarks(enabled = true) {
+  return useQuery({
+    ...bookmarkQueryOptions(),
+    enabled,
+  });
+}
+
+// 북마크 추가
 export function useAddBookmark() {
   const queryClient = useQueryClient();
 
@@ -62,11 +70,28 @@ export function useDeleteBookmark() {
 
       return result.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: bookmarkKeys.all });
+
+    onMutate: async (postId) => {
+      await queryClient.cancelQueries({ queryKey: bookmarkKeys.all });
+
+      const previousBookmarks = queryClient.getQueryData<Bookmark[]>(bookmarkKeys.all);
+
+      queryClient.setQueryData<Bookmark[]>(bookmarkKeys.all, (old = []) =>
+        old.filter((item) => item.postId !== postId),
+      );
+
+      return { previousBookmarks };
     },
-    onError: (error) => {
+
+    onError: (error, _variables, context) => {
+      if (context?.previousBookmarks) {
+        queryClient.setQueryData(bookmarkKeys.all, context.previousBookmarks);
+      }
       console.error('북마크 삭제 실패:', error);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: bookmarkKeys.all });
     },
   });
 }
