@@ -51,7 +51,15 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
       {filteredRecruitments.length === 0 ? (
         <RecruitmentEmptyState search={search} />
       ) : (
-        <RecruitmentList recruitments={filteredRecruitments} />
+        <div className="flex flex-1 flex-col">
+          <div className="mb-4 flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-900">
+              <span className="text-blue-500">{filteredRecruitments.length}개</span>의 공고가
+              열려있어요.
+            </span>
+          </div>
+          <RecruitmentList recruitments={filteredRecruitments} />
+        </div>
       )}
     </section>
   );
