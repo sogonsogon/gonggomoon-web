@@ -196,12 +196,14 @@ export default function ExperienceCardForm({
             <span className="shrink-0 text-[13px] font-semibold text-gray-600">기간</span>
             <MonthYearPicker
               value={stringToDate(draft.startDate)}
-              onChange={(date) => handleUpdateDraft('startDate', dateToString(date))}
+              onChange={(date) => handleUpdateDraft('startDate', date ? dateToString(date) : '')}
             />
             <span className="text-gray-400">–</span>
             <MonthYearPicker
               value={stringToDate(draft.endDate ?? '')}
-              onChange={(date) => handleUpdateDraft('endDate', dateToString(date))}
+              onChange={(date) =>
+                setDraft((prev) => ({ ...prev, endDate: date ? dateToString(date) : null }))
+              }
               placeholder="YYYY.MM (미입력 시 현재)"
               className="w-52"
             />
