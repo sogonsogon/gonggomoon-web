@@ -5,9 +5,11 @@ import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 
 export function createStrategyHistoryItems(strategies: Strategy[]): HistorySidebarItem[] {
-  return strategies.map((strategy) => ({
-    title: `${JOB_LABEL_MAP[strategy.jobType]} · ${INDUSTRY_LABEL_MAP[strategy.industryType]}`,
-    date: formatHistoryDate(strategy.createdAt),
-    href: `/strategy/result/${strategy.strategyId}`,
-  }));
+  return [...strategies]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .map((strategy) => ({
+      title: `${JOB_LABEL_MAP[strategy.jobType]} · ${INDUSTRY_LABEL_MAP[strategy.industryType]}`,
+      date: formatHistoryDate(strategy.createdAt),
+      href: `/strategy/result/${strategy.strategyId}`,
+    }));
 }
