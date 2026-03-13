@@ -7,7 +7,7 @@ import FileSection from '@/features/file/components/sections/FileSection';
 export default async function FilePage() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(fileQueryOptions);
+  await queryClient.prefetchQuery(fileQueryOptions());
 
   return (
     <div className="flex flex-col w-full bg-white">

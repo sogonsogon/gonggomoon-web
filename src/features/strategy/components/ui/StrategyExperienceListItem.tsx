@@ -6,6 +6,7 @@ import {
   EXP_BADGE_CHECKED,
   EXP_BADGE_UNCHECKED,
 } from '@/features/experience/constants/experienceBadgeStyles';
+import { useGetExperience } from '@/features/experience/queries';
 
 interface StrategyExperienceListItemProps {
   experience: Experience;
@@ -22,9 +23,11 @@ export default function StrategyExperienceListItem({
   onDetailClick,
   disabled = false,
 }: StrategyExperienceListItemProps) {
+  const { data: experienceDetail, isLoading } = useGetExperience(experience.experienceId);
+
   function handleToggle() {
     if (disabled) return;
-    onToggle(experience.id);
+    onToggle(experience.experienceId);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
@@ -86,11 +89,11 @@ export default function StrategyExperienceListItem({
 
       <button
         type="button"
-        disabled={disabled}
+        disabled={disabled || isLoading}
         onClick={(e) => {
           e.stopPropagation();
           if (disabled) return;
-          onDetailClick(experience);
+          onDetailClick(experienceDetail!);
         }}
         className={`inline-flex h-8 shrink-0 items-center gap-1 rounded-md border px-2.5 text-[11px] leading-none font-medium ${
           checked ? 'border-[#90c2ff] text-[#2272eb]' : 'border-gray-200 text-gray-500'
