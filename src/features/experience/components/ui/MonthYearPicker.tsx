@@ -23,7 +23,7 @@ const MONTHS = [
 
 interface MonthYearPickerProps {
   value: Date | null;
-  onChange: (date: Date) => void;
+  onChange: (date: Date | null) => void;
   placeholder?: string;
   className?: string;
 }
@@ -39,6 +39,11 @@ export default function MonthYearPicker({
 
   const handleMonthSelect = (monthIndex: number) => {
     onChange(new Date(viewYear, monthIndex, 1));
+    setOpen(false);
+  };
+
+  const handleReset = () => {
+    onChange(null);
     setOpen(false);
   };
 
@@ -71,7 +76,7 @@ export default function MonthYearPicker({
           <button
             type="button"
             onClick={() => setViewYear((y) => y - 1)}
-            className="rounded p-1 hover:bg-gray-100"
+            className="rounded p-1 hover:bg-gray-100 cursor-pointer"
             aria-label="이전 연도"
           >
             <ChevronLeftIcon className="h-4 w-4 text-gray-600" />
@@ -80,7 +85,7 @@ export default function MonthYearPicker({
           <button
             type="button"
             onClick={() => setViewYear((y) => y + 1)}
-            className="rounded p-1 hover:bg-gray-100"
+            className="rounded p-1 hover:bg-gray-100 cursor-pointer"
             aria-label="다음 연도"
           >
             <ChevronRightIcon className="h-4 w-4 text-gray-600" />
@@ -98,7 +103,7 @@ export default function MonthYearPicker({
                 type="button"
                 onClick={() => handleMonthSelect(i)}
                 className={cn(
-                  'rounded-md py-1.5 text-[12px] font-medium transition-colors',
+                  'rounded-md py-1.5 text-[12px] font-medium transition-colors cursor-pointer',
                   isSelected ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100',
                 )}
               >
@@ -107,6 +112,19 @@ export default function MonthYearPicker({
             );
           })}
         </div>
+
+        {/* Reset */}
+        {value && (
+          <div className="mt-2 border-t pt-2">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="w-full rounded-md py-1 text-[12px] text-gray-500 hover:bg-gray-100 cursor-pointer"
+            >
+              선택 초기화
+            </button>
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   );
