@@ -4,9 +4,9 @@ import { formatDeadline } from '@/shared/utils/formatDeadline';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 
 interface RecruitmentListItemProps {
-  postId: number | string;
+  postId: number;
   title: string;
-  deadline: string | null | undefined;
+  dueDate: string | null | undefined;
   experienceLevel: number | undefined;
   companyName: string;
   analysisSummary?: string | null;
@@ -16,7 +16,7 @@ interface RecruitmentListItemProps {
 export default function RecruitmentListItem({
   postId,
   title,
-  deadline,
+  dueDate,
   experienceLevel,
   companyName,
   analysisSummary,
@@ -40,7 +40,7 @@ export default function RecruitmentListItem({
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-gray-400" />
-              <span className="text-xs text-gray-500">{formatDeadline(deadline)}</span>
+              <span className="text-xs text-gray-500">{formatDeadline(dueDate)}</span>
             </div>
 
             <div className="flex items-center gap-1">

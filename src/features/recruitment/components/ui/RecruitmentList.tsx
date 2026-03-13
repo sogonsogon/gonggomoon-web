@@ -1,26 +1,38 @@
-import { Recruitment } from '@/features/recruitment/types';
+'use client';
+
+import { useMemo } from 'react';
 import RecruitmentListItem from '@/features/recruitment/components/ui/RecruitmentListItem';
+import type { Recruitment } from '@/features/recruitment/types';
+import { useUser } from '@/features/user/queries';
+import { useGetBookmarks } from '@/features/bookmark/queries';
 
 interface RecruitmentListProps {
   recruitments: Recruitment[];
 }
 
 export default function RecruitmentList({ recruitments }: RecruitmentListProps) {
+  const { data: user } = useUser();
+  const { data: bookmarks = [] } = useGetBookmarks(!!user);
+
+  const bookmarkedPostIds = useMemo(
+    () => new Set(bookmarks.map((bookmark) => bookmark.postId)),
+    [bookmarks],
+  );
+
   return (
-    <div className="flex flex-col">
-      {recruitments.map((job) => {
-        return (
-          <RecruitmentListItem
-            key={job.postId}
-            postId={job.postId}
-            title={job.title}
-            deadline={job.deadline}
-            experienceLevel={job.experienceLevel}
-            companyName={job.companyName}
-            analysisSummary={job.analysisSummary}
-          />
-        );
-      })}
+    <div className="flex flex-col divide-y divide-gray-100 rounded-2xl border border-gray-100 bg-white">
+      {recruitments.map((item) => (
+        <RecruitmentListItem
+          key={item.postId}
+          postId={item.postId}
+          title={item.postTitle}
+          deadline={item.dueDate}
+          experienceLevel={item.experienceLevel}
+          companyName={item.companyName}
+          analysisSummary={item.analysisSummary}
+          isBookmarked={bookmarkedPostIds.has(item.postId)}
+        />
+      ))}
     </div>
   );
 }

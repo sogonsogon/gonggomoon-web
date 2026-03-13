@@ -1,24 +1,26 @@
+'use client';
+
 import Link from 'next/link';
 import { Briefcase, Building2, ExternalLink, Lightbulb, Timer } from 'lucide-react';
-import type { Recruitment } from '@/features/recruitment/types';
+import type { RecruitmentDetail } from '@/features/recruitment/types';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
+import { useUser } from '@/features/user/queries';
+import { useGetBookmarks } from '@/features/bookmark/queries';
 
 interface RecruitmentDetailOverviewProps {
-  recruitment: Recruitment;
-  companyName?: string;
-  initialBookmarked?: boolean;
+  recruitment: RecruitmentDetail;
 }
 
-export default function RecruitmentDetailOverview({
-  recruitment,
-  companyName,
-  initialBookmarked = false,
-}: RecruitmentDetailOverviewProps) {
-  const dDayInfo = formatDDay(recruitment.deadline);
+export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDetailOverviewProps) {
+  const { data: user } = useUser();
+  const { data: bookmarks = [] } = useGetBookmarks(!!user);
+
+  const isBookmarked = bookmarks.some((item) => item.postId === recruitment.postId);
+
+  const dDayInfo = formatDDay(recruitment.dueDate);
   const dDayStyle = DDAY_VARIANT_CLASS[dDayInfo.variant];
 
   const experienceLabel =
@@ -37,20 +39,18 @@ export default function RecruitmentDetailOverview({
             href={`/company/${recruitment.companyId}`}
             className="text-[13px] font-semibold text-blue-600"
           >
-            {companyName ?? '기업명'}
+            {recruitment.companyName ?? '기업명'}
           </Link>
         </div>
 
         <span className="text-[13px] text-gray-400">·</span>
 
-        <span className="text-[13px] text-gray-600">
-          {recruitment.industryType ? INDUSTRY_LABEL_MAP[recruitment.industryType] : ''}
-        </span>
+        <span className="text-[13px] text-gray-600">{recruitment.industryName}</span>
       </div>
 
-      {recruitment.url && (
+      {recruitment.postUrl && (
         <Link
-          href={recruitment.url}
+          href={recruitment.postUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-fit items-center gap-1.5"
@@ -62,10 +62,12 @@ export default function RecruitmentDetailOverview({
 
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h1 className="text-[28px] font-bold leading-tight text-gray-900">{recruitment.title}</h1>
+          <h1 className="text-[28px] font-bold leading-tight text-gray-900">
+            {recruitment.postTitle}
+          </h1>
         </div>
 
-        <BookmarkButton postId={recruitment.postId} initialBookmarked={initialBookmarked} />
+        <BookmarkButton postId={recruitment.postId} isBookmarked={isBookmarked} />
       </div>
 
       <div className="flex flex-wrap items-center gap-4">

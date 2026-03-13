@@ -12,7 +12,7 @@ interface CompanyRecruitmentListItemProps {
 export default function CompanyRecruitmentListItem({
   recruitment,
 }: CompanyRecruitmentListItemProps) {
-  const dDay = formatDDay(recruitment.deadline);
+  const dDay = formatDDay(recruitment.dueDate);
   const dDayStyle = DDAY_VARIANT_CLASS[dDay.variant];
 
   return (
@@ -22,7 +22,7 @@ export default function CompanyRecruitmentListItem({
     >
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-2">
-          <span className="text-[14px] font-semibold text-gray-900">{recruitment.title}</span>
+          <span className="text-[14px] font-semibold text-gray-900">{recruitment.postTitle}</span>
 
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 rounded-md bg-blue-50 px-2 py-0.5">
@@ -36,7 +36,7 @@ export default function CompanyRecruitmentListItem({
               <span className="text-[11px] font-medium text-gray-600">{'경력'}</span>
             </div>
 
-            {recruitment.deadline ? (
+            {recruitment.dueDate ? (
               <div className="flex items-center gap-1">
                 <Timer className={`h-3 w-3 ${dDayStyle.icon}`} />
                 <span className={`text-[11px] font-medium ${dDayStyle.label}`}>{dDay.label}</span>

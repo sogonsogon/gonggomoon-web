@@ -2,10 +2,13 @@ import { TABS, TabValue } from '@/features/recruitment/constants/tabs';
 import Banner from '@/features/recruitment/components/ui/Banner';
 import CategoryTabs from '@/features/recruitment/components/ui/CategoryTabs';
 import RecruitmentListSection from '@/features/recruitment/components/sections/RecruitmentListSection';
-import BookmarkSidebarSection from '@/features/recruitment/components/sections/BookmarkSidebarSection';
 import RecruitmentRequestAction from '@/features/recruitment/components/ui/RecruitmentRequestAction';
+import BookmarkSidebar from '@/features/recruitment/components/ui/BookmarkSidebar';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { bookmarkQueryOptions } from '@/features/bookmark/queries';
+import { createRecruitmentListParams } from '@/features/recruitment/utils/createRecruitmentListParams';
+import { getRecruitmentsInfiniteQueryOption } from '@/features/recruitment/queries';
+import { GetRecruitmentPlatformsResponse } from '@/features/recruitment/types';
+import { mockRecruitmentPlatforms } from '@/mocks/recruitment.mock';
 
 const TAB_VALUES = new Set<string>(TABS.map((tab) => tab.value));
 
@@ -23,23 +26,27 @@ export default async function MainPage({ searchParams }: MainPageProps) {
   const searchText = search?.trim() ?? '';
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(bookmarkQueryOptions());
+  const recruitmentParams = createRecruitmentListParams(activeTab, searchText);
+  await queryClient.prefetchInfiniteQuery(getRecruitmentsInfiniteQueryOption(recruitmentParams));
+
+  // TODO: 플랫폼 목록 조회 API 연동
+  const platformOptions: GetRecruitmentPlatformsResponse = mockRecruitmentPlatforms;
 
   return (
-    <div className="flex min-h-screen w-full flex-col px-4 bg-white font-sans">
+    <div className="flex min-h-screen w-full flex-col bg-white px-4 font-sans">
       <div className="flex flex-1 flex-col gap-7 py-8">
         <Banner />
 
         <CategoryTabs activeTab={activeTab} search={searchText} />
 
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <div className="flex flex-1 gap-10">
+        <div className="flex flex-1 gap-10">
+          <HydrationBoundary state={dehydrate(queryClient)}>
             <RecruitmentListSection activeTab={activeTab} search={searchText} />
-            <BookmarkSidebarSection />
-          </div>
-        </HydrationBoundary>
+          </HydrationBoundary>
+          <BookmarkSidebar />
+        </div>
 
-        <RecruitmentRequestAction />
+        <RecruitmentRequestAction platformOptions={platformOptions} />
       </div>
     </div>
   );

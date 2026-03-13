@@ -1,8 +1,7 @@
-import { mockRecruitments } from '@/mocks/recruitment.mock';
-import { mockCompanies } from '@/mocks/company.mock';
 import RecruitmentDetailOverview from '@/features/recruitment/components/ui/RecruitmentDetailOverview';
 import RecruitmentDetailContent from '@/features/recruitment/components/ui/RecruitmentDetailContent';
 import RecruitmentAnalysisSection from '@/features/recruitment/components/sections/RecruitmentAnalysisSection';
+import { getRecruitmentDetail } from '@/features/recruitment/actions';
 
 interface RecruitmentDetailPageProps {
   params: Promise<{ postId: string }>;
@@ -10,8 +9,9 @@ interface RecruitmentDetailPageProps {
 
 export default async function RecruitmentDetailPage({ params }: RecruitmentDetailPageProps) {
   const postId = Number((await params).postId);
-  const recruitment = mockRecruitments.find((r) => r.postId === postId);
-  const company = mockCompanies.find((c) => c.companyId === recruitment?.companyId);
+
+  const response = await getRecruitmentDetail(postId);
+  const recruitment = response.data;
 
   if (!recruitment) {
     return (
@@ -27,12 +27,12 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
     <div className="min-h-screen w-full bg-white font-sans">
       <div className="mx-auto flex w-full max-w-7xl gap-10 px-4 py-10">
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-          <RecruitmentDetailOverview recruitment={recruitment} companyName={company?.companyName} />
+          <RecruitmentDetailOverview recruitment={recruitment} />
 
           <div className="h-px bg-gray-100" />
 
           <RecruitmentDetailContent
-            content={recruitment.postDescription ?? '공고 원문이 없습니다.'}
+            content={recruitment.originalContent ?? '공고 원문이 없습니다.'}
           />
         </div>
 
