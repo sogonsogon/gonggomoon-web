@@ -15,7 +15,9 @@ import {
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
 
-const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
+// 서버 환경: API_URL (런타임, localhost 가능)
+// 클라이언트 환경: NEXT_PUBLIC_API_URL (빌드타임 번들, 공개 IP 필요)
+const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
 const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
 
