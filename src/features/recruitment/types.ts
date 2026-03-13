@@ -58,7 +58,7 @@ export type RecruitmentDetail = {
   companyName: string;
   industryName: string;
   postTitle: string;
-  url: string; // 추가 요청
+  postUrl: string;
   experienceLevel: number;
   originalContent: string;
   jobType: JobType;

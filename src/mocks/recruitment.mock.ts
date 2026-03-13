@@ -24,7 +24,7 @@ type RecruitmentSeed = {
   status: PostStatus;
   stateDate: string;
   dueDate: string | null;
-  url: string;
+  postUrl: string;
   analysisSummary: string;
   originalContent: string;
   analysis: RecruitmentAnalysis;
@@ -54,7 +54,7 @@ const recruitmentSeeds: RecruitmentSeed[] = [
     status: 'PUBLISHED',
     stateDate: '2026-03-10T09:00:00.000Z',
     dueDate: '2026-03-31T23:59:59.000Z',
-    url: 'https://example.com/jobs/3001',
+    postUrl: 'https://example.com/jobs/3001',
     analysisSummary: '커머스 플랫폼 사용자 경험 개선을 담당할 프론트엔드 엔지니어를 찾습니다.',
     originalContent: `
 커머스랩은 대규모 사용자 트래픽 환경에서 더 빠르고 직관적인 쇼핑 경험을 만들어갈 프론트엔드 엔지니어를 찾고 있습니다.
@@ -111,7 +111,7 @@ const recruitmentSeeds: RecruitmentSeed[] = [
     status: 'PUBLISHED',
     stateDate: '2026-03-11T09:00:00.000Z',
     dueDate: null,
-    url: 'https://example.com/jobs/3002',
+    postUrl: 'https://example.com/jobs/3002',
     analysisSummary: '핀테크 서비스 UI 개발을 지원할 프론트엔드 인턴을 모집합니다.',
     originalContent: `
 페이웨이브는 결제와 금융 데이터를 기반으로 더 나은 사용자 경험을 만들어가는 핀테크 스타트업입니다.
@@ -151,7 +151,7 @@ const recruitmentSeeds: RecruitmentSeed[] = [
     status: 'PUBLISHED',
     stateDate: '2026-03-12T09:00:00.000Z',
     dueDate: '2026-04-30T23:59:59.000Z',
-    url: 'https://example.com/jobs/3003',
+    postUrl: 'https://example.com/jobs/3003',
     analysisSummary: 'AI 기반 서비스의 백엔드 시스템을 개발할 엔지니어를 찾습니다.',
     originalContent: `
 에이아이코어는 다양한 산업군의 데이터를 분석하고 AI 기반 자동화 솔루션을 제공하는 기술 스타트업입니다.
@@ -204,7 +204,7 @@ const makeRecruitmentDetail = (seed: RecruitmentSeed): RecruitmentDetail => ({
   companyName: seed.companyName,
   industryName: INDUSTRY_LABEL_MAP[seed.industryType],
   postTitle: seed.postTitle,
-  url: seed.url,
+  postUrl: seed.postUrl,
   experienceLevel: seed.experienceLevel,
   originalContent: seed.originalContent,
   jobType: seed.jobType,

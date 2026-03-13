@@ -48,9 +48,9 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
         <span className="text-[13px] text-gray-600">{recruitment.industryName}</span>
       </div>
 
-      {recruitment.url && (
+      {recruitment.postUrl && (
         <Link
-          href={recruitment.url}
+          href={recruitment.postUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-fit items-center gap-1.5"
