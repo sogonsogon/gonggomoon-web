@@ -2,27 +2,30 @@
 
 import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from 'lucide-react';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/shared/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/cn';
 
-const MONTHS = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+const MONTHS = [
+  '1월',
+  '2월',
+  '3월',
+  '4월',
+  '5월',
+  '6월',
+  '7월',
+  '8월',
+  '9월',
+  '10월',
+  '11월',
+  '12월',
+];
 
 interface MonthYearPickerProps {
   value: Date | null;
   onChange: (date: Date) => void;
   placeholder?: string;
   className?: string;
-}
-
-function formatDisplay(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  return `${year}.${month}`;
 }
 
 export default function MonthYearPicker({
@@ -88,9 +91,7 @@ export default function MonthYearPicker({
         <div className="grid grid-cols-4 gap-1">
           {MONTHS.map((label, i) => {
             const isSelected =
-              value !== null &&
-              value.getFullYear() === viewYear &&
-              value.getMonth() === i;
+              value !== null && value.getFullYear() === viewYear && value.getMonth() === i;
             return (
               <button
                 key={i}
@@ -98,9 +99,7 @@ export default function MonthYearPicker({
                 onClick={() => handleMonthSelect(i)}
                 className={cn(
                   'rounded-md py-1.5 text-[12px] font-medium transition-colors',
-                  isSelected
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-700 hover:bg-gray-100',
+                  isSelected ? 'bg-gray-900 text-white' : 'text-gray-700 hover:bg-gray-100',
                 )}
               >
                 {label}
@@ -111,4 +110,10 @@ export default function MonthYearPicker({
       </PopoverContent>
     </Popover>
   );
+}
+
+function formatDisplay(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${year}.${month}`;
 }

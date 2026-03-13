@@ -1,5 +1,6 @@
 'use client';
 import MonthYearPicker from '@/features/experience/components/ui/MonthYearPicker';
+import { EXP_BADGE_CHECKED } from '@/features/experience/constants/experienceBadgeStyles';
 import { EXP_TYPE_LABELS } from '@/features/experience/constants/experienceLabels';
 import { useCreateExperience, useUpdateExperience } from '@/features/experience/queries';
 import { Experience, ExperienceType } from '@/features/experience/types';
@@ -19,7 +20,6 @@ import { Textarea } from '@/shared/components/ui/textarea';
 import { PencilIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import ExperienceDeleteDialog from '@/features/experience/components/ui/ExperienceDeleteDialog';
 
 interface ExperienceCardFormProps {
   experience: Experience;
@@ -28,14 +28,6 @@ interface ExperienceCardFormProps {
   onDeleteSuccess: (targetId: number) => void;
   onOpenChange: (next: boolean) => void;
 }
-
-const EXP_TYPE_BADGE: Record<ExperienceType, string> = {
-  CAREER: 'bg-blue-50 text-blue-700',
-  PROJECT: 'bg-[#e8f3ff] text-[#2272eb]',
-  EDUCATION: 'bg-[#e6f9f2] text-[#127848]',
-  COMPETITION: 'bg-purple-50 text-purple-700',
-  OTHER: 'bg-gray-100 text-gray-600',
-};
 
 export default function ExperienceCardForm({
   experience,
@@ -252,9 +244,7 @@ export default function ExperienceCardForm({
       <div className="flex flex-1 items-center gap-2.5 overflow-hidden">
         {/* 경험 유형 */}
         <span
-          className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${
-            EXP_TYPE_BADGE[experience.experienceType]
-          }`}
+          className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${EXP_BADGE_CHECKED[experience.experienceType]}`}
         >
           {EXP_TYPE_LABELS[experience.experienceType]}
         </span>
