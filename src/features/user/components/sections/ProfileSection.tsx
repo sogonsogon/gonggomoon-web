@@ -3,7 +3,6 @@ import ProfileCard from '@/features/user/components/ui/ProfileCard';
 import ProfileLogoutButton from '@/features/user/components/ui/ProfileLogoutButton';
 import ProfileWithdrawButton from '@/features/user/components/ui/ProfileWithdrawButton';
 import { useUser } from '@/features/user/queries';
-import { mockUser } from '@/mocks/auth.mock';
 
 export default function ProfileSection() {
   const { data: user } = useUser();
@@ -16,7 +15,7 @@ export default function ProfileSection() {
       {/* 액션 버튼 */}
       <div className="flex items-center gap-3">
         <ProfileLogoutButton />
-        <ProfileWithdrawButton userEmail={user!.email} />
+        {user && <ProfileWithdrawButton userEmail={user.email} />}
       </div>
     </>
   );
