@@ -14,7 +14,7 @@ export default function RecruitmentList({ recruitments }: RecruitmentListProps) 
             key={job.postId}
             postId={job.postId}
             title={job.title}
-            deadline={job.deadline}
+            dueDate={job.dueDate}
             experienceLevel={job.experienceLevel}
             companyName={job.companyName}
             analysisSummary={job.analysisSummary}
