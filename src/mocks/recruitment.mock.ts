@@ -213,7 +213,7 @@ const makeRecruitmentDetail = (seed: RecruitmentSeed): RecruitmentDetail => ({
   dueDate: seed.dueDate ?? '',
 });
 
-export const mockRecruitmentsResponse: GetRecruitmentsResponse = {
+export const mockRecruitments: GetRecruitmentsResponse = {
   content: recruitmentSeeds.map(makeRecruitment),
   pageInfo: {
     currentPage: 0,
