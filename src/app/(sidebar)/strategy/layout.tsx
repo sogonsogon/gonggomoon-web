@@ -3,6 +3,7 @@ import Footer from '@/shared/components/layout/Footer';
 import StrategyHistorySidebar from '@/features/strategy/components/layout/StrategyHistorySidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
 import { createStrategyHistoryItems } from '@/features/strategy/utils/createStrategyHistoryItems';
+import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
 
 export default function StrategyLayout({
   children,
@@ -16,6 +17,8 @@ export default function StrategyLayout({
       <StrategyHistorySidebar items={historyItems} />
 
       <SidebarInset className="min-h-[calc(100svh-5rem)] bg-white">
+        <StrategyGenerationPollingListener />
+
         <div className="flex min-h-[calc(100svh-5rem)] flex-col">
           <main className="min-h-0 flex-1 overflow-y-auto">
             <div className="mx-auto flex w-full max-w-7xl flex-col px-4 pt-4 pb-6">
