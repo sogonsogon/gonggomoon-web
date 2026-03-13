@@ -6,7 +6,7 @@ import BookmarkSection from '@/features/bookmark/components/sections/BookmarkSec
 export default function BookmarkPage() {
   const queryClient = new QueryClient();
 
-  queryClient.prefetchQuery(bookmarkQueryOptions);
+  queryClient.prefetchQuery(bookmarkQueryOptions());
 
   return (
     <div className="flex flex-col w-full">
