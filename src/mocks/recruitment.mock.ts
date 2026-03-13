@@ -186,7 +186,7 @@ const recruitmentSeeds: RecruitmentSeed[] = [
 
 const makeRecruitment = (seed: RecruitmentSeed): Recruitment => ({
   postId: seed.postId,
-  title: seed.postTitle,
+  companyId: seed.companyId,
   companyName: seed.companyName,
   platformName: seed.platformName,
   postTitle: seed.postTitle,
