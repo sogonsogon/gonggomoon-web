@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Headphones } from 'lucide-react';
+import { toast } from 'sonner';
 import FloatingActionButton from '@/shared/components/ui/FloatingActionButton';
 import RecruitmentRequestDialog from '@/features/recruitment/components/ui/RecruitmentRequestDialog';
 import { requestRecruitment } from '@/features/recruitment/actions';
@@ -36,9 +37,11 @@ export default function RecruitmentRequestAction({
         throw result;
       }
 
+      toast.success('공고 추가 요청이 접수되었어요.');
       setIsOpen(false);
     } catch (error) {
       console.error('공고 추가 요청 실패:', error);
+      toast.error('공고 추가 요청에 실패했어요. 잠시 후 다시 시도해주세요.');
     } finally {
       setIsPending(false);
     }
