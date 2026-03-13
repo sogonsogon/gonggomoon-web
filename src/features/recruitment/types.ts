@@ -1,4 +1,4 @@
-import { IndustryType } from '@/features/industry/types';
+import { PageInfo } from '@/shared/types/pageInfo';
 
 export type JobType =
   | 'FRONTEND'
@@ -14,7 +14,7 @@ export type JobType =
 
 export type PlatformType = 'SARAMIN' | 'WANTED' | 'JABKOREA' | 'JASOSEOL';
 
-export type PostStatus = 'ANALYZING' | 'ANALYSIS_DONE' | 'POSTED'; // 공고 분석 상태
+export type PostStatus = 'ANALYZING' | 'ANALYZED' | 'ANALYSIS_FAILED' | 'PUBLISHED' | 'REJECTED'; // 공고 분석 상태
 
 export type RecruitmentAnalysis = {
   summary: string; // 공고 한 줄 요약
@@ -30,14 +30,54 @@ export type Recruitment = {
   postId: number;
   title: string;
   companyName: string;
-  companyId: number;
+  platformName: string;
+  postTitle: string;
+  experienceLevel: number;
+  jobType: JobType;
+  stateDate: string;
+  dueDate: string;
+  analysisSummary: string; // AI 공고 한 줄 분석
+};
+
+export type GetRecruitmentsParams = {
   jobType?: JobType;
-  industryType?: IndustryType;
-  experienceLevel?: number;
-  deadline?: string | null;
-  postDescription?: string;
-  status?: PostStatus;
-  url?: string;
-  analysisSummary?: string;
+  name?: string; // 검색어(공고명)
+  page?: number;
+  size?: number;
+};
+
+export type GetRecruitmentsResponse = {
+  content: Recruitment[];
+  pageInfo: PageInfo;
+};
+
+export type RecruitmentDetail = {
+  postId: number; // 추가 요청
+  companyId: number;
+  industryId: number;
+  companyName: string;
+  industryName: string;
+  postTitle: string;
+  url: string; // 추가 요청
+  experienceLevel: number;
+  originalContent: string;
+  jobType: JobType;
+  status: PostStatus;
+  stateDate: string;
+  dueDate: string;
   analysis?: RecruitmentAnalysis;
 };
+
+export type GetRecruitmentDetailResponse = RecruitmentDetail;
+
+export type RequestRecruitmentRequest = {
+  platformId: number;
+  postUrl: string;
+};
+
+export type RecruitmentPlatform = {
+  id: number;
+  name: string;
+};
+
+export type GetRecruitmentPlatformsResponse = RecruitmentPlatform[];
