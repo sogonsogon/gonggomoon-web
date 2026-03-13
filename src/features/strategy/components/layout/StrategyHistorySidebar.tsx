@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import HistorySidebar from '@/shared/components/layout/HistorySidebar';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import type { HistorySidebarItem } from '@/shared/types';
@@ -9,19 +10,20 @@ interface StrategyHistorySidebarProps {
 }
 
 export default function StrategyHistorySidebar({ items }: StrategyHistorySidebarProps) {
-  const generationStatus = useStrategyGenerationStore((state) => state.generationStatus);
-  const currentStrategyId = useStrategyGenerationStore((state) => state.currentStrategyId);
+  const requests = useStrategyGenerationStore((state) => state.requests);
+  const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
 
-  const processingItems: HistorySidebarItem[] =
-    generationStatus === 'PROCESSING' && currentStrategyId
-      ? [
-          {
-            title: '생성 중인 전략',
-            date: '진행 중',
-            href: `/strategy/result/${currentStrategyId}`,
-          },
-        ]
-      : [];
+  const processingItems: HistorySidebarItem[] = useMemo(() => {
+    return [...requestOrder]
+      .reverse()
+      .map((id) => requests[id])
+      .filter((request) => request?.status === 'PROCESSING')
+      .map((request) => ({
+        title: '생성 중인 전략',
+        date: '진행 중',
+        href: `/strategy/result/${request.id}`,
+      }));
+  }, [requestOrder, requests]);
 
   return (
     <HistorySidebar
