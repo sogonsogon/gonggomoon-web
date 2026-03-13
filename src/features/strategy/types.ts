@@ -9,10 +9,8 @@ export type StrategyIndustryType = Exclude<IndustryType, 'OTHER'> | 'MASTER';
 export type Strategy = {
   strategyId: number;
   jobType: StrategyJobType;
-  industryType: Exclude<StrategyIndustryType, 'MASTER'>;
+  industryName: string;
   createdAt: string;
-  selectedExperienceCount?: number;
-  totalCount?: number;
 };
 
 export type ExperienceStrategyPoint = {
@@ -30,7 +28,7 @@ export type ExperienceOrdering = {
 export type StrategyDetail = {
   strategyId: number;
   jobType: StrategyJobType;
-  industryType: Exclude<StrategyIndustryType, 'MASTER'>;
+  industryName: string | null;
   selectedExperienceCount?: number;
   createdAt: string;
   mainPositioningMessage: string;
@@ -56,4 +54,19 @@ export type CreateStrategyRequest = {
 export type CreateStrategyResponse = {
   strategyId: number;
   status: GenerationStatus;
+};
+
+export type GetStrategyListResponse = {
+  contents: Strategy[];
+  totalCount: number;
+};
+
+export type GetStrategyRequest = {
+  strategyId: number;
+};
+
+export type GetStrategyResponse = StrategyDetail;
+
+export type DeleteStrategyRequest = {
+  strategyId: number;
 };
