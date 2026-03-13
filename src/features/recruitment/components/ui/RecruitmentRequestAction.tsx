@@ -50,6 +50,8 @@ export default function RecruitmentRequestAction({
   return (
     <>
       <FloatingActionButton
+        onClick={handleOpen}
+        ariaLabel="공고 추가 요청 다이얼로그 열기"
         icon={<Headphones className="h-5 w-5 text-gray-700" />}
         label={
           <>
@@ -58,7 +60,6 @@ export default function RecruitmentRequestAction({
             요청하기
           </>
         }
-        onClick={handleOpen}
       />
 
       <RecruitmentRequestDialog

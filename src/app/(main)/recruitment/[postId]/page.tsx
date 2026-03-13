@@ -2,6 +2,8 @@ import RecruitmentDetailOverview from '@/features/recruitment/components/ui/Recr
 import RecruitmentDetailContent from '@/features/recruitment/components/ui/RecruitmentDetailContent';
 import RecruitmentAnalysisSection from '@/features/recruitment/components/sections/RecruitmentAnalysisSection';
 import { getRecruitmentDetail } from '@/features/recruitment/actions';
+import FloatingActionButton from '@/shared/components/ui/FloatingActionButton';
+import { Lightbulb } from 'lucide-react';
 
 interface RecruitmentDetailPageProps {
   params: Promise<{ postId: string }>;
@@ -38,6 +40,19 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
 
         <RecruitmentAnalysisSection analysis={recruitment.analysis} />
       </div>
+      <FloatingActionButton
+        href="/strategy/create"
+        ariaLabel="포트폴리오 전략 생성 페이지로 이동"
+        buttonClassName="bg-[#3182f6] hover:bg-[#2c74dd] border-transparent"
+        icon={<Lightbulb className="h-5 w-5 text-white" />}
+        label={
+          <>
+            포폴 전략
+            <br />
+            생성하러 가기
+          </>
+        }
+      />
     </div>
   );
 }
