@@ -1,24 +1,21 @@
 import Link from 'next/link';
 import { Briefcase, Building2, ExternalLink, Lightbulb, Timer } from 'lucide-react';
-import type { Recruitment } from '@/features/recruitment/types';
+import type { RecruitmentDetail } from '@/features/recruitment/types';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
 
 interface RecruitmentDetailOverviewProps {
-  recruitment: Recruitment;
-  companyName?: string;
+  recruitment: RecruitmentDetail;
   initialBookmarked?: boolean;
 }
 
 export default function RecruitmentDetailOverview({
   recruitment,
-  companyName,
   initialBookmarked = false,
 }: RecruitmentDetailOverviewProps) {
-  const dDayInfo = formatDDay(recruitment.deadline);
+  const dDayInfo = formatDDay(recruitment.dueDate);
   const dDayStyle = DDAY_VARIANT_CLASS[dDayInfo.variant];
 
   const experienceLabel =
@@ -37,15 +34,13 @@ export default function RecruitmentDetailOverview({
             href={`/company/${recruitment.companyId}`}
             className="text-[13px] font-semibold text-blue-600"
           >
-            {companyName ?? '기업명'}
+            {recruitment.companyName ?? '기업명'}
           </Link>
         </div>
 
         <span className="text-[13px] text-gray-400">·</span>
 
-        <span className="text-[13px] text-gray-600">
-          {recruitment.industryType ? INDUSTRY_LABEL_MAP[recruitment.industryType] : ''}
-        </span>
+        <span className="text-[13px] text-gray-600">{recruitment.industryName}</span>
       </div>
 
       {recruitment.url && (
@@ -62,7 +57,9 @@ export default function RecruitmentDetailOverview({
 
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h1 className="text-[28px] font-bold leading-tight text-gray-900">{recruitment.title}</h1>
+          <h1 className="text-[28px] font-bold leading-tight text-gray-900">
+            {recruitment.postTitle}
+          </h1>
         </div>
 
         <BookmarkButton postId={recruitment.postId} initialBookmarked={initialBookmarked} />
