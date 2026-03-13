@@ -4,11 +4,14 @@ import type { CreateStrategyRequest, CreateStrategyResponse } from '@/features/s
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 
-export async function startStrategyGeneration() {
+export async function startStrategyGeneration(): Promise<CreateStrategyResponse> {
   const { formData } = useStrategyCreateFormStore.getState();
-  const generationStore = useStrategyGenerationStore.getState();
+  const { startSubmit, markSubmitFailed, addProcessingRequest } =
+    useStrategyGenerationStore.getState();
 
-  generationStore.startSubmit();
+  if (formData.selectedExperienceIds.length === 0) {
+    throw new Error('경험을 1개 이상 선택해 주세요.');
+  }
 
   const payload: CreateStrategyRequest = {
     jobType: formData.selectedJob,
@@ -16,22 +19,24 @@ export async function startStrategyGeneration() {
     experienceIds: formData.selectedExperienceIds,
   };
 
+  startSubmit();
+
   try {
     console.log('전략 생성 요청 payload:', payload);
 
     // TODO: 실제 전략 생성 API 연동 후 제거
     const response: CreateStrategyResponse = {
-      strategyId: 123,
+      strategyId: Date.now(),
       status: 'PROCESSING',
     };
 
-    generationStore.markProcessing(response.strategyId);
+    addProcessingRequest(response.strategyId);
 
     return response;
   } catch (err) {
-    generationStore.markFailed(
-      err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.',
-    );
+    const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
+
+    markSubmitFailed(message);
     throw err;
   }
 }

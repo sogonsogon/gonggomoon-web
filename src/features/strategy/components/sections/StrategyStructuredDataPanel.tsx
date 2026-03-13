@@ -1,5 +1,5 @@
 import { LayoutList, Tag, TriangleAlert, Zap, ChartColumnBig } from 'lucide-react';
-import { StrategyDetail } from '../../types';
+import { StrategyDetail } from '@/features/strategy/types';
 
 interface StrategyStructuredDataPanelProps {
   detail: StrategyDetail; // StrategyDetail 타입을 사용

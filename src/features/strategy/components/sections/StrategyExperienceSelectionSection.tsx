@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Briefcase, ExternalLink } from 'lucide-react';
 import type { Experience } from '@/features/experience/types';
@@ -13,7 +13,8 @@ import { useGetExperienceList } from '@/features/experience/queries';
 export default function StrategyExperienceSelectionSection() {
   const { data: experienceData } = useGetExperienceList();
   const [detailExp, setDetailExp] = useState<Experience | null>(null);
-  const experienceList = experienceData?.contents || [];
+
+  const experienceList = useMemo(() => experienceData?.contents ?? [], [experienceData?.contents]);
 
   const formData = useStrategyCreateFormStore((state) => state.formData);
   const updateFormData = useStrategyCreateFormStore((state) => state.updateFormData);
@@ -22,12 +23,11 @@ export default function StrategyExperienceSelectionSection() {
   );
 
   const submitLoading = useStrategyGenerationStore((state) => state.submitLoading);
-  const generationStatus = useStrategyGenerationStore((state) => state.generationStatus);
 
-  const isFormLocked = submitLoading || generationStatus === 'PROCESSING';
+  const isFormLocked = submitLoading;
 
   useEffect(() => {
-    initializeSelectedExperienceIds(experienceList?.map((experience) => experience.experienceId));
+    initializeSelectedExperienceIds(experienceList.map((experience) => experience.experienceId));
   }, [experienceList, initializeSelectedExperienceIds]);
 
   const handleToggleExp = (id: number) => {
