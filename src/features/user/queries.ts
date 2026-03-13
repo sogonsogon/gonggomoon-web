@@ -2,7 +2,7 @@ import { getUser, deleteUser } from '@/features/user/actions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { redirect } from 'next/navigation';
 
-export const userQueryOptions = {
+export const userQueryOptions = () => ({
   queryKey: ['user'],
   queryFn: async () => {
     const result = await getUser();
@@ -17,11 +17,11 @@ export const userQueryOptions = {
   staleTime: Infinity,
   // 언마운트 되어도 유지되는 시간
   gcTime: 1000 * 60 * 60 * 24, // 24시간
-};
+});
 
 // 회원 정보 조회
 export function useUser() {
-  return useQuery(userQueryOptions);
+  return useQuery(userQueryOptions());
 }
 
 // 회원 탈퇴

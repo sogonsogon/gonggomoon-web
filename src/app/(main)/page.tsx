@@ -23,7 +23,7 @@ export default async function MainPage({ searchParams }: MainPageProps) {
   const searchText = search?.trim() ?? '';
 
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(bookmarkQueryOptions);
+  await queryClient.prefetchQuery(bookmarkQueryOptions());
 
   return (
     <div className="flex min-h-screen w-full flex-col px-4 bg-white font-sans">

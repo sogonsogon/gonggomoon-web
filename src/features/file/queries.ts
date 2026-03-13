@@ -6,7 +6,7 @@ export const fileKeys = {
   all: ['files'],
 };
 
-export const fileQueryOptions = {
+export const fileQueryOptions = () => ({
   queryKey: fileKeys.all,
   queryFn: async () => {
     const result = await getFiles();
@@ -19,11 +19,11 @@ export const fileQueryOptions = {
   },
   // 1분
   staleTime: 60 * 1000,
-};
+});
 
 // 파일 목록 조회
 export function useFiles() {
-  return useQuery(fileQueryOptions);
+  return useQuery(fileQueryOptions());
 }
 
 // 파일 업로드

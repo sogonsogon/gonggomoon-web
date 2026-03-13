@@ -5,7 +5,7 @@ export const bookmarkKeys = {
   all: ['bookmarks'] as const,
 };
 
-export const bookmarkQueryOptions = {
+export const bookmarkQueryOptions = () => ({
   queryKey: bookmarkKeys.all,
   queryFn: async () => {
     const result = await getBookmarks();
@@ -18,11 +18,11 @@ export const bookmarkQueryOptions = {
   },
   // 1분
   staleTime: 60 * 1000,
-};
+});
 
 // 북마크 목록 조회
 export function useGetBookmarks() {
-  return useQuery(bookmarkQueryOptions);
+  return useQuery(bookmarkQueryOptions());
 }
 
 // 북마크 추가(생성)

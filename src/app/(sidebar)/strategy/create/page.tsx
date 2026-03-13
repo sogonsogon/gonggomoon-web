@@ -6,7 +6,7 @@ import { experienceListQueryOptions } from '@/features/experience/queries';
 
 export default async function StrategyCreatePage() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(experienceListQueryOptions);
+  await queryClient.prefetchQuery(experienceListQueryOptions());
 
   return (
     <div className="flex flex-col gap-8 bg-white font-sans">

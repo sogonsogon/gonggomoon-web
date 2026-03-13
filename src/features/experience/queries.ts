@@ -18,7 +18,7 @@ export const experienceKeys = {
   detail: (exprienceId: number) => [...experienceKeys.all, exprienceId] as const,
 };
 
-export const experienceListQueryOptions = {
+export const experienceListQueryOptions = () => ({
   queryKey: experienceKeys.all,
   queryFn: async () => {
     const result = await getExperienceList();
@@ -28,7 +28,7 @@ export const experienceListQueryOptions = {
     return result.data;
   },
   staleTime: 60 * 1000,
-};
+});
 
 export const experienceQueryOptions = (experienceId: number) => ({
   queryKey: experienceKeys.detail(experienceId),
@@ -44,7 +44,7 @@ export const experienceQueryOptions = (experienceId: number) => ({
 
 // 경험 목록 조회
 export function useGetExperienceList() {
-  return useQuery(experienceListQueryOptions);
+  return useQuery(experienceListQueryOptions());
 }
 
 // 경험 단건 조회

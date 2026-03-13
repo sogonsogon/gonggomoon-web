@@ -7,8 +7,8 @@ import { experienceListQueryOptions } from '@/features/experience/queries';
 export default async function ExperiencePage() {
   const queryClient = new QueryClient();
   await Promise.all([
-    queryClient.prefetchQuery(fileQueryOptions),
-    queryClient.prefetchQuery(experienceListQueryOptions),
+    queryClient.prefetchQuery(fileQueryOptions()),
+    queryClient.prefetchQuery(experienceListQueryOptions()),
   ]);
 
   return (

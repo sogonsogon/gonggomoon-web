@@ -25,7 +25,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(userQueryOptions);
+  await queryClient.prefetchQuery(userQueryOptions());
   return (
     <html lang="ko" className={`${pretendard.variable} ${pretendard.className}`}>
       <body>
