@@ -3,31 +3,28 @@
 import { Bookmark } from 'lucide-react';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
-import { useAddBookmark, useDeleteBookmark, useGetBookmarks } from '@/features/bookmark/queries';
+import { useAddBookmark, useDeleteBookmark } from '@/features/bookmark/queries';
 
 interface BookmarkButtonProps {
   postId: number;
-  initialBookmarked?: boolean;
+  isBookmarked: boolean;
   disabled?: boolean;
   variant?: 'default' | 'icon';
 }
 
 export default function BookmarkButton({
   postId,
-  initialBookmarked = false,
+  isBookmarked,
   disabled = false,
   variant = 'default',
 }: BookmarkButtonProps) {
   const { data: user } = useUser();
-  const { data: bookmarks } = useGetBookmarks(!!user);
   const { mutate: addBookmark, isPending: isAddPending } = useAddBookmark();
   const { mutate: deleteBookmark, isPending: isDeletePending } = useDeleteBookmark();
   const { openDialog } = useLoginModal();
 
   const isIconOnly = variant === 'icon';
   const isMutating = isAddPending || isDeletePending;
-
-  const isBookmarked = bookmarks?.some((item) => item.postId === postId) ?? initialBookmarked;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

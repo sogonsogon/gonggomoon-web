@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Briefcase, Building2, ExternalLink, Lightbulb, Timer } from 'lucide-react';
 import type { RecruitmentDetail } from '@/features/recruitment/types';
@@ -5,16 +7,19 @@ import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
+import { useUser } from '@/features/user/queries';
+import { useGetBookmarks } from '@/features/bookmark/queries';
 
 interface RecruitmentDetailOverviewProps {
   recruitment: RecruitmentDetail;
-  initialBookmarked?: boolean;
 }
 
-export default function RecruitmentDetailOverview({
-  recruitment,
-  initialBookmarked = false,
-}: RecruitmentDetailOverviewProps) {
+export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDetailOverviewProps) {
+  const { data: user } = useUser();
+  const { data: bookmarks = [] } = useGetBookmarks(!!user);
+
+  const isBookmarked = bookmarks.some((item) => item.postId === recruitment.postId);
+
   const dDayInfo = formatDDay(recruitment.dueDate);
   const dDayStyle = DDAY_VARIANT_CLASS[dDayInfo.variant];
 
@@ -62,7 +67,7 @@ export default function RecruitmentDetailOverview({
           </h1>
         </div>
 
-        <BookmarkButton postId={recruitment.postId} initialBookmarked={initialBookmarked} />
+        <BookmarkButton postId={recruitment.postId} isBookmarked={isBookmarked} />
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
