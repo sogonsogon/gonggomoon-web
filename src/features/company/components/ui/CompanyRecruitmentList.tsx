@@ -1,11 +1,14 @@
-import type { Recruitment } from '@/features/recruitment/types';
+'use client';
+
 import CompanyRecruitmentListItem from '@/features/company/components/ui/CompanyRecruitmentListItem';
+import { useGetRecruitments } from '@/features/recruitment/queries';
+import { useParams } from 'next/navigation';
 
-interface CompanyRecruitmentListProps {
-  recruitments: Recruitment[];
-}
+export default function CompanyRecruitmentList() {
+  const params = useParams<{ companyId: string }>();
 
-export default function CompanyRecruitmentList({ recruitments }: CompanyRecruitmentListProps) {
+  const { data: recruitments = [] } = useGetRecruitments();
+
   return (
     <div className="flex flex-col gap-4 pt-6">
       <h2 className="text-base font-bold text-gray-900">현재 채용 중인 공고</h2>
@@ -14,9 +17,11 @@ export default function CompanyRecruitmentList({ recruitments }: CompanyRecruitm
         <p className="text-sm text-gray-400">현재 채용 중인 공고가 없습니다.</p>
       ) : (
         <div className="flex flex-col gap-3">
-          {recruitments.map((recruitment) => (
-            <CompanyRecruitmentListItem key={recruitment.postId} recruitment={recruitment} />
-          ))}
+          {recruitments
+            .filter((r) => r.companyId === Number(params.companyId))
+            .map((recruitment) => (
+              <CompanyRecruitmentListItem key={recruitment.postId} recruitment={recruitment} />
+            ))}
         </div>
       )}
     </div>
