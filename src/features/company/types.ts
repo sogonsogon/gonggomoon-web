@@ -1,5 +1,3 @@
-import { IndustryType } from '@/features/industry/types';
-
 export type CompanyType =
   | 'LARGE_ENTERPRISE'
   | 'MID_SIZED_ENTERPRISE'
@@ -8,17 +6,17 @@ export type CompanyType =
 
 export type Company = {
   companyId: number;
-  industryType: IndustryType;
+  industryId: number;
+  industryName: string;
   companyName: string;
   companyType: CompanyType;
-  industryId?: number;
-  description?: string; // 기업 소개
-  websiteUrl?: string;
-  foundedYear?: number;
-  address?: string;
-  employeeCount?: number;
-  createdBy?: number;
-  updatedBy?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  employeeCount: number;
+  address: string;
+  description: string;
+  foundedYear: number;
+  companyUrl: string;
+  createdAt: string;
+  updatedAt: string;
 };
+
+export type GetCompanyDetailResponse = Company;

@@ -2,9 +2,10 @@ import { Sparkles } from 'lucide-react';
 import AnalysisInfoCard from '@/shared/components/ui/AnalysisInfoCard';
 import KeywordTagList from '@/shared/components/ui/KeywordTagList';
 import type { IndustryAnalysis } from '@/features/industry/types';
+import { formatAnalysisDateTime } from '@/features/company/utils/formatAnalysisDateTime';
 
 interface CompanyIndustryAnalysisSectionProps {
-  analysis?: IndustryAnalysis | null;
+  analysis: IndustryAnalysis | null;
 }
 
 export default function CompanyIndustryAnalysisSection({
@@ -18,9 +19,9 @@ export default function CompanyIndustryAnalysisSection({
       </div>
       {analysis && (
         <div className="flex items-center gap-3 text-xs text-gray-400 pb-7">
-          <span>분석 등록일 {analysis.createdAt}</span>
+          <span>분석 등록일 {formatAnalysisDateTime(analysis.createdAt)}</span>
           <span>·</span>
-          <span>업데이트 {analysis.updatedAt}</span>
+          <span>업데이트 {formatAnalysisDateTime(analysis.updatedAt)}</span>
         </div>
       )}
 

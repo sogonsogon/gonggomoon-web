@@ -1,6 +1,5 @@
 import { Building2 } from 'lucide-react';
 import type { Company } from '@/features/company/types';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { COMPANY_LABEL_MAP } from '@/features/company/constants/companyOptions';
 
 interface CompanyDetailHeaderProps {
@@ -19,9 +18,7 @@ export default function CompanyDetailHeader({ company }: CompanyDetailHeaderProp
 
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 rounded-md bg-blue-50 px-2.5 py-1">
-            <span className="text-[12px] font-semibold text-blue-600">
-              {INDUSTRY_LABEL_MAP[company.industryType]}
-            </span>
+            <span className="text-[12px] font-semibold text-blue-600">{company.industryName}</span>
           </div>
 
           <div className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1">
