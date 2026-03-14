@@ -1,3 +1,5 @@
+import { PostStatus } from '@/features/recruitment/types';
+
 export type IndustryType =
   | 'MEDIA_CONTENT'
   | 'COMMERCE'
@@ -9,20 +11,19 @@ export type IndustryType =
   | 'OTHER';
 
 export type IndustryAnalysis = {
-  analysisYear?: number;
-  keyword: string[];
+  industryReportId: number;
+  industryName: string;
+  reportStatus: PostStatus;
+  reportYear: number;
   marketSize: string;
+  competition: string;
   trend: string[];
   regulation: string[];
-  competition: string;
+  keyword: string[];
   hiring: string[];
   investment: string[];
   createdAt: string;
   updatedAt: string;
 };
 
-export type Industry = {
-  industryId: number;
-  name: string;
-  analysis?: IndustryAnalysis;
-};
+export type GetIndustryAnalysisResponse = IndustryAnalysis;
