@@ -1,12 +1,12 @@
 import Title from '@/shared/components/ui/Title';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { strategyListQueryOptions } from '@/features/strategy/queries';
+import { getStrategyListQueryOptions } from '@/features/strategy/queries';
 import MyStrategySection from '@/features/strategy/components/sections/MyStrategySection';
 
 export default async function StrategyPage() {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(strategyListQueryOptions());
+  await queryClient.prefetchQuery(getStrategyListQueryOptions());
 
   return (
     <div className="flex flex-col w-full">
