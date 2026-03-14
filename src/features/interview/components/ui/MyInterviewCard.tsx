@@ -1,13 +1,13 @@
 'use client';
 
-import { Interview } from '@/features/interview/types';
+import { InterviewDetail } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 import { Button } from '@/shared/components/ui/button';
 import { FileTextIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
 
 interface MyInterviewCardProps {
-  interview: Interview;
+  interview: InterviewDetail;
 }
 
 export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
@@ -17,7 +17,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
 
   return (
     <div
-      key={interview.interviewSetId}
+      key={interview.interviewStrategyId}
       className="overflow-hidden rounded-xl border border-gray-200 bg-white"
     >
       {/* 면접 질문 정보 */}
@@ -45,7 +45,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
 
       {/* 보기 버튼 */}
       <Link
-        href={`/interview/result/${interview.interviewSetId}`}
+        href={`/interview/result/${interview.interviewStrategyId}`}
         className="flex w-full h-9.5 items-center justify-center rounded-lg py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50"
       >
         보기
