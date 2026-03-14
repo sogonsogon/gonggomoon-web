@@ -1,20 +1,17 @@
 import { ExperienceType } from '@/features/experience/types';
-import { IndustryType } from '@/features/industry/types';
+import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import {
   ExperienceOrdering,
   ExperienceStrategyPoint,
-  StrategyDetail,
   Strategy,
+  StrategyDetail,
 } from '@/features/strategy/types';
 import { mockExperiences } from '@/mocks/experience.mock';
 
 // 리스트 정렬을 위한 함수
-const makeOrdered = (
-  items: { experienceId: number; title: string; reason: string }[],
-): ExperienceOrdering[] =>
+const makeOrdered = (items: { title: string; reason: string }[]): ExperienceOrdering[] =>
   items.map((it, idx) => ({
     order: idx + 1,
-    experienceId: it.experienceId,
     title: it.title,
     reason: it.reason,
   }));
@@ -30,10 +27,10 @@ const makeExperienceStrategyPoints = (
   }));
 
 // 상세 전략을 만드는 함수
-const makeDetail = (industry: IndustryType): StrategyDetail => ({
+const makeDetail = (industryName: string): StrategyDetail => ({
   strategyId: 9001,
   jobType: 'FRONTEND',
-  industryType: industry as Exclude<IndustryType, 'OTHER'>,
+  industryName,
   selectedExperienceCount: mockExperiences.length,
   createdAt: new Date().toISOString(),
   mainPositioningMessage: '기획 의도를 UI로 빠르게 검증하고, 제품 완성도를 끌어올리는 프론트엔드',
@@ -53,17 +50,14 @@ const makeDetail = (industry: IndustryType): StrategyDetail => ({
   ]),
   experienceOrdering: makeOrdered([
     {
-      experienceId: 101,
       title: '프로젝트 관리 OS (MVP1)',
       reason: '보드/상태 기반 UX와 상호작용이 핵심이라 직무 적합도를 강하게 보여줌',
     },
     {
-      experienceId: 102,
       title: '포트폴리오 전략 생성 서비스',
       reason: '데이터 기반 화면 구성과 생성형 결과 표현(UI) 역량을 강조 가능',
     },
     {
-      experienceId: 103,
       title: '프론트엔드 인턴십',
       reason: '협업/품질/리팩터링 경험을 정량/정성 근거로 제시 가능',
     },
@@ -94,37 +88,31 @@ const makeDetail = (industry: IndustryType): StrategyDetail => ({
   ],
 });
 
-// 목록 및 상세 조회용 mock 데이터
+// 목록 조회용 mock 데이터
 export const mockStrategies: Strategy[] = [
   {
     strategyId: 9001,
     jobType: 'FRONTEND',
-    industryType: 'COMMERCE',
+    industryName: INDUSTRY_LABEL_MAP.COMMERCE,
     createdAt: '2026-03-01T02:00:00.000Z',
-    selectedExperienceCount: mockExperiences.length,
-    totalCount: mockExperiences.length,
   },
   {
     strategyId: 9002,
     jobType: 'FRONTEND',
-    industryType: 'FINTECH_FINANCIAL',
+    industryName: INDUSTRY_LABEL_MAP.FINTECH_FINANCIAL,
     createdAt: '2026-03-02T02:00:00.000Z',
-    selectedExperienceCount: 3,
-    totalCount: 3,
   },
   {
     strategyId: 9003,
     jobType: 'BACKEND',
-    industryType: 'AI',
+    industryName: INDUSTRY_LABEL_MAP.AI,
     createdAt: '2026-03-03T02:00:00.000Z',
-    selectedExperienceCount: 2,
-    totalCount: 2,
   },
 ];
 
-// 상세 조회용 mock 데이터를 별도로 관리
+// 상세 조회용 mock 데이터
 export const mockStrategyDetails: Record<number, StrategyDetail> = {
-  9001: makeDetail('COMMERCE'),
-  9002: makeDetail('FINTECH_FINANCIAL'),
-  9003: makeDetail('AI'),
+  9001: makeDetail(INDUSTRY_LABEL_MAP.COMMERCE),
+  9002: makeDetail(INDUSTRY_LABEL_MAP.FINTECH_FINANCIAL),
+  9003: makeDetail(INDUSTRY_LABEL_MAP.AI),
 };
