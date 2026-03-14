@@ -1,19 +1,21 @@
 'use client';
 
 import { useEffect } from 'react';
-import { getGenerationStatus } from '@/shared/queries';
-import { GetGenerationStatusResponse } from '@/shared/types';
+import { getGenerationStatus } from '@/shared/actions';
+import { GenerationRequestType, GetGenerationStatusResponse } from '@/shared/types';
 
 type UseGenerationPollingParams = {
   requestIds: number[];
+  requestType: GenerationRequestType;
   enabled?: boolean;
   interval?: number;
   onCompleted: (id: number, response: GetGenerationStatusResponse) => void;
-  onFailed: (id: number, error: string, response: GetGenerationStatusResponse) => void;
+  onFailed: (id: number, error: string, response?: GetGenerationStatusResponse) => void;
 };
 
 export function useGenerationPolling({
   requestIds,
+  requestType,
   enabled = true,
   interval = 2000,
   onCompleted,
@@ -27,8 +29,8 @@ export function useGenerationPolling({
     const poll = async () => {
       const results = await Promise.allSettled(
         requestIds.map(async (id) => {
-          const response = await getGenerationStatus(id);
-          return { id, response };
+          const result = await getGenerationStatus({ id, type: requestType });
+          return { id, result };
         }),
       );
 
@@ -37,7 +39,14 @@ export function useGenerationPolling({
       results.forEach((result) => {
         if (result.status !== 'fulfilled') return;
 
-        const { id, response } = result.value;
+        const { id, result: apiResponse } = result.value;
+
+        if (!apiResponse.success || !apiResponse.data) {
+          onFailed(id, apiResponse.message ?? '생성 상태 조회에 실패했습니다.');
+          return;
+        }
+
+        const response = apiResponse.data;
 
         if (response.status === 'COMPLETED') {
           onCompleted(id, response);
@@ -60,5 +69,5 @@ export function useGenerationPolling({
       cancelled = true;
       window.clearInterval(timer);
     };
-  }, [enabled, interval, onCompleted, onFailed, requestIds]);
+  }, [enabled, interval, onCompleted, onFailed, requestIds, requestType]);
 }

@@ -18,6 +18,11 @@ export type GenerationRequestState = {
   createdAt: number;
 };
 
+export type GetGenerationStatusRequest = {
+  type: GenerationRequestType;
+  id: number;
+};
+
 export type GetGenerationStatusResponse = {
   id: number;
   status: GenerationRequestStatus;

@@ -70,3 +70,5 @@ export type GetStrategyResponse = StrategyDetail;
 export type DeleteStrategyRequest = {
   strategyId: number;
 };
+
+export type GetStrategyDetailResponse = StrategyDetail;

@@ -3,18 +3,18 @@
 import { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
-import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
 import { GetGenerationStatusResponse } from '@/shared/types';
 import { toast } from 'sonner';
+import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 
-export default function InterviewGenerationPollingListener() {
+export default function StrategyGenerationPollingListener() {
   const router = useRouter();
 
-  const requests = useInterviewGenerationStore((state) => state.requests);
-  const requestOrder = useInterviewGenerationStore((state) => state.requestOrder);
-  const markRequestFailed = useInterviewGenerationStore((state) => state.markRequestFailed);
-  const markRequestCompleted = useInterviewGenerationStore((state) => state.markRequestCompleted);
-  const removeRequest = useInterviewGenerationStore((state) => state.removeRequest);
+  const requests = useStrategyGenerationStore((state) => state.requests);
+  const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
+  const markRequestFailed = useStrategyGenerationStore((state) => state.markRequestFailed);
+  const markRequestCompleted = useStrategyGenerationStore((state) => state.markRequestCompleted);
+  const removeRequest = useStrategyGenerationStore((state) => state.removeRequest);
 
   const processingRequestIds = useMemo(() => {
     return requestOrder.filter((id) => requests[id]?.status === 'PROCESSING');
@@ -24,14 +24,13 @@ export default function InterviewGenerationPollingListener() {
     (id: number, _response: GetGenerationStatusResponse) => {
       markRequestCompleted(id);
 
-      toast.success('면접 질문 생성이 완료되었어요.', {
+      toast.success('포폴 전략 생성이 완료되었어요.', {
         action: {
           label: '결과 보기',
-          onClick: () => router.push(`/interview/result/${id}`),
+          onClick: () => router.push(`/strategy/result/${id}`),
         },
       });
 
-      // 이동 직전/직후 큐에서 제거하고 싶으면 사용
       removeRequest(id);
     },
     [markRequestCompleted, removeRequest, router],
@@ -46,7 +45,7 @@ export default function InterviewGenerationPollingListener() {
 
   useGenerationPolling({
     requestIds: processingRequestIds,
-    requestType: 'INTERVIEW',
+    requestType: 'STRATEGY',
     onCompleted: handleCompleted,
     onFailed: handleFailed,
   });
