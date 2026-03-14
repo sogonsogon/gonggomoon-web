@@ -4,7 +4,7 @@ import KeywordTagList from '@/shared/components/ui/KeywordTagList';
 import type { IndustryAnalysis } from '@/features/industry/types';
 
 interface CompanyIndustryAnalysisSectionProps {
-  analysis?: IndustryAnalysis | null;
+  analysis: IndustryAnalysis | null;
 }
 
 export default function CompanyIndustryAnalysisSection({
