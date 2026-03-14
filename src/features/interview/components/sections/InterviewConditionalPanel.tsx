@@ -46,7 +46,7 @@ export default function InterviewConditionalPanel() {
       const { resetForm } = useInterviewCreateFormStore.getState();
       resetForm();
 
-      router.push(`/interview/result/${response.interviewSetId}`);
+      router.push(`/interview/result/${response.interviewStrategyId}`);
     } catch (error) {
       console.error(error);
     }
