@@ -1,8 +1,6 @@
-import { mockStrategies } from '@/mocks/strategy.mock';
 import Footer from '@/shared/components/layout/Footer';
 import StrategyHistorySidebar from '@/features/strategy/components/layout/StrategyHistorySidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
-import { createStrategyHistoryItems } from '@/features/strategy/utils/createStrategyHistoryItems';
 import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
 
 export default function StrategyLayout({
@@ -10,11 +8,9 @@ export default function StrategyLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const historyItems = createStrategyHistoryItems(mockStrategies);
-
   return (
     <SidebarProvider defaultOpen>
-      <StrategyHistorySidebar items={historyItems} />
+      <StrategyHistorySidebar />
 
       <SidebarInset className="min-h-[calc(100svh-5rem)] bg-white">
         <StrategyGenerationPollingListener />
