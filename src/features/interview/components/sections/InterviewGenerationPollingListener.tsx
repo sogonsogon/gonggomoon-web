@@ -24,7 +24,6 @@ export default function InterviewGenerationPollingListener() {
     (id: number, _response: GetGenerationStatusResponse) => {
       markRequestCompleted(id);
 
-      // TODO: 완료 후 토스트 띄우기
       toast.success('면접 질문 생성이 완료되었어요.', {
         action: {
           label: '결과 보기',
@@ -47,6 +46,7 @@ export default function InterviewGenerationPollingListener() {
 
   useGenerationPolling({
     requestIds: processingRequestIds,
+    requestType: 'INTERVIEW',
     onCompleted: handleCompleted,
     onFailed: handleFailed,
   });

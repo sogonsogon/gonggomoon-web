@@ -24,7 +24,6 @@ export default function StrategyGenerationPollingListener() {
     (id: number, _response: GetGenerationStatusResponse) => {
       markRequestCompleted(id);
 
-      // TODO: 완료 후 토스트 띄우기
       toast.success('포폴 전략 생성이 완료되었어요.', {
         action: {
           label: '결과 보기',
@@ -32,7 +31,6 @@ export default function StrategyGenerationPollingListener() {
         },
       });
 
-      // 이동 직전/직후 큐에서 제거하고 싶으면 사용
       removeRequest(id);
     },
     [markRequestCompleted, removeRequest, router],
@@ -47,6 +45,7 @@ export default function StrategyGenerationPollingListener() {
 
   useGenerationPolling({
     requestIds: processingRequestIds,
+    requestType: 'STRATEGY',
     onCompleted: handleCompleted,
     onFailed: handleFailed,
   });
