@@ -1,23 +1,24 @@
 'use client';
 
+import InterviewDeleteDialog from '@/features/interview/components/ui/InterviewDeleteDialog';
 import { Interview } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 import { Button } from '@/shared/components/ui/button';
-import { FileTextIcon, Trash2Icon } from 'lucide-react';
+import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
+import { CalendarIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface MyInterviewCardProps {
   interview: Interview;
 }
 
 export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
-  const handleDelete = async () => {
-    // TODO: 면접 질문 삭제 API 호출
-  };
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   return (
     <div
-      key={interview.interviewSetId}
+      key={interview.interviewStrategyId}
       className="overflow-hidden rounded-xl border border-gray-200 bg-white"
     >
       {/* 면접 질문 정보 */}
@@ -30,7 +31,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            onClick={handleDelete}
+            onClick={() => setIsDialogOpen(true)}
             aria-label="면접 질문 삭제"
             className="mt-0.5 shrink-0  text-gray-400 hover:bg-transparent hover:text-red-500"
           >
@@ -38,18 +39,23 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
           </Button>
         </div>
         <div className="flex items-center gap-1.5">
-          <FileTextIcon className="h-3 w-3 text-gray-400" />
-          <span className="text-xs text-gray-400">{interview.basePortfolio} 기반 생성</span>
+          <CalendarIcon className="h-3 w-3" />
+          <span className="text-xs">{formatCreatedDate(interview.createdAt)}</span>
         </div>
       </div>
 
       {/* 보기 버튼 */}
       <Link
-        href={`/interview/result/${interview.interviewSetId}`}
+        href={`/interview/result/${interview.interviewStrategyId}`}
         className="flex w-full h-9.5 items-center justify-center rounded-lg py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50"
       >
         보기
       </Link>
+      <InterviewDeleteDialog
+        interviewStrategyId={interview.interviewStrategyId}
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+      />
     </div>
   );
 }

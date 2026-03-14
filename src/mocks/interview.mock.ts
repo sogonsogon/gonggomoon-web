@@ -1,4 +1,9 @@
-import type { Interview, InterviewQuestion, QuestionLevel } from '@/features/interview/types';
+import type {
+  Interview,
+  InterviewDetail,
+  InterviewQuestion,
+  QuestionLevel,
+} from '@/features/interview/types';
 
 const q = (
   questionId: number,
@@ -10,9 +15,9 @@ const q = (
   questionLevel,
 });
 
-export const mockInterviewSets: Interview[] = [
+export const mockInterviewSets: InterviewDetail[] = [
   {
-    interviewSetId: 7001,
+    interviewStrategyId: 7001,
     createdAt: '2026-03-01T05:20:00.000Z',
     basePortfolio: '프로젝트 관리 OS (MVP1) 중심 포트폴리오',
     questionTotalCount: 6,
@@ -35,7 +40,7 @@ export const mockInterviewSets: Interview[] = [
   },
   // 목록에서 세트 카드만 보여주고 싶은 케이스 (contents 없음)
   {
-    interviewSetId: 7002,
+    interviewStrategyId: 7002,
     createdAt: '2026-03-03T11:00:00.000Z',
     basePortfolio: '커머스 과제 기반 포트폴리오',
     questionTotalCount: 10,

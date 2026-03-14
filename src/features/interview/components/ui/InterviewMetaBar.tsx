@@ -1,11 +1,11 @@
 import { CircleCheck, CircleHelp, FileText, Layers } from 'lucide-react';
 import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
 import InterviewDeleteButton from '@/features/interview/components/ui/InterviewDeleteButton';
-import type { Interview } from '@/features/interview/types';
+import type { InterviewDetail } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 
 interface InterviewMetaBarProps {
-  interview: Interview;
+  interview: InterviewDetail;
 }
 
 export default function InterviewMetaBar({ interview }: InterviewMetaBarProps) {
@@ -55,7 +55,7 @@ export default function InterviewMetaBar({ interview }: InterviewMetaBarProps) {
 
         <span className="text-[12px] text-gray-400">{formatCreatedDate(interview.createdAt)}</span>
 
-        <InterviewDeleteButton interviewSetId={interview.interviewSetId} />
+        <InterviewDeleteButton interviewStrategyId={interview.interviewStrategyId} />
       </div>
     </div>
   );

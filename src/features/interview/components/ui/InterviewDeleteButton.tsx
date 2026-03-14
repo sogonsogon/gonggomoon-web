@@ -5,14 +5,14 @@ import { Button } from '@/shared/components/ui/button';
 import { useRouter } from 'next/navigation';
 
 interface InterviewDeleteButtonProps {
-  interviewSetId: number;
+  interviewStrategyId: number;
 }
 
-export default function InterviewDeleteButton({ interviewSetId }: InterviewDeleteButtonProps) {
+export default function InterviewDeleteButton({ interviewStrategyId }: InterviewDeleteButtonProps) {
   const router = useRouter();
   const handleDelete = () => {
     // TODO: 면접 질문 삭제 API 호출
-    console.log('delete interview', interviewSetId);
+    console.log('delete interview', interviewStrategyId);
     router.push('/interview/create');
   };
 

@@ -12,7 +12,7 @@ export default async function InterviewResultPage({ params }: InterviewResultPag
   const interviewId = Number((await params).interviewId);
 
   // TODO: 면접 질문 조회 API 호출
-  const interview = mockInterviewSets.find((s) => s.interviewSetId === interviewId);
+  const interview = mockInterviewSets.find((s) => s.interviewStrategyId === interviewId);
 
   if (!interview) {
     return (

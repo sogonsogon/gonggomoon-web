@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ListFilter, ExternalLink, CircleCheck, FolderOpen, FileText } from 'lucide-react';
 import type { File } from '@/features/file/types';
@@ -16,6 +16,7 @@ import {
   DialogDescription,
 } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
+import { useFiles } from '@/features/file/queries';
 
 interface PortfolioSelectDialogProps {
   isOpen: boolean;
@@ -30,8 +31,11 @@ export default function PortfolioSelectDialog({ isOpen, onClose }: PortfolioSele
 
   const [pendingPortfolio, setPendingPortfolio] = useState<File | null>(selectedPortfolio);
 
-  // TODO: 내 파일 목록 조회 API 연동
-  const portfolioFiles = mockFiles.filter((file) => file.category === 'PORTFOLIO');
+  const { data: fileData } = useFiles();
+
+  const portfolioFiles = useMemo(() => {
+    return fileData?.contents.filter((file) => file.category === 'PORTFOLIO') || [];
+  }, [fileData]);
 
   function handleConfirm() {
     setSelectedPortfolio(pendingPortfolio);

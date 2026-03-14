@@ -22,11 +22,11 @@ export async function startInterviewGeneration(): Promise<CreateInterviewRespons
 
     // TODO: 실제 면접 질문 생성 API 연동 후 제거
     const response: CreateInterviewResponse = {
-      interviewSetId: Date.now(),
+      interviewStrategyId: Date.now(),
       status: 'PROCESSING',
     };
 
-    addProcessingRequest(response.interviewSetId);
+    addProcessingRequest(response.interviewStrategyId);
 
     return response;
   } catch (err) {

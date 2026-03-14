@@ -1,9 +1,9 @@
 import { CircleHelp } from 'lucide-react';
-import type { Interview } from '@/features/interview/types';
+import type { InterviewDetail } from '@/features/interview/types';
 import InterviewQuestionCard from '@/features/interview/components/ui/InterviewQuestionCard';
 
 interface InterviewQuestionListSectionProps {
-  interview: Interview;
+  interview: InterviewDetail;
 }
 
 export default function InterviewQuestionListSection({
