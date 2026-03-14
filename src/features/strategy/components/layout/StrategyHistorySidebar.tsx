@@ -4,12 +4,14 @@ import { useMemo } from 'react';
 import HistorySidebar from '@/shared/components/layout/HistorySidebar';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import type { HistorySidebarItem } from '@/shared/types';
+import { createStrategyHistoryItems } from '@/features/strategy/utils/createStrategyHistoryItems';
+import { useGetStrategyList } from '@/features/strategy/queries';
 
-interface StrategyHistorySidebarProps {
-  items: HistorySidebarItem[];
-}
+export default function StrategyHistorySidebar() {
+  const { data: strategyData } = useGetStrategyList();
 
-export default function StrategyHistorySidebar({ items }: StrategyHistorySidebarProps) {
+  const items = createStrategyHistoryItems(strategyData?.contents ?? []);
+
   const requests = useStrategyGenerationStore((state) => state.requests);
   const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
 
