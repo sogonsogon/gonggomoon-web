@@ -1,3 +1,5 @@
+'use client';
+
 import MyInterviewCard from '@/features/interview/components/ui/MyInterviewCard';
 import MyInterviewEmpty from '@/features/interview/components/ui/MyInterviewEmpty';
 import MyInterviewError from '@/features/interview/components/ui/MyInterviewError';
