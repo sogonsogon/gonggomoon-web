@@ -1,15 +1,18 @@
-import type { HistorySidebarItem } from '@/shared/types';
 import type { Strategy } from '@/features/strategy/types';
-import { formatHistoryDate } from '@/shared/utils/formatHistoryDate';
+import type { HistorySidebarItem } from '@/shared/types';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
+import { formatHistoryDate } from '@/shared/utils/formatHistoryDate';
 
-export function createStrategyHistoryItems(strategies: Strategy[]): HistorySidebarItem[] {
-  return [...strategies]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .map((strategy) => ({
-      title: `${JOB_LABEL_MAP[strategy.jobType]} · ${INDUSTRY_LABEL_MAP[strategy.industryType]}`,
+export function createStrategyHistoryItems(strategies: Strategy[] = []): HistorySidebarItem[] {
+  return strategies.map((strategy) => {
+    const title = strategy.industryName
+      ? `${JOB_LABEL_MAP[strategy.jobType]} · ${strategy.industryName}`
+      : JOB_LABEL_MAP[strategy.jobType];
+
+    return {
+      title,
       date: formatHistoryDate(strategy.createdAt),
       href: `/strategy/result/${strategy.strategyId}`,
-    }));
+    };
+  });
 }
