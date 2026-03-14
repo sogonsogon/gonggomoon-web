@@ -1,38 +1,44 @@
 'use server';
 
 import {
-  DeleteStrategyRequest,
+  CreateStrategyRequest,
+  CreateStrategyResponse,
+  GetStrategyDetailResponse,
   GetStrategyListResponse,
-  GetStrategyRequest,
-  GetStrategyResponse,
 } from '@/features/strategy/types';
 import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
 
 // 포폴 전략 목록 조회
 export async function getStrategyList(): Promise<ApiResponse<GetStrategyListResponse>> {
-  const response = await privateFetch<GetStrategyListResponse>('/api/v1/portfolio-strategies');
-  return response;
+  return await privateFetch<GetStrategyListResponse>('/api/v1/portfolio-strategies');
 }
 
-// 포폴 단건 조회
-export async function getStrategy({
-  strategyId,
-}: GetStrategyRequest): Promise<ApiResponse<GetStrategyResponse>> {
-  const response = await privateFetch<GetStrategyResponse>(
+// 포폴 전략 생성
+export async function createStrategy(
+  payload: CreateStrategyRequest,
+): Promise<ApiResponse<CreateStrategyResponse>> {
+  return await privateFetch<CreateStrategyResponse>(`/api/v1/portfolio-strategies`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}
+
+// 포폴 전략 상세 조회
+export async function getStrategyDetail(
+  strategyId: number,
+): Promise<ApiResponse<GetStrategyDetailResponse>> {
+  return await privateFetch<GetStrategyDetailResponse>(
     `/api/v1/portfolio-strategies/${strategyId}`,
+    {
+      cache: 'no-store',
+    },
   );
-  return response;
 }
-
-// TODO: 포폴 전략 생성
 
 // 포폴 전략 삭제
-export async function deleteStrategy({
-  strategyId,
-}: DeleteStrategyRequest): Promise<ApiResponse<null>> {
-  const response = await privateFetch<null>(`/api/v1/portfolio-strategies/${strategyId}`, {
+export async function deleteStrategy(strategyId: number): Promise<ApiResponse<null>> {
+  return await privateFetch<null>(`/api/v1/portfolio-strategies/${strategyId}`, {
     method: 'DELETE',
   });
-  return response;
 }
