@@ -15,13 +15,14 @@ import {
 } from '@/shared/components/ui/select';
 import type { IndustryType } from '@/features/industry/types';
 import type { StrategyJobType } from '@/features/strategy/types';
-import { startStrategyGeneration } from '@/features/strategy/services/startStrategyGeneration';
+import { useStartStrategyGeneration } from '@/features/strategy/hooks/useStartStrategyGeneration';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { Button } from '@/shared/components/ui/button';
 
 export default function StrategyConditionPanel() {
   const router = useRouter();
+  const { startStrategyGeneration } = useStartStrategyGeneration();
 
   const formData = useStrategyCreateFormStore((state) => state.formData);
   const updateFormData = useStrategyCreateFormStore((state) => state.updateFormData);
@@ -41,9 +42,9 @@ export default function StrategyConditionPanel() {
     updateFormData('selectedJob', job);
   };
 
-  const handleIndustryToggle = () => {
+  const handleIndustryToggle = (checked: boolean) => {
     if (isFormLocked) return;
-    updateFormData('isIndustryOn', !formData.isIndustryOn);
+    updateFormData('isIndustryOn', checked);
   };
 
   const handleIndustryChange = (industry: IndustryType) => {
