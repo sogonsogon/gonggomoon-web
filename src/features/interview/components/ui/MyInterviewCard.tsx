@@ -1,13 +1,14 @@
 'use client';
 
-import { InterviewDetail } from '@/features/interview/types';
+import { Interview } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 import { Button } from '@/shared/components/ui/button';
-import { FileTextIcon, Trash2Icon } from 'lucide-react';
+import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
+import { CalendarIcon, FileTextIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
 
 interface MyInterviewCardProps {
-  interview: InterviewDetail;
+  interview: Interview;
 }
 
 export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
@@ -38,8 +39,8 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
           </Button>
         </div>
         <div className="flex items-center gap-1.5">
-          <FileTextIcon className="h-3 w-3 text-gray-400" />
-          <span className="text-xs text-gray-400">{interview.basePortfolio} 기반 생성</span>
+          <CalendarIcon className="h-3 w-3" />
+          <span className="text-xs">{formatCreatedDate(interview.createdAt)}</span>
         </div>
       </div>
 
