@@ -3,8 +3,11 @@ import { GenerationStatus } from '@/shared/types';
 export type QuestionLevel = 'LOWER' | 'MIDDLE' | 'HIGH';
 
 export type Interview = {
-  interviewSetId: number;
+  interviewStrategyId: number;
   createdAt: string;
+};
+
+export type InterviewDetail = Interview & {
   basePortfolio?: string;
   questionTotalCount?: number;
   contents?: InterviewQuestion[];
@@ -21,6 +24,21 @@ export type CreateInterviewRequest = {
 };
 
 export type CreateInterviewResponse = {
-  interviewSetId: number;
+  interviewStrategyId: number;
   status: GenerationStatus;
+};
+
+export type GetInterviewListResponse = {
+  contents: Interview[];
+  totalCount: number;
+};
+
+export type GetInterviewRequest = {
+  interviewStrategyId: number;
+};
+
+export type GetInterviewResponse = InterviewDetail;
+
+export type DeleteInterviewRequest = {
+  interviewStrategyId: number;
 };
