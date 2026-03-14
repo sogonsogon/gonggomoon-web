@@ -41,13 +41,13 @@ export default function CompanyMetaGrid({ company }: CompanyMetaGridProps) {
         </div>
       )}
 
-      {company.websiteUrl && (
+      {company.companyUrl && (
         <div className="flex min-h-18 items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3.5">
           <Globe className="h-4 w-4 shrink-0 text-gray-400" />
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] text-gray-400">홈페이지</span>
             <Link
-              href={company.websiteUrl}
+              href={company.companyUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[13px] font-semibold text-blue-500 hover:underline"
