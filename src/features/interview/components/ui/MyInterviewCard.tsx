@@ -1,20 +1,20 @@
 'use client';
 
+import InterviewDeleteDialog from '@/features/interview/components/ui/InterviewDeleteDialog';
 import { Interview } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 import { Button } from '@/shared/components/ui/button';
 import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
-import { CalendarIcon, FileTextIcon, Trash2Icon } from 'lucide-react';
+import { CalendarIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface MyInterviewCardProps {
   interview: Interview;
 }
 
 export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
-  const handleDelete = async () => {
-    // TODO: 면접 질문 삭제 API 호출
-  };
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   return (
     <div
@@ -31,7 +31,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            onClick={handleDelete}
+            onClick={() => setIsDialogOpen(true)}
             aria-label="면접 질문 삭제"
             className="mt-0.5 shrink-0  text-gray-400 hover:bg-transparent hover:text-red-500"
           >
@@ -51,6 +51,11 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
       >
         보기
       </Link>
+      <InterviewDeleteDialog
+        interviewStrategyId={interview.interviewStrategyId}
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+      />
     </div>
   );
 }
