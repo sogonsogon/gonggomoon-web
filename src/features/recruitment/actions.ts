@@ -1,6 +1,6 @@
 'use server';
 
-import { privateFetch } from '@/shared/api/httpClient';
+import { privateFetch, publicFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
 import {
   GetRecruitmentDetailResponse,
@@ -21,14 +21,14 @@ export async function getRecruitments(
   if (params.size) searchParams.set('size', String(params.size));
   const query = searchParams.toString();
 
-  return await privateFetch<GetRecruitmentsResponse>(`/api/v1/posts${query ? `?${query}` : ''}`);
+  return await publicFetch<GetRecruitmentsResponse>(`/api/v1/posts${query ? `?${query}` : ''}`);
 }
 
 // 공고 상세 조회
 export async function getRecruitmentDetail(
   postId: number,
 ): Promise<ApiResponse<GetRecruitmentDetailResponse>> {
-  return await privateFetch<GetRecruitmentDetailResponse>(`/api/v1/posts/${postId}`, {
+  return await publicFetch<GetRecruitmentDetailResponse>(`/api/v1/posts/${postId}`, {
     next: { revalidate: 300, tags: ['recruitment', `recruitment-detail-${postId}`] },
   });
 }
