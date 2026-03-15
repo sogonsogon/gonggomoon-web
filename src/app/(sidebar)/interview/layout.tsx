@@ -1,8 +1,6 @@
 import Footer from '@/shared/components/layout/Footer';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
 import InterviewHistorySidebar from '@/features/interview/components/layout/InterviewHistorySidebar';
-import { createInterviewHistoryItems } from '@/features/interview/utils/createInterviewHistoryItems';
-import { mockInterviewSets } from '@/mocks/interview.mock';
 import InterviewGenerationPollingListener from '@/features/interview/components/sections/InterviewGenerationPollingListener';
 
 export default function InterviewLayout({
@@ -10,11 +8,9 @@ export default function InterviewLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const historyItems = createInterviewHistoryItems(mockInterviewSets);
-
   return (
     <SidebarProvider defaultOpen>
-      <InterviewHistorySidebar items={historyItems} />
+      <InterviewHistorySidebar />
 
       <SidebarInset className="min-h-[calc(100svh-5rem)] bg-white">
         <InterviewGenerationPollingListener />
