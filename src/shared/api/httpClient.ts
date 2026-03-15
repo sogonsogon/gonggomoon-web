@@ -14,12 +14,13 @@ import {
   logUnexpectedError,
   parseResponseBody,
 } from '@/shared/api/httpClient.debug';
+import { cookies } from 'next/headers';
 
 // 서버 환경: API_URL (런타임, localhost 가능)
 // 클라이언트 환경: NEXT_PUBLIC_API_URL (빌드타임 번들, 공개 IP 필요)
 const BASE_API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL;
 // 로컬 테스트를 위한 14일 기간의 엑세스 토큰
-const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
+// const ACCESS_TOKEN = process.env.DEV_ACCESS_TOKEN;
 
 /**
  * 내부 헬퍼 함수: 예상치 못한 시스템/네트워크 에러를 표준 실패 포맷으로 규격화
@@ -167,16 +168,16 @@ export async function privateFetch<T>(
   options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
   // 추후 실환경 전환 시 사용 가능
-  // const cookieStore = await cookies();
-  // const currentToken = cookieStore.get('accessToken')?.value;
+  const cookieStore = await cookies();
+  const currentToken = cookieStore.get('access_token')?.value;
 
-  // if (!currentToken) {
-  //   return createErrorResponse('SESSION_EXPIRED', '접근 권한이 없습니다. 다시 로그인해 주세요.');
-  // }
+  if (!currentToken) {
+    return createErrorResponse('SESSION_EXPIRED', '접근 권한이 없습니다. 다시 로그인해 주세요.');
+  }
 
   return requestApi<T>(endpoint, options, {
     requireAuth: true,
-    accessToken: ACCESS_TOKEN, // currentToken
+    accessToken: currentToken, // currentToken
     sessionExpiredMessage: '세션이 만료되었습니다. 다시 로그인해 주세요.',
   });
 }
