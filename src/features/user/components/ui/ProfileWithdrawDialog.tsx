@@ -13,6 +13,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { useDeleteUser } from '@/features/user/queries';
+import { toast } from 'sonner';
 
 interface ProfileWithdrawDialogProps {
   open: boolean;
@@ -25,8 +26,7 @@ export default function ProfileWithdrawDialog({
   onOpenChange,
   userEmail,
 }: ProfileWithdrawDialogProps) {
-  // 회원 탈퇴도 우선 제외하고 진행
-  // const { mutate: deleteUser, isPending } = useDeleteUser();
+  const { mutate: deleteUser, isPending } = useDeleteUser();
 
   const [emailInput, setEmailInput] = useState('');
 
@@ -41,8 +41,15 @@ export default function ProfileWithdrawDialog({
 
   const handleConfirm = () => {
     if (!isMatch) return;
-    // deleteUser();
-    handleOpenChange(false);
+    deleteUser(undefined, {
+      onSuccess: () => {
+        toast.success('회원 탈퇴가 완료되었습니다.');
+        handleOpenChange(false);
+      },
+      onError: (error) => {
+        toast.error(error.message || '회원 탈퇴에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      },
+    });
   };
 
   return (

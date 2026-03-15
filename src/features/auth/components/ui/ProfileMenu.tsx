@@ -17,6 +17,7 @@ import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/features/auth/queries';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
+import { toast } from 'sonner';
 
 export default function ProfileMenu() {
   const { data: user } = useUser();
@@ -26,7 +27,11 @@ export default function ProfileMenu() {
 
   const handleLogout = () => {
     if (isPending) return;
-    logout();
+    logout(undefined, {
+      onError: (error) => {
+        toast.error(error.message || '로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      },
+    });
   };
 
   return (
