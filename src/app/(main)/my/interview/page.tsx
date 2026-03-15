@@ -1,11 +1,11 @@
 import Title from '@/shared/components/ui/Title';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { interviewListQueryOptions } from '@/features/interview/queries';
+import { getInterviewListQueryOptions } from '@/features/interview/queries';
 import MyInterviewSection from '@/features/interview/components/sections/MyInterviewSection';
 
 export default async function InterviewPage() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(interviewListQueryOptions());
+  await queryClient.prefetchQuery(getInterviewListQueryOptions());
 
   return (
     <div className="flex flex-col w-full bg-white">
