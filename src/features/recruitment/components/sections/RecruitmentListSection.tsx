@@ -12,10 +12,12 @@ interface RecruitmentListSectionProps {
 }
 
 export default function RecruitmentListSection({ activeTab, search }: RecruitmentListSectionProps) {
-  const normalizedSearch = search.trim().toLowerCase();
   const params = createRecruitmentListParams(activeTab, search);
 
-  const { data: recruitments = [], isPending, isError } = useGetRecruitments(params);
+  const { data, isPending, isError } = useGetRecruitments(params);
+
+  const recruitments = data?.items ?? [];
+  const totalElements = data?.totalElements ?? 0;
 
   if (isPending) {
     return (
@@ -37,28 +39,19 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
     );
   }
 
-  const filteredRecruitments = recruitments.filter((item) => {
-    const matchesSearch =
-      !normalizedSearch ||
-      item.postTitle.toLowerCase().includes(normalizedSearch) ||
-      item.companyName.toLowerCase().includes(normalizedSearch);
-
-    return matchesSearch;
-  });
-
   return (
     <section className="min-w-0 flex-1">
-      {filteredRecruitments.length === 0 ? (
+      {recruitments.length === 0 ? (
         <RecruitmentEmptyState search={search} />
       ) : (
         <div className="flex flex-1 flex-col">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-900">
-              <span className="text-blue-500">{filteredRecruitments.length}개</span>의 공고가
-              열려있어요.
+              <span className="text-blue-500">{totalElements}개</span>의 공고가 열려있어요.
             </span>
           </div>
-          <RecruitmentList recruitments={filteredRecruitments} />
+
+          <RecruitmentList recruitments={recruitments} />
         </div>
       )}
     </section>

@@ -18,7 +18,11 @@ export const recruitmentKeys = {
 export function useGetRecruitments(params: GetRecruitmentsParams = {}) {
   return useInfiniteQuery({
     ...getRecruitmentsInfiniteQueryOption(params),
-    select: (data) => data.pages.flatMap((page) => page.content),
+    select: (data) => ({
+      items: data.pages.flatMap((page) => page.content),
+      totalElements: data.pages[0]?.pageInfo.totalElements ?? 0,
+      hasNextPage: data.pages[data.pages.length - 1]?.pageInfo.hasNext ?? false,
+    }),
   });
 }
 
