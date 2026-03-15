@@ -20,13 +20,13 @@ export default function RecruitmentList({ recruitments }: RecruitmentListProps) 
   );
 
   return (
-    <div className="flex flex-col divide-y divide-gray-100 rounded-2xl border border-gray-100 bg-white">
+    <div className="flex flex-col bg-white">
       {recruitments.map((item) => (
         <RecruitmentListItem
           key={item.postId}
           postId={item.postId}
           title={item.postTitle}
-          deadline={item.dueDate}
+          dueDate={item.dueDate}
           experienceLevel={item.experienceLevel}
           companyName={item.companyName}
           analysisSummary={item.analysisSummary}
