@@ -10,7 +10,7 @@ interface RecruitmentListItemProps {
   experienceLevel: number | undefined;
   companyName: string;
   analysisSummary?: string | null;
-  initialBookmarked?: boolean;
+  isBookmarked?: boolean;
 }
 
 export default function RecruitmentListItem({
@@ -20,7 +20,7 @@ export default function RecruitmentListItem({
   experienceLevel,
   companyName,
   analysisSummary,
-  initialBookmarked = false,
+  isBookmarked = false,
 }: RecruitmentListItemProps) {
   return (
     <div className="flex items-center justify-between rounded-lg border-gray-100 p-5 hover:bg-gray-50">
@@ -58,7 +58,7 @@ export default function RecruitmentListItem({
           {companyName}
         </span>
 
-        <BookmarkButton postId={postId} initialBookmarked={initialBookmarked} variant="icon" />
+        <BookmarkButton postId={postId} isBookmarked={isBookmarked} variant="icon" />
       </div>
     </div>
   );

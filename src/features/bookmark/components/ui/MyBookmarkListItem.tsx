@@ -4,12 +4,7 @@ import { formatDeadline } from '@/shared/utils/formatDeadline';
 import { Building2Icon, CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
-
-export const DDAY_VARIANT_CLASS: Record<string, string> = {
-  red: 'bg-[#FEF2F2] text-red-500',
-  blue: 'bg-blue-50 text-blue-600',
-  closed: 'bg-gray-100 text-gray-500',
-};
+import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
 
 interface BookmarkListItem {
   bookmark: Bookmark;
@@ -43,7 +38,7 @@ export default function MyBookmarkListItem({ bookmark }: BookmarkListItem) {
         </span>
 
         {/* 북마크 토글 버튼 */}
-        <BookmarkButton postId={bookmark.postId} initialBookmarked={true} variant="icon" />
+        <BookmarkButton postId={bookmark.postId} isBookmarked={true} variant="icon" />
       </div>
     </div>
   );

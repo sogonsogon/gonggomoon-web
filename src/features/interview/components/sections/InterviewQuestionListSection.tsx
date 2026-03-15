@@ -36,12 +36,12 @@ export default function InterviewQuestionListSection({
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {interview.contents.map((question, index) => (
+        {interview.contents.map((questionSet, index) => (
           <InterviewQuestionCard
-            key={question.questionId}
+            key={questionSet.questionId}
             order={index + 1}
-            content={question.content}
-            questionLevel={question.questionLevel}
+            content={questionSet.question}
+            questionLevel={questionSet.questionLevel}
           />
         ))}
       </div>

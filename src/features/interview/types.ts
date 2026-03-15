@@ -8,14 +8,16 @@ export type Interview = {
 };
 
 export type InterviewDetail = Interview & {
-  basePortfolio?: string;
-  questionTotalCount?: number;
-  contents?: InterviewQuestion[];
+  interviewStrategyId: number;
+  basePortfolio: string;
+  createdAt: string;
+  questionTotalCount: number;
+  contents: InterviewQuestion[];
 };
 
 export type InterviewQuestion = {
   questionId: number;
-  content: string;
+  question: string;
   questionLevel: QuestionLevel;
 };
 

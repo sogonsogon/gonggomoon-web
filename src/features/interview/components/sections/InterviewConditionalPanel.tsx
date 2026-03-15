@@ -8,10 +8,12 @@ import PortfolioSelectDialog from '@/features/interview/components/ui/PortfolioS
 import { TODAY_USAGE, DAILY_LIMIT, isLimitReached } from '@/features/interview/constants/limit';
 import { useInterviewCreateFormStore } from '@/features/interview/stores/useInterviewCreateFormStore';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
-import { startInterviewGeneration } from '@/features/interview/services/startInterviewGeneration';
+import { useStartInterviewGeneration } from '@/features/interview/hooks/useStartInterviewGeneration';
 
 export default function InterviewConditionalPanel() {
   const router = useRouter();
+  const { startInterviewGeneration } = useStartInterviewGeneration();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selectedPortfolio = useInterviewCreateFormStore(

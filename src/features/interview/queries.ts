@@ -1,13 +1,26 @@
-import { deleteInterview, getInterview, getInterviewList } from '@/features/interview/actions';
+import {
+  createInterview,
+  deleteInterview,
+  getInterview,
+  getInterviewList,
+} from '@/features/interview/actions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { CreateInterviewRequest } from './types';
 
 export const interviewKeys = {
-  all: ['interviews'],
-  detail: (interviewStrategyId: number) => [...interviewKeys.all, interviewStrategyId] as const,
+  all: ['interview'] as const,
+  list: () => [...interviewKeys.all, 'list'] as const,
+  detail: (interviewStrategyId: number) =>
+    [...interviewKeys.all, 'detail', interviewStrategyId] as const,
 };
 
-export const interviewListQueryOptions = () => ({
-  queryKey: interviewKeys.all,
+// 면접 질문 목록 조회
+export function useGetInterviewList() {
+  return useQuery(getInterviewListQueryOptions());
+}
+
+export const getInterviewListQueryOptions = () => ({
+  queryKey: interviewKeys.list(),
   queryFn: async () => {
     const result = await getInterviewList();
     if (!result.success) {
@@ -18,29 +31,51 @@ export const interviewListQueryOptions = () => ({
   staleTime: 60 * 1000,
 });
 
-export const interviewQueryOptions = (interviewStrategyId: number) => ({
+// 면접 질문 단건 조회
+export function useGetInterview(interviewStrategyId: number) {
+  return useQuery(getInterviewQueryOptions(interviewStrategyId));
+}
+
+export const getInterviewQueryOptions = (interviewStrategyId: number) => ({
   queryKey: interviewKeys.detail(interviewStrategyId),
   queryFn: async () => {
-    const result = await getInterview({ interviewStrategyId });
+    const result = await getInterview(interviewStrategyId);
     if (!result.success) {
       return Promise.reject(result);
     }
     return result.data;
   },
   staleTime: 60 * 1000,
+  enabled: !!interviewStrategyId,
 });
 
-// 면접 질문 목록 조회
-export function useGetInterviewList() {
-  return useQuery(interviewListQueryOptions());
-}
+// 면접 질문 생성
+export function useCreateInterview() {
+  const queryClient = useQueryClient();
 
-// 면접 질문 단건 조회
-export function useGetInterview(interviewStrategyId: number) {
-  return useQuery(interviewQueryOptions(interviewStrategyId));
-}
+  return useMutation({
+    mutationFn: async (payload: CreateInterviewRequest) => {
+      const result = await createInterview(payload);
 
-// TODO: 면접 질문 생성
+      if (!result.success) {
+        return Promise.reject(result);
+      }
+
+      return result.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: interviewKeys.list() });
+
+      // 생성 직후 상세 캐시를 미리 무효화하고 싶다면 추가
+      queryClient.invalidateQueries({
+        queryKey: interviewKeys.detail(data.interviewStrategyId),
+      });
+    },
+    onError: (error) => {
+      console.error('면접 질문 생성 실패:', error);
+    },
+  });
+}
 
 // 면접 질문 삭제
 export function useDeleteInterview() {
@@ -48,7 +83,7 @@ export function useDeleteInterview() {
 
   return useMutation({
     mutationFn: async (interviewStrategyId: number) => {
-      const result = await deleteInterview({ interviewStrategyId });
+      const result = await deleteInterview(interviewStrategyId);
       if (!result.success) {
         return Promise.reject(result);
       }
