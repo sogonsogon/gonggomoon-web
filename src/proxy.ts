@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 const BASE_API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
 export async function proxy(request: NextRequest) {
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.next();
+  }
+
   const accessToken = request.cookies.get('access_token')?.value;
   const refreshToken = request.cookies.get('refresh_token')?.value;
 
