@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { SearchX } from 'lucide-react';
 import type { TabValue } from '@/features/recruitment/constants/tabs';
 import RecruitmentList from '@/features/recruitment/components/ui/RecruitmentList';
@@ -12,14 +13,39 @@ interface RecruitmentListSectionProps {
 }
 
 export default function RecruitmentListSection({ activeTab, search }: RecruitmentListSectionProps) {
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
   const params = createRecruitmentListParams(activeTab, search);
 
-  const { data, isPending, isError } = useGetRecruitments(params);
+  const { data, isPending, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetRecruitments(params);
 
   const recruitments = data?.items ?? [];
   const totalElements = data?.totalElements ?? 0;
+  const isEmpty = recruitments.length === 0;
+  const isInitialLoading = isPending && isEmpty;
+  const isEnd = !hasNextPage;
 
-  if (isPending) {
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+        if (!hasNextPage) return;
+        if (isFetchingNextPage) return;
+
+        fetchNextPage();
+      },
+      { rootMargin: '200px' },
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  if (isInitialLoading) {
     return (
       <section className="min-w-0 flex-1">
         <div className="flex min-h-90 items-center justify-center rounded-2xl border border-gray-100 bg-white">
@@ -33,27 +59,44 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
     return (
       <section className="min-w-0 flex-1">
         <div className="flex min-h-90 items-center justify-center rounded-2xl border border-gray-100 bg-white">
-          <p className="text-sm text-gray-500">공고를 불러오지 못했어요.</p>
+          <p className="text-sm text-gray-500">
+            공고를 불러오지 못했어요.
+            {error instanceof Error ? ` (${error.message})` : ''}
+          </p>
         </div>
+      </section>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <section className="min-w-0 flex-1">
+        <RecruitmentEmptyState search={search} />
       </section>
     );
   }
 
   return (
     <section className="min-w-0 flex-1">
-      {recruitments.length === 0 ? (
-        <RecruitmentEmptyState search={search} />
-      ) : (
-        <div className="flex flex-1 flex-col">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-900">
-              <span className="text-blue-500">{totalElements}개</span>의 공고가 열려있어요.
-            </span>
-          </div>
-
-          <RecruitmentList recruitments={recruitments} />
+      <div className="flex flex-1 flex-col">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-sm font-medium text-gray-900">
+            <span className="text-blue-500">{totalElements}개</span>의 공고가 열려있어요.
+          </span>
         </div>
-      )}
+
+        <RecruitmentList recruitments={recruitments} />
+
+        <div ref={sentinelRef} className="h-px" />
+
+        {isFetchingNextPage && (
+          <p className="py-6 text-center text-sm text-gray-500">공고를 더 불러오는 중이에요...</p>
+        )}
+
+        {!isEmpty && isEnd && !isFetchingNextPage && (
+          <p className="py-6 text-center text-sm text-gray-400">마지막 공고까지 모두 확인했어요.</p>
+        )}
+      </div>
     </section>
   );
 }
