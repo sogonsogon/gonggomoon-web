@@ -4,8 +4,11 @@ import type {
   GetRecruitmentsResponse,
   RequestRecruitmentRequest,
 } from '@/features/recruitment/types';
-import { requestRecruitment } from '@/features/recruitment/actions';
-import { getRecruitments, getRecruitmentDetail } from '@/features/recruitment/actions';
+import {
+  requestRecruitment,
+  getRecruitments,
+  getRecruitmentDetail,
+} from '@/features/recruitment/actions';
 
 export const recruitmentKeys = {
   all: ['recruitment'] as const,
@@ -18,7 +21,17 @@ export const recruitmentKeys = {
 export function useGetRecruitments(params: GetRecruitmentsParams = {}) {
   return useInfiniteQuery({
     ...getRecruitmentsInfiniteQueryOption(params),
-    select: (data) => data.pages.flatMap((page) => page.content),
+    select: (data) => {
+      const mergedItems = data.pages.flatMap((page) => page.content);
+
+      const items = Array.from(new Map(mergedItems.map((item) => [item.postId, item])).values());
+
+      return {
+        items,
+        totalElements: data.pages[0]?.pageInfo.totalElements ?? 0,
+        hasNextPage: data.pages[data.pages.length - 1]?.pageInfo.hasNext ?? false,
+      };
+    },
   });
 }
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo, useRef } from 'react';
 import { SearchX } from 'lucide-react';
 import type { TabValue } from '@/features/recruitment/constants/tabs';
 import RecruitmentList from '@/features/recruitment/components/ui/RecruitmentList';
@@ -12,12 +13,55 @@ interface RecruitmentListSectionProps {
 }
 
 export default function RecruitmentListSection({ activeTab, search }: RecruitmentListSectionProps) {
-  const normalizedSearch = search.trim().toLowerCase();
-  const params = createRecruitmentListParams(activeTab, search);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: recruitments = [], isPending, isError } = useGetRecruitments(params);
+  const trimmedSearch = search.trim();
+  const normalizedSearch = trimmedSearch.toLowerCase();
+  const params = createRecruitmentListParams(activeTab, trimmedSearch);
 
-  if (isPending) {
+  const { data, isPending, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetRecruitments(params);
+
+  const recruitments = data?.items ?? [];
+  const totalElements = data?.totalElements ?? 0;
+
+  const filteredRecruitments = useMemo(() => {
+    if (!normalizedSearch) return recruitments;
+
+    return recruitments.filter((item) => {
+      return (
+        item.postTitle.toLowerCase().includes(normalizedSearch) ||
+        item.companyName.toLowerCase().includes(normalizedSearch)
+      );
+    });
+  }, [recruitments, normalizedSearch]);
+
+  const isEmpty = filteredRecruitments.length === 0;
+  const isInitialLoading = isPending && recruitments.length === 0;
+  const isEnd = !hasNextPage;
+  const hasSearch = Boolean(trimmedSearch);
+
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+        if (!hasNextPage) return;
+        if (isFetchingNextPage) return;
+
+        fetchNextPage();
+      },
+      { rootMargin: '200px' },
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  if (isInitialLoading) {
     return (
       <section className="min-w-0 flex-1">
         <div className="flex min-h-90 items-center justify-center rounded-2xl border border-gray-100 bg-white">
@@ -37,28 +81,40 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
     );
   }
 
-  const filteredRecruitments = recruitments.filter((item) => {
-    const matchesSearch =
-      !normalizedSearch ||
-      item.postTitle.toLowerCase().includes(normalizedSearch) ||
-      item.companyName.toLowerCase().includes(normalizedSearch);
-
-    return matchesSearch;
-  });
-
   return (
     <section className="min-w-0 flex-1">
-      {filteredRecruitments.length === 0 ? (
+      {isEmpty ? (
         <RecruitmentEmptyState search={search} />
       ) : (
         <div className="flex flex-1 flex-col">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-900">
-              <span className="text-blue-500">{filteredRecruitments.length}개</span>의 공고가
-              열려있어요.
+              {hasSearch ? (
+                <>
+                  <span className="text-blue-500">{filteredRecruitments.length}개</span>의 검색
+                  결과가 있어요.
+                </>
+              ) : (
+                <>
+                  <span className="text-blue-500">{totalElements}개</span>의 공고가 열려있어요.
+                </>
+              )}
             </span>
           </div>
+
           <RecruitmentList recruitments={filteredRecruitments} />
+
+          <div ref={sentinelRef} className="h-px" />
+
+          {isFetchingNextPage && (
+            <p className="py-6 text-center text-sm text-gray-500">공고를 더 불러오는 중이에요...</p>
+          )}
+
+          {!isEmpty && isEnd && !isFetchingNextPage && (
+            <p className="py-6 text-center text-sm text-gray-400">
+              마지막 공고까지 모두 확인했어요.
+            </p>
+          )}
         </div>
       )}
     </section>
