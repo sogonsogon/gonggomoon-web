@@ -1,6 +1,5 @@
 import { CircleCheck, Code, Layers, Server } from 'lucide-react';
 import type { StrategyDetail } from '@/features/strategy/types';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import StrategyDeleteButton from '@/features/strategy/components/ui/StrategyDeleteButton';
 import { formatCreatedDate } from '@/shared/utils/formatCreatedDate';
@@ -34,7 +33,7 @@ export default function StrategyMetaBar({ strategy }: StrategyMetaBarProps) {
           <div className="flex items-center gap-1.5">
             <div className="h-2 w-2 rounded-full bg-[#1557a0]" />
             <span className="text-[13px] font-semibold text-gray-900">
-              {strategy.industryType ? INDUSTRY_LABEL_MAP[strategy.industryType] : '미설정'}
+              {strategy.industryName ?? '미설정'}
             </span>
           </div>
         </div>
