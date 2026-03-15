@@ -6,89 +6,64 @@ export async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get('access_token')?.value;
   const refreshToken = request.cookies.get('refresh_token')?.value;
 
-  // 토큰 재발급
-  if (!accessToken && refreshToken) {
+  const isTokenExpired = !accessToken;
+
+  if (isTokenExpired && refreshToken) {
     try {
-      const refreshRes = await fetch(`${BASE_API_URL}/api/v1/auth/reissue`, {
+      // 2. 토큰 재발급 API 호출
+      const refreshApiUrl = `${BASE_API_URL}/api/v1/auth/reissue`;
+      const refreshRes = await fetch(refreshApiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refresh_token: refreshToken }),
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: `refreshToken=${refreshToken}`,
+        },
       });
 
       if (refreshRes.ok) {
-        const tokenData = await refreshRes.json();
-        const newAccessToken = tokenData.accessToken;
-        const newRefreshToken = tokenData.refreshToken;
+        const result = await refreshRes.json();
 
-        const requestHeaders = new Headers(request.headers);
-        let cookieString = requestHeaders.get('cookie') || '';
+        if (result.success && result.data) {
+          const newAccessToken = result.data.accessToken;
+          const newRefreshToken = result.data.refreshToken;
 
-        if (cookieString.includes('access_token=')) {
-          // 기존 쿠키에 엑세스 토큰이 있을 경우 교체
-          cookieString = cookieString.replace(
-            /access_token=[^;]+/,
-            `access_token=${newAccessToken}`,
-          );
-        } else {
-          // 기존 쿠키에 없을 경우 쿠키에 추가
-          cookieString = cookieString
-            ? `${cookieString}; access_token=${newAccessToken}`
-            : `access_token=${newAccessToken}`;
-        }
+          request.cookies.set('access_token', newAccessToken);
+          request.cookies.set('refresh_token', newRefreshToken);
 
-        if (newRefreshToken) {
-          if (cookieString.includes('refresh_token=')) {
-            // 기존 쿠키에 리프레시 토큰이 있을 경우 교체
-            cookieString = cookieString.replace(
-              /refresh_token=[^;]+/,
-              `refresh_token=${newRefreshToken}`,
-            );
-          } else {
-            // 기존 쿠키에 없을 경우 쿠키에 추가
-            cookieString += `; refresh_token=${newRefreshToken}`;
-          }
-        }
+          const requestHeaders = new Headers(request.headers);
+          requestHeaders.set('Cookie', request.cookies.toString());
 
-        requestHeaders.set('cookie', cookieString);
+          const response = NextResponse.next({
+            request: { headers: requestHeaders },
+          });
 
-        const response = NextResponse.next({
-          request: { headers: requestHeaders },
-        });
-
-        response.cookies.set('access_token', newAccessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
-          maxAge: 60 * 59, // Proxy에서 선제적 만료 처리
-        });
-
-        if (newRefreshToken) {
-          response.cookies.set('refresh_token', newRefreshToken, {
+          response.cookies.set('access_token', newAccessToken, {
+            maxAge: 60 * 60, // 1시간
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'none',
             path: '/',
-            maxAge: 60 * 60 * 24 * 14,
           });
-        }
+          response.cookies.set('refresh_token', newRefreshToken, {
+            maxAge: 60 * 60 * 24 * 14, // 14일
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',
+            path: '/',
+          });
 
-        return response;
-      } else {
-        const response = NextResponse.next();
-        response.cookies.delete('access_token');
-        response.cookies.delete('refresh_token');
-        return response;
+          return response;
+        }
       }
     } catch (error) {
-      console.error('[Proxy] 토큰 재발급 실패', error);
-      return NextResponse.next();
+      // 갱신 실패 시 조작 없이 통과 (이후 httpClient가 401/SESSION_EXPIRED 반환)
     }
   }
 
   return NextResponse.next();
 }
 
+// 정적 자원(이미지, 폰트 등) 요청에는 실행되지 않도록 최적화
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
