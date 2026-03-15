@@ -9,6 +9,6 @@ export function createInterviewHistoryItems(interviews: Interview[]): HistorySid
     .map((interview) => ({
       title: formatInterviewTitle(interview.createdAt),
       date: formatHistoryDate(interview.createdAt),
-      href: `/interview/result/${interview.interviewSetId}`,
+      href: `/interview/result/${interview.interviewStrategyId}`,
     }));
 }
