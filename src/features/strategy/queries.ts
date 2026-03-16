@@ -1,6 +1,7 @@
 import {
   createStrategy,
   deleteStrategy,
+  getStrategyAvailability,
   getStrategyDetail,
   getStrategyList,
 } from '@/features/strategy/actions';
@@ -11,6 +12,7 @@ export const strategyKeys = {
   all: ['strategy'] as const,
   list: () => [...strategyKeys.all, 'list'] as const,
   detail: (strategyId: number) => [...strategyKeys.all, 'detail', strategyId] as const,
+  availability: () => [...strategyKeys.all, 'availability'] as const,
 };
 
 // 포폴 전략 목록 조회
@@ -68,6 +70,7 @@ export function useCreateStrategy() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: strategyKeys.list() });
+      queryClient.invalidateQueries({ queryKey: strategyKeys.availability() });
 
       // 생성 직후 상세 캐시를 미리 무효화하고 싶다면 추가
       queryClient.invalidateQueries({
@@ -102,3 +105,23 @@ export function useDeleteStrategy() {
     },
   });
 }
+
+// 포폴 전략 생성 사용 횟수 조회
+export function useGetStrategyAvailability(enabled = true) {
+  return useQuery(getStrategyAvailabilityQueryOptions(enabled));
+}
+
+export const getStrategyAvailabilityQueryOptions = (enabled = true) => ({
+  queryKey: strategyKeys.availability(),
+  queryFn: async () => {
+    const response = await getStrategyAvailability();
+
+    if (!response.success) {
+      return Promise.reject(response);
+    }
+
+    return response.data;
+  },
+  staleTime: 60 * 1000,
+  enabled,
+});
