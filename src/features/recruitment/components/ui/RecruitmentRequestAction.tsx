@@ -42,19 +42,22 @@ export default function RecruitmentRequestAction() {
     setIsOpen(true);
   };
 
-  const handleSubmit = async (payload: { platformId: number; url: string }) => {
-    try {
-      await submitRecruitment({
+  const handleSubmit = (payload: { platformId: number; url: string }) => {
+    submitRecruitment(
+      {
         platformId: payload.platformId,
         postUrl: payload.url,
-      });
-
-      toast.success('공고 추가 요청이 접수되었어요.');
-      setIsOpen(false);
-    } catch (error) {
-      console.error('공고 추가 요청 실패:', error);
-      toast.error('공고 추가 요청에 실패했어요. 잠시 후 다시 시도해주세요.');
-    }
+      },
+      {
+        onSuccess: () => {
+          toast.success('공고 추가 요청이 접수되었어요.');
+          setIsOpen(false);
+        },
+        onError: (error) => {
+          toast.error(error.message || '공고 추가 요청에 실패했어요. 잠시 후 다시 시도해주세요.');
+        },
+      },
+    );
   };
 
   return (
