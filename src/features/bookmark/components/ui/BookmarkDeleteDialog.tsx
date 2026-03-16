@@ -14,20 +14,23 @@ interface BookmarkDeleteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
+  isPending?: boolean;
 }
 
 export default function BookmarkDeleteDialog({
   open,
   onOpenChange,
   onConfirm,
+  isPending = false,
 }: BookmarkDeleteDialogProps) {
-  const handleConfirm = () => {
-    onConfirm();
-    onOpenChange(false);
-  };
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (isPending) return;
+        onOpenChange(nextOpen);
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>북마크 삭제</DialogTitle>
@@ -38,11 +41,16 @@ export default function BookmarkDeleteDialog({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isPending}
+          >
             취소
           </Button>
-          <Button variant="destructive" onClick={handleConfirm}>
-            삭제
+          <Button type="button" variant="destructive" onClick={onConfirm} disabled={isPending}>
+            {isPending ? '삭제 중...' : '삭제'}
           </Button>
         </DialogFooter>
       </DialogContent>
