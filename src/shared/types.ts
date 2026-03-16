@@ -24,6 +24,7 @@ export type GetGenerationStatusRequest = {
 };
 
 export type GetGenerationStatusResponse = {
+  type: GenerationRequestType;
   id: number;
   status: GenerationRequestStatus;
   error: string | null;
