@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'ssl.pstatic.net',
+        hostname: '**.pstatic.net',
         port: '',
         pathname: '/**',
       },
