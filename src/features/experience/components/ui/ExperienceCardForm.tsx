@@ -59,6 +59,7 @@ export default function ExperienceCardForm({
   };
 
   const isDirty =
+    (isAiGenerated && experience.experienceId < 0) ||
     draft.title !== experience.title ||
     draft.experienceType !== experience.experienceType ||
     draft.startDate !== (experience.startDate ? toDisplayDate(experience.startDate) : '') ||
@@ -247,7 +248,12 @@ export default function ExperienceCardForm({
 
         {/* 액션 버튼 */}
         <div className="flex justify-end gap-2 border-t border-gray-200 px-5 py-3">
-          <Button type="button" variant="outline" onClick={handleCancelRequest} className="rounded-lg">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCancelRequest}
+            className="rounded-lg"
+          >
             취소
           </Button>
           <Button
@@ -279,12 +285,6 @@ export default function ExperienceCardForm({
         >
           {EXP_TYPE_LABELS[experience.experienceType]}
         </span>
-        {isAiGenerated && (
-          <div className="flex shrink-0 items-center gap-1 rounded-full bg-violet-50 px-2 py-0.5">
-            <SparklesIcon className="h-3 w-3 text-violet-500" />
-            <span className="text-[11px] font-semibold text-violet-600">AI 생성</span>
-          </div>
-        )}
 
         <div className="flex flex-1 items-baseline gap-2">
           {/* 경험 제목 */}
