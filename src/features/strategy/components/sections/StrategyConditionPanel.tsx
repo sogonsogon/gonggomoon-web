@@ -20,6 +20,7 @@ import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrate
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { Button } from '@/shared/components/ui/button';
 import { useGetStrategyAvailability } from '@/features/strategy/queries';
+import { TODAY_USAGE, DAILY_LIMIT } from '@/features/strategy/constants/limit';
 
 export default function StrategyConditionPanel() {
   const router = useRouter();
@@ -34,8 +35,8 @@ export default function StrategyConditionPanel() {
 
   const { data: availability, isLoading: isAvailabilityLoading } = useGetStrategyAvailability();
 
-  const todayUsage = availability?.usedCount ?? 0;
-  const dailyLimit = availability?.limitCount ?? 10;
+  const todayUsage = availability?.usedCount ?? TODAY_USAGE;
+  const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
   const isFormLocked = submitLoading;

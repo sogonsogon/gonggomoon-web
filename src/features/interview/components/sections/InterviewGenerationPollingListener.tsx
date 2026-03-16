@@ -2,10 +2,10 @@
 
 import { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
 import { GetGenerationStatusResponse } from '@/shared/types';
-import { toast } from 'sonner';
 
 export default function InterviewGenerationPollingListener() {
   const router = useRouter();
@@ -31,7 +31,6 @@ export default function InterviewGenerationPollingListener() {
         },
       });
 
-      // 이동 직전/직후 큐에서 제거하고 싶으면 사용
       removeRequest(id);
     },
     [markRequestCompleted, removeRequest, router],
@@ -40,6 +39,8 @@ export default function InterviewGenerationPollingListener() {
   const handleFailed = useCallback(
     (id: number, error: string) => {
       markRequestFailed(id, error);
+
+      toast.error(error || '면접 질문 생성 중 문제가 발생했습니다.');
     },
     [markRequestFailed],
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { toast } from 'sonner';
 import { useCreateInterview } from '@/features/interview/queries';
 import { useInterviewCreateFormStore } from '@/features/interview/stores/useInterviewCreateFormStore';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
@@ -14,12 +15,15 @@ export function useStartInterviewGeneration() {
       useInterviewGenerationStore.getState();
 
     if (!formData.selectedPortfolioId) {
-      throw new Error('포트폴리오를 선택해 주세요.');
+      const message = '포트폴리오를 선택해 주세요.';
+      toast.error(message);
+      throw new Error(message);
     }
 
     const payload: CreateInterviewRequest = {
       fileAssetId: formData.selectedPortfolioId,
     };
+
     startSubmit();
 
     try {
@@ -32,6 +36,7 @@ export function useStartInterviewGeneration() {
       const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
 
       markSubmitFailed(message);
+      toast.error(message);
       throw err;
     }
   };
