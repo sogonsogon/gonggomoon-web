@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import type {
   GetRecruitmentsParams,
   GetRecruitmentsResponse,
@@ -106,11 +106,11 @@ export function useRequestRecruitment() {
 }
 
 // 플랫폼 목록 조회
-export function useGetRecruitmentPlatforms() {
-  return useQuery(getRecruitmentPlatformsQueryOption());
+export function useGetRecruitmentPlatforms(options?: { enabled?: boolean }) {
+  return useQuery(getRecruitmentPlatformsQueryOption(options));
 }
 
-export function getRecruitmentPlatformsQueryOption() {
+export function getRecruitmentPlatformsQueryOption(options?: { enabled?: boolean }) {
   return {
     queryKey: recruitmentKeys.platform(),
     queryFn: async () => {
@@ -122,6 +122,7 @@ export function getRecruitmentPlatformsQueryOption() {
 
       return response.data;
     },
+    enabled: options?.enabled ?? true,
     staleTime: Infinity,
     gcTime: 30 * 60 * 1000,
     refetchOnMount: false,

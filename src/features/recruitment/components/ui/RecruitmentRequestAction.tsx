@@ -6,8 +6,10 @@ import { toast } from 'sonner';
 import FloatingActionButton from '@/shared/components/ui/FloatingActionButton';
 import RecruitmentRequestDialog from '@/features/recruitment/components/ui/RecruitmentRequestDialog';
 import { useGetRecruitmentPlatforms, useRequestRecruitment } from '@/features/recruitment/queries';
+import { useUser } from '@/features/user/queries';
 
 export default function RecruitmentRequestAction() {
+  const { data: user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [dialogKey, setDialogKey] = useState(0);
 
@@ -15,11 +17,15 @@ export default function RecruitmentRequestAction() {
     data,
     isLoading: isPlatformLoading,
     isError: isPlatformError,
-  } = useGetRecruitmentPlatforms();
+  } = useGetRecruitmentPlatforms({ enabled: !!user });
 
   const platformOptions = data?.content ?? [];
 
   const { mutateAsync: submitRecruitment, isPending } = useRequestRecruitment();
+
+  if (!user) {
+    return null;
+  }
 
   const handleOpen = () => {
     if (isPlatformLoading) {
