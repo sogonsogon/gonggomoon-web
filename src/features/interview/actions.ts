@@ -3,6 +3,7 @@
 import {
   CreateInterviewRequest,
   CreateInterviewResponse,
+  GetInterviewAvailablityResponse,
   GetInterviewListResponse,
   GetInterviewResponse,
 } from '@/features/interview/types';
@@ -38,4 +39,13 @@ export async function deleteInterview(interviewStrategyId: number): Promise<ApiR
   return await privateFetch<null>(`/api/v1/interviews/${interviewStrategyId}`, {
     method: 'DELETE',
   });
+}
+
+// 면접 질문 생성 사용 횟수
+export async function getInterviewAvailability(): Promise<
+  ApiResponse<GetInterviewAvailablityResponse>
+> {
+  return await privateFetch<GetInterviewAvailablityResponse>(
+    '/api/v1/interview-strategies/availability',
+  );
 }
