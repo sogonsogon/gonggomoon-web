@@ -99,8 +99,8 @@ export default function RecruitmentRequestDialog({
               </SelectTrigger>
               <SelectContent position="popper">
                 {platformOptions.map((option) => (
-                  <SelectItem key={option.id} value={String(option.id)}>
-                    {option.name}
+                  <SelectItem key={option.platformId} value={String(option.platformId)}>
+                    {option.platformName}
                   </SelectItem>
                 ))}
               </SelectContent>
