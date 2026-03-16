@@ -23,7 +23,6 @@ import {
 } from '@/shared/components/ui/select';
 import { useUploadFile } from '@/features/file/queries';
 import { toast } from 'sonner';
-import { ApiErrorResponse } from '@/shared/types/api';
 
 export default function FileUploadDialog() {
   const { isDialogOpen, openDialog, closeDialog } = useFileUploadDialog();
@@ -39,8 +38,8 @@ export default function FileUploadDialog() {
 
   const handleDialogOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
-      resetForm();
       closeDialog();
+      resetForm();
       return;
     }
     openDialog();
@@ -60,6 +59,7 @@ export default function FileUploadDialog() {
         onSuccess: () => {
           toast.success('업로드가 완료되었습니다.');
           closeDialog();
+          resetForm();
         },
         onError: (error) => {
           toast.error(error.message || '업로드에 실패했습니다. 잠시 후 다시 시도해주세요.');
