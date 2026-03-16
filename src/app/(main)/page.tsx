@@ -7,8 +7,6 @@ import BookmarkSidebar from '@/features/recruitment/components/ui/BookmarkSideba
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { createRecruitmentListParams } from '@/features/recruitment/utils/createRecruitmentListParams';
 import { getRecruitmentsInfiniteQueryOption } from '@/features/recruitment/queries';
-import { GetRecruitmentPlatformsResponse } from '@/features/recruitment/types';
-import { mockRecruitmentPlatforms } from '@/mocks/recruitment.mock';
 
 const TAB_VALUES = new Set<string>(TABS.map((tab) => tab.value));
 
@@ -29,9 +27,6 @@ export default async function MainPage({ searchParams }: MainPageProps) {
   const recruitmentParams = createRecruitmentListParams(activeTab, searchText);
   await queryClient.prefetchInfiniteQuery(getRecruitmentsInfiniteQueryOption(recruitmentParams));
 
-  // TODO: 플랫폼 목록 조회 API 연동
-  const platformOptions: GetRecruitmentPlatformsResponse = mockRecruitmentPlatforms;
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-white px-4 font-sans">
       <div className="flex flex-1 flex-col gap-7 py-8">
@@ -46,7 +41,7 @@ export default async function MainPage({ searchParams }: MainPageProps) {
           <BookmarkSidebar />
         </div>
 
-        <RecruitmentRequestAction platformOptions={platformOptions} />
+        <RecruitmentRequestAction />
       </div>
     </div>
   );
