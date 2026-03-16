@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useExperienceExtractDialog } from '@/features/experience/stores/useExperienceExtractDialog';
+import { useStartExperienceExtraction } from '@/features/experience/hooks/useStartExperienceExtraction';
 import ExperienceFileEmpty from '@/features/experience/components/ui/ExperienceFileEmpty';
 import ExperienceFileItem from '@/features/experience/components/ui/ExperienceFileItem';
 import { File } from '@/features/file/types';
@@ -16,6 +17,7 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 import { CircleCheckIcon, FilesIcon, SparklesIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface ExperienceExtractDialogProps {
   files: File[];
@@ -25,6 +27,7 @@ const MAX_FILE_SELECTIONS = 2;
 
 export default function ExperienceExtractDialog({ files }: ExperienceExtractDialogProps) {
   const { isDialogOpen, closeDialog } = useExperienceExtractDialog();
+  const { startExperienceExtraction } = useStartExperienceExtraction();
   const [selectedFileIds, setSelectedFileIds] = useState<Set<number>>(new Set());
   const hasFiles = files.length > 0;
 
@@ -50,7 +53,11 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
   };
 
   const handleExtract = async () => {
-    // TODO: 경험 추출 시작 API 호출
+    if (selectedFileIds.size === 0) {
+      toast.error('파일을 1개 이상 선택해주세요.');
+      return;
+    }
+    await startExperienceExtraction(Array.from(selectedFileIds));
     handleDialogOpenChange(false);
   };
 

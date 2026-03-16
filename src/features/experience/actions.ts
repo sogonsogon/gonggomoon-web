@@ -4,6 +4,8 @@ import {
   CreateExperienceRequest,
   CreateExperienceResponse,
   DeleteExperienceRequest,
+  StartExtractExperienceResponse,
+  GetExtractedExperienceResponse,
   GetExperienceListResponse,
   GetExperienceRequest,
   GetExperienceResponse,
@@ -60,5 +62,30 @@ export async function deleteExperience({
   const response = await privateFetch<null>(`/api/v1/experiences/${experienceId}`, {
     method: 'DELETE',
   });
+  return response;
+}
+
+// 경험 추출 시작
+export async function startExtractExperience(
+  fileAssetIds: number[],
+): Promise<ApiResponse<StartExtractExperienceResponse>> {
+  const response = await privateFetch<StartExtractExperienceResponse>(
+    '/api/v1/experiences/extractions',
+    {
+      method: 'POST',
+      body: JSON.stringify({ fileAssetIds }),
+      cache: 'no-store',
+    },
+  );
+  return response;
+}
+
+// 경험 추출 완료 조회
+export async function getExtractedExperience(
+  extractedExperienceId: number,
+): Promise<ApiResponse<GetExtractedExperienceResponse>> {
+  const response = await privateFetch<GetExtractedExperienceResponse>(
+    `/api/v1/experiences/extractions/${extractedExperienceId}`,
+  );
   return response;
 }
