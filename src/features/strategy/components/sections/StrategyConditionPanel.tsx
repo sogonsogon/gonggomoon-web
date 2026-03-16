@@ -19,6 +19,7 @@ import { useStartStrategyGeneration } from '@/features/strategy/hooks/useStartSt
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { Button } from '@/shared/components/ui/button';
+import { useGetStrategyAvailability } from '@/features/strategy/queries';
 
 export default function StrategyConditionPanel() {
   const router = useRouter();
@@ -30,6 +31,12 @@ export default function StrategyConditionPanel() {
   const submitLoading = useStrategyGenerationStore((state) => state.submitLoading);
   const requests = useStrategyGenerationStore((state) => state.requests);
   const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
+
+  const { data: availability, isLoading: isAvailabilityLoading } = useGetStrategyAvailability();
+
+  const todayUsage = availability?.usedCount ?? 0;
+  const dailyLimit = availability?.limitCount ?? 10;
+  const isLimitReached = !availability?.canGenerate;
 
   const isFormLocked = submitLoading;
 
@@ -53,7 +60,7 @@ export default function StrategyConditionPanel() {
   };
 
   const handleGenerateClick = async () => {
-    if (formData.selectedExperienceIds.length === 0 || isFormLocked) return;
+    if (formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked) return;
 
     try {
       const response = await startStrategyGeneration();
@@ -184,10 +191,35 @@ export default function StrategyConditionPanel() {
         </div>
       </div>
 
+      <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
+          <div className="flex items-center gap-1">
+            <span className="text-[20px] font-bold text-blue-700">
+              {isAvailabilityLoading ? '-' : todayUsage}
+            </span>
+            <span className="text-[13px] font-medium text-blue-400">
+              / {isAvailabilityLoading ? '-' : `${dailyLimit}회`}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: dailyLimit }).map((_, i) => (
+            <div
+              key={i}
+              className={`h-2.5 w-2.5 rounded-full ${
+                i < todayUsage ? 'bg-blue-500' : 'bg-blue-200'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
       <Button
         type="button"
         onClick={handleGenerateClick}
-        disabled={formData.selectedExperienceIds.length === 0 || isFormLocked}
+        disabled={formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked}
         className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
       >
         {submitLoading ? (

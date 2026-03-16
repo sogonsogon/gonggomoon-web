@@ -3,6 +3,7 @@
 import {
   CreateStrategyRequest,
   CreateStrategyResponse,
+  GetStrategyAvailablityResponse,
   GetStrategyDetailResponse,
   GetStrategyListResponse,
 } from '@/features/strategy/types';
@@ -41,4 +42,11 @@ export async function deleteStrategy(strategyId: number): Promise<ApiResponse<nu
   return await privateFetch<null>(`/api/v1/portfolio-strategies/${strategyId}`, {
     method: 'DELETE',
   });
+}
+
+// 포폴 전략 생성 사용 횟수 조회
+export async function getStrategyAvailability(): Promise<
+  ApiResponse<GetStrategyAvailablityResponse>
+> {
+  return await privateFetch<GetStrategyAvailablityResponse>('/api/v1/strategies/availability');
 }

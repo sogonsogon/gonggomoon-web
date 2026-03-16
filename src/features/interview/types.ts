@@ -44,3 +44,9 @@ export type GetInterviewResponse = InterviewDetail;
 export type DeleteInterviewRequest = {
   interviewStrategyId: number;
 };
+
+export type GetInterviewAvailablityResponse = {
+  usedCount: number;
+  limitCount: number;
+  canGenerate: boolean;
+};

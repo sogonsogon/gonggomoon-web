@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation';
 import { FileText, RefreshCw, Sparkles, Timer, Loader2 } from 'lucide-react';
 import { formatFileSize } from '@/features/file/utils/formatFileSize';
 import PortfolioSelectDialog from '@/features/interview/components/ui/PortfolioSelectDialog';
-import { TODAY_USAGE, DAILY_LIMIT, isLimitReached } from '@/features/interview/constants/limit';
 import { useInterviewCreateFormStore } from '@/features/interview/stores/useInterviewCreateFormStore';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
 import { useStartInterviewGeneration } from '@/features/interview/hooks/useStartInterviewGeneration';
+import { useGetInterviewAvailability } from '@/features/interview/queries';
 
 export default function InterviewConditionalPanel() {
   const router = useRouter();
@@ -23,6 +23,12 @@ export default function InterviewConditionalPanel() {
   const submitLoading = useInterviewGenerationStore((state) => state.submitLoading);
   const requests = useInterviewGenerationStore((state) => state.requests);
   const requestOrder = useInterviewGenerationStore((state) => state.requestOrder);
+
+  const { data: availability, isLoading: isAvailabilityLoading } = useGetInterviewAvailability();
+
+  const todayUsage = availability?.usedCount ?? 0;
+  const dailyLimit = availability?.limitCount ?? 1;
+  const isLimitReached = !availability?.canGenerate;
 
   const isFormLocked = submitLoading;
 
@@ -119,23 +125,25 @@ export default function InterviewConditionalPanel() {
           )}
         </div>
 
-        <div className="h-px bg-gray-100" />
-
         <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
             <div className="flex items-center gap-1">
-              <span className="text-[20px] font-bold text-blue-700">{TODAY_USAGE}</span>
-              <span className="text-[13px] font-medium text-blue-400">/ {DAILY_LIMIT}회</span>
+              <span className="text-[20px] font-bold text-blue-700">
+                {isAvailabilityLoading ? '-' : todayUsage}
+              </span>
+              <span className="text-[13px] font-medium text-blue-400">
+                / {isAvailabilityLoading ? '-' : `${dailyLimit}회`}
+              </span>
             </div>
           </div>
 
           <div className="flex items-center gap-1.5">
-            {Array.from({ length: DAILY_LIMIT }).map((_, i) => (
+            {Array.from({ length: dailyLimit }).map((_, i) => (
               <div
                 key={i}
                 className={`h-2.5 w-2.5 rounded-full ${
-                  i < TODAY_USAGE ? 'bg-blue-500' : 'bg-blue-200'
+                  i < todayUsage ? 'bg-blue-500' : 'bg-blue-200'
                 }`}
               />
             ))}
@@ -145,7 +153,7 @@ export default function InterviewConditionalPanel() {
         <button
           type="button"
           onClick={handleGenerate}
-          disabled={!selectedPortfolio || isLimitReached || isFormLocked}
+          disabled={!selectedPortfolio || isLimitReached || isFormLocked || isAvailabilityLoading}
           className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-blue-600 py-3.5 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {submitLoading ? (
