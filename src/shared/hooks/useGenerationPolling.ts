@@ -48,7 +48,7 @@ export function useGenerationPolling({
 
         const response = apiResponse.data;
 
-        if (response.status === 'COMPLETED') {
+        if (response.status === 'READY') {
           onCompleted(id, response);
           return;
         }

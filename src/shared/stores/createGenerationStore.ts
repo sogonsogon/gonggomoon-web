@@ -127,7 +127,7 @@ export function createGenerationStore(
           ...state.requests,
           [id]: {
             ...target,
-            status: 'COMPLETED',
+            status: 'READY',
             error: null,
           },
         };
@@ -161,7 +161,7 @@ export function createGenerationStore(
     clearCompletedRequests: () =>
       set((state) => {
         const nextRequests = Object.fromEntries(
-          Object.entries(state.requests).filter(([, request]) => request.status !== 'COMPLETED'),
+          Object.entries(state.requests).filter(([, request]) => request.status !== 'READY'),
         ) as Record<number, GenerationRequestState>;
 
         return {
