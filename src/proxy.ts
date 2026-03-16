@@ -1,14 +1,9 @@
 import { ReissueTokenResponse } from '@/features/auth/types';
 import { publicFetch } from '@/shared/api/httpClient';
+import { isProtectedRoute } from '@/shared/utils/isProtectedPath';
 import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
-
-const PROTECTED_PATHS = ['/my'];
-
-function isProtectedPath(pathname: string): boolean {
-  return PROTECTED_PATHS.some((path) => pathname.startsWith(path));
-}
 
 function redirectToLoginRequired(request: NextRequest): NextResponse {
   const url = request.nextUrl.clone();
@@ -28,7 +23,7 @@ export async function proxy(request: NextRequest) {
 
   // access_token도 refresh_token도 없는 완전 비로그인
   if (!accessToken && !refreshToken) {
-    if (isProtectedPath(pathname)) {
+    if (isProtectedRoute(pathname)) {
       return redirectToLoginRequired(request);
     }
     return NextResponse.next();
@@ -83,7 +78,7 @@ export async function proxy(request: NextRequest) {
     }
 
     // refresh_token은 있었지만 재발급 실패 → 보호 경로면 로그인 모달로
-    if (isProtectedPath(pathname)) {
+    if (isProtectedRoute(pathname)) {
       return redirectToLoginRequired(request);
     }
   }
