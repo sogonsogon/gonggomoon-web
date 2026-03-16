@@ -38,7 +38,9 @@ export default async function MainPage({ searchParams }: MainPageProps) {
           <HydrationBoundary state={dehydrate(queryClient)}>
             <RecruitmentListSection activeTab={activeTab} search={searchText} />
           </HydrationBoundary>
-          <BookmarkSidebar />
+          <div className="sticky top-26 h-fit w-80 shrink-0 self-start">
+            <BookmarkSidebar />
+          </div>
         </div>
 
         <RecruitmentRequestAction />
