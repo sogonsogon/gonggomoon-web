@@ -7,6 +7,7 @@ import {
   GetRecruitmentsResponse,
   RequestRecruitmentRequest,
   GetRecruitmentsParams,
+  GetRecruitmentPlatformsResponse,
 } from '@/features/recruitment/types';
 
 // 공고 목록 조회
@@ -18,7 +19,7 @@ export async function getRecruitments(
   if (params.jobType) searchParams.set('jobType', params.jobType);
   if (params.name) searchParams.set('name', params.name);
   if (typeof params.page === 'number') searchParams.set('page', String(params.page));
-  if (params.size) searchParams.set('size', String(params.size));
+  if (typeof params.size === 'number') searchParams.set('size', String(params.size));
   const query = searchParams.toString();
 
   return await publicFetch<GetRecruitmentsResponse>(`/api/v1/posts${query ? `?${query}` : ''}`);
@@ -42,4 +43,11 @@ export async function requestRecruitment(
     body: JSON.stringify(payload),
   });
   return response;
+}
+
+// 플랫폼 목록 조회
+export async function getRecruitmentPlatforms(): Promise<
+  ApiResponse<GetRecruitmentPlatformsResponse>
+> {
+  return await privateFetch<GetRecruitmentPlatformsResponse>(`/api/v1/platforms`);
 }

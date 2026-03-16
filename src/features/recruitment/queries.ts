@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import type {
   GetRecruitmentsParams,
   GetRecruitmentsResponse,
@@ -8,6 +8,7 @@ import {
   requestRecruitment,
   getRecruitments,
   getRecruitmentDetail,
+  getRecruitmentPlatforms,
 } from '@/features/recruitment/actions';
 
 export const recruitmentKeys = {
@@ -15,6 +16,7 @@ export const recruitmentKeys = {
   lists: () => [...recruitmentKeys.all, 'list'] as const,
   list: (params: GetRecruitmentsParams = {}) => [...recruitmentKeys.lists(), params] as const,
   detail: (postId: number) => [...recruitmentKeys.all, 'detail', postId] as const,
+  platform: () => [...recruitmentKeys.all, 'platform'] as const,
 };
 
 // 공고 목록 조회
@@ -80,15 +82,13 @@ export function getRecruitmentDetailQueryOption(postId: number) {
 
       return response.data;
     },
-    staleTime: 60 * 1000,
+    staleTime: 5 * 60 * 1000,
     enabled: !!postId,
   };
 }
 
 // 공고 게시 요청
 export function useRequestRecruitment() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async (payload: RequestRecruitmentRequest) => {
       const response = await requestRecruitment(payload);
@@ -99,11 +99,34 @@ export function useRequestRecruitment() {
 
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: recruitmentKeys.all });
-    },
     onError: (error) => {
       console.error('공고 게시 요청 실패:', error);
     },
   });
+}
+
+// 플랫폼 목록 조회
+export function useGetRecruitmentPlatforms(options?: { enabled?: boolean }) {
+  return useQuery(getRecruitmentPlatformsQueryOption(options));
+}
+
+export function getRecruitmentPlatformsQueryOption(options?: { enabled?: boolean }) {
+  return {
+    queryKey: recruitmentKeys.platform(),
+    queryFn: async () => {
+      const response = await getRecruitmentPlatforms();
+
+      if (!response.success) {
+        throw response;
+      }
+
+      return response.data;
+    },
+    enabled: options?.enabled ?? true,
+    staleTime: Infinity,
+    gcTime: 30 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  };
 }

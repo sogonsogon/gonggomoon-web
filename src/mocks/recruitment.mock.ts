@@ -238,9 +238,9 @@ export const PLATFORM_ID_MAP: Record<PlatformType, number> = {
   JASOSEOL: 4,
 };
 
-export const mockRecruitmentPlatforms: GetRecruitmentPlatformsResponse = PLATFORM_OPTIONS.map(
-  (platform) => ({
-    id: PLATFORM_ID_MAP[platform.value],
-    name: platform.label,
-  }),
-);
+export const mockRecruitmentPlatforms: GetRecruitmentPlatformsResponse = {
+  content: PLATFORM_OPTIONS.map((platform) => ({
+    platformId: PLATFORM_ID_MAP[platform.value],
+    platformName: platform.label,
+  })),
+};

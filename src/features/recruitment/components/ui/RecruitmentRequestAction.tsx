@@ -5,45 +5,55 @@ import { Headphones } from 'lucide-react';
 import { toast } from 'sonner';
 import FloatingActionButton from '@/shared/components/ui/FloatingActionButton';
 import RecruitmentRequestDialog from '@/features/recruitment/components/ui/RecruitmentRequestDialog';
-import { requestRecruitment } from '@/features/recruitment/actions';
-import { RecruitmentPlatform } from '@/features/recruitment/types';
+import { useGetRecruitmentPlatforms, useRequestRecruitment } from '@/features/recruitment/queries';
+import { useUser } from '@/features/user/queries';
 
-interface RecruitmentRequestActionProps {
-  platformOptions: RecruitmentPlatform[];
-}
-
-export default function RecruitmentRequestAction({
-  platformOptions,
-}: RecruitmentRequestActionProps) {
+export default function RecruitmentRequestAction() {
+  const { data: user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
-  const [isPending, setIsPending] = useState(false);
   const [dialogKey, setDialogKey] = useState(0);
 
+  const {
+    data,
+    isLoading: isPlatformLoading,
+    isError: isPlatformError,
+  } = useGetRecruitmentPlatforms({ enabled: !!user });
+
+  const platformOptions = data?.content ?? [];
+
+  const { mutateAsync: submitRecruitment, isPending } = useRequestRecruitment();
+
+  if (!user) {
+    return null;
+  }
+
   const handleOpen = () => {
+    if (isPlatformLoading) {
+      toast.message('플랫폼 목록을 불러오는 중이에요.');
+      return;
+    }
+
+    if (isPlatformError) {
+      toast.error('플랫폼 목록을 불러오지 못했어요. 잠시 후 다시 시도해주세요.');
+      return;
+    }
+
     setDialogKey((prev) => prev + 1);
     setIsOpen(true);
   };
 
   const handleSubmit = async (payload: { platformId: number; url: string }) => {
     try {
-      setIsPending(true);
-
-      const result = await requestRecruitment({
+      await submitRecruitment({
         platformId: payload.platformId,
         postUrl: payload.url,
       });
-
-      if (!result.success) {
-        throw result;
-      }
 
       toast.success('공고 추가 요청이 접수되었어요.');
       setIsOpen(false);
     } catch (error) {
       console.error('공고 추가 요청 실패:', error);
       toast.error('공고 추가 요청에 실패했어요. 잠시 후 다시 시도해주세요.');
-    } finally {
-      setIsPending(false);
     }
   };
 
@@ -68,7 +78,7 @@ export default function RecruitmentRequestAction({
         onOpenChange={setIsOpen}
         platformOptions={platformOptions}
         onSubmit={handleSubmit}
-        isPending={isPending}
+        isPending={isPending || isPlatformLoading}
       />
     </>
   );
