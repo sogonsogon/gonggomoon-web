@@ -6,10 +6,19 @@ import { NextRequest, NextResponse } from 'next/server';
 const BASE_API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 
 function redirectToLoginRequired(request: NextRequest): NextResponse {
-  const url = request.nextUrl.clone();
-  url.pathname = '/';
-  url.searchParams.set('loginRequired', 'true');
-  return NextResponse.redirect(url);
+  const referer = request.headers.get('referer');
+  let redirectUrl: URL;
+
+  if (referer) {
+    redirectUrl = new URL(referer);
+  } else {
+    redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/';
+  }
+
+  redirectUrl.searchParams.set('loginRequired', 'true');
+
+  return NextResponse.redirect(redirectUrl);
 }
 
 export async function proxy(request: NextRequest) {
