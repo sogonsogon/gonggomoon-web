@@ -7,7 +7,7 @@ interface RecommendedActionsCardProps {
 export default function RecommendedActionsCard({ actions }: RecommendedActionsCardProps) {
   return (
     <section className="overflow-hidden rounded-xl border border-gray-100">
-      <div className="flex items-center gap-2 px-4 py-3.5">
+      <div className="flex items-center gap-2 px-4 py-3.5 lg:px-3.5 xl:px-4">
         <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-100">
           <Zap className="h-3 w-3 text-blue-600" />
         </div>
@@ -23,7 +23,7 @@ export default function RecommendedActionsCard({ actions }: RecommendedActionsCa
         {actions.map((action, index) => (
           <li
             key={`${action}-${index}`}
-            className={`flex items-center gap-3 px-4 py-3 ${
+            className={`flex items-center gap-3 px-4 py-3 lg:gap-2.5 lg:px-3.5 xl:gap-3 xl:px-4 ${
               index < actions.length - 1 ? 'border-b border-gray-100' : ''
             }`}
           >

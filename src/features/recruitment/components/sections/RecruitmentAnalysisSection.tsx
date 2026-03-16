@@ -11,7 +11,7 @@ interface RecruitmentAnalysisSectionProps {
 
 export default function RecruitmentAnalysisSection({ analysis }: RecruitmentAnalysisSectionProps) {
   return (
-    <aside className="flex w-110 shrink-0 flex-col gap-6">
+    <aside className="flex w-full flex-col gap-6 max-lg:w-full lg:w-96 lg:shrink-0 lg:gap-5 xl:w-110 xl:gap-6">
       <div className="flex items-center gap-2 pb-2">
         <Sparkles className="h-4.5 w-4.5 text-blue-500" />
         <h2 className="text-lg font-bold text-gray-900">AI 공고 분석</h2>

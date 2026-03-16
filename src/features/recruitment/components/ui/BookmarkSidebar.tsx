@@ -6,27 +6,33 @@ import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 import { useUser } from '@/features/user/queries';
 import { useGetBookmarks } from '@/features/bookmark/queries';
 
-export default function BookmarkSidebar() {
+interface BookmarkSidebarProps {
+  showHeader?: boolean;
+}
+
+export default function BookmarkSidebar({ showHeader = true }: BookmarkSidebarProps) {
   const { data: user } = useUser();
   const { data: bookmarks } = useGetBookmarks();
 
   const hasBookmarks = bookmarks && bookmarks.length > 0;
 
   return (
-    <div className="flex w-80 shrink-0 flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <span className="text-[15px] font-semibold text-gray-900">북마크한 공고</span>
+    <div className="flex w-80 shrink-0 flex-col gap-4 max-md:w-full lg:w-full xl:w-80">
+      {showHeader && (
+        <div className="flex items-center justify-between">
+          <span className="text-[15px] font-semibold text-gray-900">북마크한 공고</span>
 
-        {user && hasBookmarks && (
-          <Link
-            href="/my/bookmark"
-            className="flex items-center gap-1 text-[13px] text-gray-500 hover:text-gray-700"
-          >
-            전체 보기
-            <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
-          </Link>
-        )}
-      </div>
+          {user && hasBookmarks && (
+            <Link
+              href="/my/bookmark"
+              className="flex items-center gap-1 text-[13px] text-gray-500 hover:text-gray-700"
+            >
+              전체 보기
+              <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
+            </Link>
+          )}
+        </div>
+      )}
 
       {!user ? (
         <BookmarkSidebarState
@@ -60,7 +66,7 @@ export default function BookmarkSidebar() {
 
 function BookmarkSidebarState({ title, description }: { title: string; description: string }) {
   return (
-    <div className="flex flex-col items-center px-6 py-10 text-center">
+    <div className="flex flex-col items-center px-6 py-10 text-center max-md:px-4 max-md:py-8">
       <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
         <BookmarkIcon className="h-5 w-5 text-gray-400" />
       </div>

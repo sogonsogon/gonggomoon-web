@@ -31,13 +31,13 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
         : `경력 ${recruitment.experienceLevel}년 이상`;
 
   return (
-    <section className="flex flex-col gap-4 pb-6">
+    <section className="flex flex-col gap-4 pb-6 lg:gap-3 lg:pb-5 xl:gap-4 xl:pb-6">
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1">
           <Building2 className="h-3.5 w-3.5 text-blue-600" />
           <Link
             href={`/company/${recruitment.companyId}`}
-            className="text-[13px] font-semibold text-blue-600"
+            className="text-[13px] font-semibold text-blue-600 max-md:inline-block max-md:max-w-[180px] max-md:truncate"
           >
             {recruitment.companyName ?? '기업명'}
           </Link>
@@ -60,17 +60,26 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
         </Link>
       )}
 
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <h1 className="text-[28px] font-bold leading-tight text-gray-900">
+      <div className="relative flex items-start justify-between gap-4 max-md:gap-3 lg:gap-3 xl:gap-4">
+        <div className="min-w-0 flex-1 max-lg:pr-11">
+          <h1 className="text-[28px] font-bold leading-tight text-gray-900 max-md:text-2xl lg:text-[26px] xl:text-[28px]">
             {recruitment.postTitle}
           </h1>
         </div>
 
-        <BookmarkButton postId={recruitment.postId} isBookmarked={isBookmarked} />
+        <div className="absolute right-0 top-0 lg:hidden">
+          <BookmarkButton
+            postId={recruitment.postId}
+            isBookmarked={isBookmarked}
+            variant="icon"
+          />
+        </div>
+        <div className="max-lg:hidden">
+          <BookmarkButton postId={recruitment.postId} isBookmarked={isBookmarked} />
+        </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4 max-md:gap-2 lg:gap-3 xl:gap-4">
         <div className="flex items-center gap-1 rounded-md bg-blue-50 px-2.5 py-1">
           <Lightbulb className="h-3.5 w-3.5 text-blue-700" />
           <span className="text-[13px] font-medium text-blue-700">

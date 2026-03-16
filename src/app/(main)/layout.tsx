@@ -7,7 +7,7 @@ export default function MainLayout({
 }>) {
   return (
     <div className="flex flex-1 flex-col items-center">
-      <div className="flex flex-1 max-w-7xl w-full">{children}</div>
+      <div className="flex min-w-0 w-full max-w-7xl flex-1">{children}</div>
       <Footer />
     </div>
   );

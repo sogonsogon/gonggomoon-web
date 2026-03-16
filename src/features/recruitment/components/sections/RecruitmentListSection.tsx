@@ -87,7 +87,7 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
         <RecruitmentEmptyState search={search} />
       ) : (
         <div className="flex flex-1 flex-col">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between max-md:mb-3">
             <span className="text-sm font-medium text-gray-900">
               {hasSearch ? (
                 <>
@@ -125,8 +125,8 @@ function RecruitmentEmptyState({ search }: { search: string }) {
   const hasSearch = Boolean(search.trim());
 
   return (
-    <div className="flex min-h-90 items-center justify-center rounded-2xl border border-gray-100 bg-white">
-      <div className="flex flex-col items-center gap-4 text-center">
+    <div className="flex min-h-90 items-center justify-center rounded-2xl border border-gray-100 bg-white max-md:min-h-72 max-md:px-4">
+      <div className="flex flex-col items-center gap-4 text-center max-md:gap-3">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
           <SearchX className="h-6 w-6 text-gray-400" />
         </div>
