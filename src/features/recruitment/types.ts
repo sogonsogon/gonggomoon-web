@@ -76,8 +76,8 @@ export type RequestRecruitmentRequest = {
 };
 
 export type RecruitmentPlatform = {
-  id: number;
-  name: string;
+  platformId: number;
+  platformName: string;
 };
 
-export type GetRecruitmentPlatformsResponse = RecruitmentPlatform[];
+export type GetRecruitmentPlatformsResponse = { content: RecruitmentPlatform[] };
