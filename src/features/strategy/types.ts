@@ -72,3 +72,9 @@ export type DeleteStrategyRequest = {
 };
 
 export type GetStrategyDetailResponse = StrategyDetail;
+
+export type GetStrategyAvailablityResponse = {
+  usedCount: number;
+  limitCount: number;
+  canGenerate: boolean;
+};
