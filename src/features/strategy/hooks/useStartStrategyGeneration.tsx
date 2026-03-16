@@ -1,5 +1,6 @@
 'use client';
 
+import { toast } from 'sonner';
 import { useCreateStrategy } from '@/features/strategy/queries';
 import type { CreateStrategyRequest, CreateStrategyResponse } from '@/features/strategy/types';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
@@ -14,7 +15,9 @@ export function useStartStrategyGeneration() {
       useStrategyGenerationStore.getState();
 
     if (formData.selectedExperienceIds.length === 0) {
-      throw new Error('경험을 1개 이상 선택해 주세요.');
+      const message = '경험을 1개 이상 선택해 주세요.';
+      toast.error(message);
+      throw new Error(message);
     }
 
     const payload: CreateStrategyRequest = {
@@ -35,6 +38,7 @@ export function useStartStrategyGeneration() {
       const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
 
       markSubmitFailed(message);
+      toast.error(message);
       throw err;
     }
   };

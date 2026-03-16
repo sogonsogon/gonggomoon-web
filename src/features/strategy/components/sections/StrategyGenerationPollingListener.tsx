@@ -2,9 +2,9 @@
 
 import { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
 import { GetGenerationStatusResponse } from '@/shared/types';
-import { toast } from 'sonner';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 
 export default function StrategyGenerationPollingListener() {
@@ -39,6 +39,8 @@ export default function StrategyGenerationPollingListener() {
   const handleFailed = useCallback(
     (id: number, error: string) => {
       markRequestFailed(id, error);
+
+      toast.error(error || '포폴 전략 생성 중 문제가 발생했습니다.');
     },
     [markRequestFailed],
   );
