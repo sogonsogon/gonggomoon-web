@@ -1,6 +1,6 @@
 'use server';
 
-import { privateFetch } from '@/shared/api/httpClient';
+import { publicFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
 import { GetCompanyDetailResponse } from '@/features/company/types';
 
@@ -8,7 +8,7 @@ import { GetCompanyDetailResponse } from '@/features/company/types';
 export async function getCompanyDetail(
   companyId: number,
 ): Promise<ApiResponse<GetCompanyDetailResponse>> {
-  return await privateFetch<GetCompanyDetailResponse>(`/api/v1/companies/${companyId}`, {
+  return await publicFetch<GetCompanyDetailResponse>(`/api/v1/companies/${companyId}`, {
     next: { revalidate: 300, tags: ['company', `company-detail-${companyId}`] },
   });
 }
