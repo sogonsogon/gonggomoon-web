@@ -1,6 +1,6 @@
 import { ReissueTokenResponse } from '@/features/auth/types';
 import { publicFetch } from '@/shared/api/httpClient';
-import { isProtectedRoute } from '@/shared/utils/isProtectedPath';
+import { isProtectedRoute } from '@/shared/utils/isProtectedRoute';
 import { NextRequest, NextResponse } from 'next/server';
 
 const BASE_API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
