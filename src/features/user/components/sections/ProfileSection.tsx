@@ -1,4 +1,5 @@
 'use client';
+
 import ProfileCard from '@/features/user/components/ui/ProfileCard';
 import ProfileError from '@/features/user/components/ui/ProfileError';
 import ProfileLoading from '@/features/user/components/ui/ProfileLoading';

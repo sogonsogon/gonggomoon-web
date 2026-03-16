@@ -14,6 +14,7 @@ import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { useDeleteUser } from '@/features/user/queries';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface ProfileWithdrawDialogProps {
   open: boolean;
@@ -27,7 +28,7 @@ export default function ProfileWithdrawDialog({
   userEmail,
 }: ProfileWithdrawDialogProps) {
   const { mutate: deleteUser, isPending } = useDeleteUser();
-
+  const router = useRouter();
   const [emailInput, setEmailInput] = useState('');
 
   const isMatch = emailInput === userEmail;
@@ -40,10 +41,12 @@ export default function ProfileWithdrawDialog({
   };
 
   const handleConfirm = () => {
-    if (!isMatch) return;
+    if (!isMatch || isPending) return;
     deleteUser(undefined, {
       onSuccess: () => {
         toast.success('회원 탈퇴가 완료되었습니다.');
+        router.replace('/');
+
         handleOpenChange(false);
       },
       onError: (error) => {
@@ -85,7 +88,7 @@ export default function ProfileWithdrawDialog({
           <Button variant="outline" onClick={() => handleOpenChange(false)}>
             취소
           </Button>
-          <Button variant="destructive" disabled={!isMatch} onClick={handleConfirm}>
+          <Button variant="destructive" disabled={!isMatch || isPending} onClick={handleConfirm}>
             회원 탈퇴
           </Button>
         </DialogFooter>
