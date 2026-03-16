@@ -6,6 +6,9 @@ import QueryProvider from '@/shared/provider/QueryProvider';
 import { Toaster } from 'sonner';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { userQueryOptions } from '@/features/user/queries';
+import LoginModal from '@/features/auth/components/ui/LoginModal';
+import LoginModalTrigger from '@/features/auth/components/ui/LoginModalTrigger';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -34,6 +37,10 @@ export default async function RootLayout({
             <Header />
             {children}
             <Toaster richColors position="top-right" />
+            <LoginModal />
+            <Suspense>
+              <LoginModalTrigger />
+            </Suspense>
           </HydrationBoundary>
         </QueryProvider>
       </body>

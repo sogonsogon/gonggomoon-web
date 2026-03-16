@@ -2,10 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import { User, Bookmark, Folder, Briefcase, Lightbulb, MessageCircle, LogOut } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import LoginModal from '@/features/auth/components/ui/LoginModal';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -105,8 +103,6 @@ export default function ProfileMenu() {
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-
-      <LoginModal />
     </>
   );
 }
