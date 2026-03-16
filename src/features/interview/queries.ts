@@ -2,6 +2,7 @@ import {
   createInterview,
   deleteInterview,
   getInterview,
+  getInterviewAvailability,
   getInterviewList,
 } from '@/features/interview/actions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,6 +13,7 @@ export const interviewKeys = {
   list: () => [...interviewKeys.all, 'list'] as const,
   detail: (interviewStrategyId: number) =>
     [...interviewKeys.all, 'detail', interviewStrategyId] as const,
+  availability: () => [...interviewKeys.all, 'availability'] as const,
 };
 
 // 면접 질문 목록 조회
@@ -97,3 +99,23 @@ export function useDeleteInterview() {
     },
   });
 }
+
+// 면접 질문 생성 사용 횟수 조회
+export function useGetInterviewAvailability(enabled = true) {
+  return useQuery(getInterviewAvailabilityQueryOptions(enabled));
+}
+
+export const getInterviewAvailabilityQueryOptions = (enabled = true) => ({
+  queryKey: interviewKeys.availability(),
+  queryFn: async () => {
+    const response = await getInterviewAvailability();
+
+    if (!response.success) {
+      return Promise.reject(response);
+    }
+
+    return response.data;
+  },
+  staleTime: 60 * 1000,
+  enabled,
+});
