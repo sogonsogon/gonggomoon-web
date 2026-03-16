@@ -3,6 +3,7 @@
 import { GetUserResponse } from '@/features/user/types';
 import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
+import { cookies } from 'next/headers';
 
 export async function getUser(): Promise<ApiResponse<GetUserResponse>> {
   const response = await privateFetch<GetUserResponse>('/api/v1/users/me');
@@ -13,5 +14,10 @@ export async function deleteUser(): Promise<ApiResponse<null>> {
   const response = await privateFetch<null>('/api/v1/users/me', {
     method: 'DELETE',
   });
+
+  const cookieStore = await cookies();
+  cookieStore.delete('access_token');
+  cookieStore.delete('refresh_token');
+
   return response;
 }
