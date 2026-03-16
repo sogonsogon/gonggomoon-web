@@ -25,6 +25,7 @@ export default function LoginModal() {
   };
 
   const handleLogin = async () => {
+    sessionStorage.setItem('login_redirect_path', window.location.pathname);
     window.location.href = `${BASE_API_URL}/api/v1/auth/social/login/naver`;
   };
 

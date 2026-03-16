@@ -1,13 +1,24 @@
+'use client';
+
 import { userQueryOptions } from '@/features/user/queries';
-import { QueryClient } from '@tanstack/react-query';
-import { redirect } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default async function CallbackPage() {
-  const queryClient = new QueryClient();
+export default function CallbackPage() {
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-  // 유저 정보 가져와서 관리
-  await queryClient.prefetchQuery(userQueryOptions());
+  useEffect(() => {
+    const prefetchUser = async () => {
+      await queryClient.fetchQuery(userQueryOptions());
+      const redirectPath = sessionStorage.getItem('login_redirect_path') || '/';
+      sessionStorage.removeItem('login_redirect_path');
+      router.replace(redirectPath);
+    };
 
-  // 메인페이지로 이동
-  redirect('/');
+    prefetchUser();
+  }, [queryClient, router]);
+
+  return null;
 }
