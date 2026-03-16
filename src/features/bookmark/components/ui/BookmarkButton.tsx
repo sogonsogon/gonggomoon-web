@@ -1,11 +1,9 @@
 'use client';
 
 import { Bookmark } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
-import { bookmarkKeys, useGetBookmarks, useToggleBookmark } from '@/features/bookmark/queries';
-import type { Bookmark as BookmarkItem } from '@/features/bookmark/types';
+import { useBookmarkStatus, useToggleBookmark } from '@/features/bookmark/queries';
 
 interface BookmarkButtonProps {
   postId: number;
@@ -20,26 +18,15 @@ export default function BookmarkButton({
   disabled = false,
   variant = 'default',
 }: BookmarkButtonProps) {
-  const queryClient = useQueryClient();
   const { data: user } = useUser();
   const { openDialog } = useLoginModal();
-  const { data: bookmarks } = useGetBookmarks(Boolean(user));
+  const { data: bookmarkStatusMap } = useBookmarkStatus(Boolean(user));
   const { mutate: toggleBookmark, isPending } = useToggleBookmark(postId);
 
   const isIconOnly = variant === 'icon';
 
-  const cachedIsBookmarked = bookmarks?.some((bookmark) => bookmark.postId === postId) ?? null;
-  const resolvedIsBookmarked = cachedIsBookmarked === null ? isBookmarked : cachedIsBookmarked;
-
-  const getLatestBookmarkedState = () => {
-    const latestBookmarks = queryClient.getQueryData<BookmarkItem[]>(bookmarkKeys.list());
-
-    if (!latestBookmarks) {
-      return resolvedIsBookmarked;
-    }
-
-    return latestBookmarks.some((bookmark) => bookmark.postId === postId);
-  };
+  const cachedIsBookmarked = bookmarkStatusMap?.[postId];
+  const resolvedIsBookmarked = cachedIsBookmarked === undefined ? isBookmarked : cachedIsBookmarked;
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -50,11 +37,9 @@ export default function BookmarkButton({
       return;
     }
 
-    const latestIsBookmarked = getLatestBookmarkedState();
-
     toggleBookmark({
       postId,
-      nextBookmarked: !latestIsBookmarked,
+      nextBookmarked: !resolvedIsBookmarked,
     });
   };
 
@@ -62,7 +47,7 @@ export default function BookmarkButton({
     <button
       type="button"
       onClick={handleClick}
-      disabled={disabled}
+      disabled={disabled || isPending}
       aria-pressed={resolvedIsBookmarked}
       aria-label={resolvedIsBookmarked ? '북마크 해제' : '북마크 추가'}
       aria-busy={isPending}
@@ -72,7 +57,7 @@ export default function BookmarkButton({
           : 'border-gray-200 text-gray-600 hover:bg-gray-50'
       } ${
         isIconOnly ? 'h-9 w-9 p-0' : 'gap-1.5 px-2 py-2 text-[13px] font-medium'
-      } ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+      } ${disabled || isPending ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
     >
       <Bookmark
         className={`h-5 w-5 ${
