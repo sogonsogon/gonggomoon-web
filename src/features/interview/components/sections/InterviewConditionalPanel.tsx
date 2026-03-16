@@ -9,6 +9,7 @@ import { useInterviewCreateFormStore } from '@/features/interview/stores/useInte
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
 import { useStartInterviewGeneration } from '@/features/interview/hooks/useStartInterviewGeneration';
 import { useGetInterviewAvailability } from '@/features/interview/queries';
+import { TODAY_USAGE, DAILY_LIMIT } from '@/features/interview/constants/limit';
 
 export default function InterviewConditionalPanel() {
   const router = useRouter();
@@ -26,8 +27,8 @@ export default function InterviewConditionalPanel() {
 
   const { data: availability, isLoading: isAvailabilityLoading } = useGetInterviewAvailability();
 
-  const todayUsage = availability?.usedCount ?? 0;
-  const dailyLimit = availability?.limitCount ?? 1;
+  const todayUsage = availability?.usedCount ?? TODAY_USAGE;
+  const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
   const isFormLocked = submitLoading;
