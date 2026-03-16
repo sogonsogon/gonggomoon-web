@@ -15,7 +15,7 @@ export type ExperienceExtractionStore = GenerationStore & {
 
   completedExtractionIds: number[];
   addCompletedExtractionIds: (ids: number[]) => void;
-  consumeCompletedExtractionIds: () => number[];
+  removeCompletedExtractionId: (id: number) => void;
 };
 
 export const useExperienceExtractionStore = create<ExperienceExtractionStore>((set, get, api) => ({
@@ -47,9 +47,8 @@ export const useExperienceExtractionStore = create<ExperienceExtractionStore>((s
       completedExtractionIds: [...state.completedExtractionIds, ...ids],
     })),
 
-  consumeCompletedExtractionIds: () => {
-    const ids = get().completedExtractionIds;
-    set({ completedExtractionIds: [] });
-    return ids;
-  },
+  removeCompletedExtractionId: (id) =>
+    set((state) => ({
+      completedExtractionIds: state.completedExtractionIds.filter((cid) => cid !== id),
+    })),
 }));

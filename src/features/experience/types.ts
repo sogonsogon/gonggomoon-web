@@ -7,6 +7,7 @@ export type Experience = {
   experienceContent?: string;
   startDate: string;
   endDate: string | null;
+  isAiGenerated?: boolean;
 };
 
 export type GetExperienceListResponse = {

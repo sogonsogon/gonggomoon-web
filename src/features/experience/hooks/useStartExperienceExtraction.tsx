@@ -18,7 +18,7 @@ export function useStartExperienceExtraction() {
       const response = await startExtractExperience(fileAssetIds);
 
       if (!response.success) {
-        throw response;
+        throw new Error(response.message || '경험 추출 요청에 실패했습니다.');
       }
       const batchId = `batch_${Date.now()}`;
       addBatch(batchId, response.data.extractedExperienceIds);

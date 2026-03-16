@@ -19,47 +19,48 @@ export default function ExperienceSection() {
   const experienceList = experienceData?.contents ?? [];
 
   const [clientExperienceList, setClientExperienceList] = useState<Experience[]>(experienceList);
-  const [aiGeneratedTempIds, setAiGeneratedTempIds] = useState<Set<number>>(new Set());
 
   const completedExtractionIds = useExperienceExtractionStore(
     (state) => state.completedExtractionIds,
   );
-  const consumeCompletedExtractionIds = useExperienceExtractionStore(
-    (state) => state.consumeCompletedExtractionIds,
+  const removeCompletedExtractionId = useExperienceExtractionStore(
+    (state) => state.removeCompletedExtractionId,
   );
 
   // 완료된 추출 ID 감지 → 상세 조회 → 카드 추가
+  // 조회 성공한 ID만 소비 (원자적 처리): 실패한 ID는 store에 유지되어 재시도 가능
   useEffect(() => {
     if (completedExtractionIds.length === 0) return;
 
-    const ids = consumeCompletedExtractionIds();
+    // 현재 사이클의 ID를 스냅샷으로 캡처
+    const idsToFetch = [...completedExtractionIds];
 
     const fetchAndAppend = async () => {
-      const results = await Promise.allSettled(ids.map((id) => getExtractedExperience(id)));
+      const results = await Promise.allSettled(
+        idsToFetch.map((id) => getExtractedExperience(id).then((res) => ({ id, res }))),
+      );
 
-      const allDrafts: Omit<Experience, 'experienceId'>[] = [];
+      const newExperiences: Experience[] = [];
+      let tempIdSeed = Date.now();
+
       for (const result of results) {
-        if (result.status !== 'fulfilled' || !result.value.success) continue;
-        allDrafts.push(...result.value.data.contents);
+        if (result.status !== 'fulfilled' || !result.value.res.success) continue;
+
+        // 조회 성공 시에만 해당 ID를 store에서 제거
+        removeCompletedExtractionId(result.value.id);
+
+        result.value.res.data.contents.forEach((draft) => {
+          newExperiences.push({ ...draft, experienceId: -tempIdSeed++, isAiGenerated: true });
+        });
       }
 
-      if (allDrafts.length === 0) return;
+      if (newExperiences.length === 0) return;
 
-      const withTempIds: Experience[] = allDrafts.map((draft, i) => ({
-        ...draft,
-        experienceId: (Date.now() + i) * -1,
-      }));
-
-      setClientExperienceList((prev) => [...withTempIds, ...prev]);
-      setAiGeneratedTempIds((prev) => {
-        const next = new Set(prev);
-        withTempIds.forEach((exp) => next.add(exp.experienceId));
-        return next;
-      });
+      setClientExperienceList((prev) => [...newExperiences, ...prev]);
     };
 
     fetchAndAppend();
-  }, [completedExtractionIds, consumeCompletedExtractionIds]);
+  }, [completedExtractionIds, removeCompletedExtractionId]);
 
   // 새로운 빈 카드 추가
   const handleAddCard = () => {
@@ -77,7 +78,9 @@ export default function ExperienceSection() {
 
   const handleUpdateExperience = (targetId: number, updatedData: Experience) => {
     setClientExperienceList((prev) =>
-      prev.map((exp) => (exp.experienceId === targetId ? updatedData : exp)),
+      prev.map((exp) =>
+        exp.experienceId === targetId ? { ...updatedData, isAiGenerated: exp.isAiGenerated } : exp,
+      ),
     );
   };
 
@@ -112,7 +115,7 @@ export default function ExperienceSection() {
                 experienceId={exp.experienceId}
                 defaultEditMode={exp.experienceId < 0}
                 prefillData={exp.experienceId < 0 ? exp : undefined}
-                isAiGenerated={aiGeneratedTempIds.has(exp.experienceId)}
+                isAiGenerated={exp.isAiGenerated ?? false}
                 onUpdateSuccess={handleUpdateExperience}
                 onDeleteSuccess={handleDeleteExperience}
               />
