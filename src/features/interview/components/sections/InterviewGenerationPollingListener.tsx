@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
@@ -9,6 +9,7 @@ import { GetGenerationStatusResponse } from '@/shared/types';
 
 export default function InterviewGenerationPollingListener() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const requests = useInterviewGenerationStore((state) => state.requests);
   const requestOrder = useInterviewGenerationStore((state) => state.requestOrder);
@@ -24,6 +25,10 @@ export default function InterviewGenerationPollingListener() {
     (id: number, _response: GetGenerationStatusResponse) => {
       markRequestCompleted(id);
 
+      if (pathname === `/interview/result/${id}`) {
+        router.refresh();
+      }
+
       toast.success('면접 질문 생성이 완료되었어요.', {
         action: {
           label: '결과 보기',
@@ -33,7 +38,7 @@ export default function InterviewGenerationPollingListener() {
 
       removeRequest(id);
     },
-    [markRequestCompleted, removeRequest, router],
+    [markRequestCompleted, pathname, removeRequest, router],
   );
 
   const handleFailed = useCallback(
@@ -47,7 +52,7 @@ export default function InterviewGenerationPollingListener() {
 
   useGenerationPolling({
     requestIds: processingRequestIds,
-    requestType: 'INTERVIEW',
+    requestType: 'INTERVIEW_STRATEGY',
     onCompleted: handleCompleted,
     onFailed: handleFailed,
   });
