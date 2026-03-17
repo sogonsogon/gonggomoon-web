@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/shared/components/ui/table';
+import { cn } from '@/shared/lib/cn';
 
 interface FileTableProps {
   files: File[];
@@ -18,7 +19,9 @@ export default function FileTable({ files }: FileTableProps) {
   return (
     <>
       {/* Mobile: card list */}
-      <div className={`overflow-hidden rounded-xl divide-y divide-gray-100 md:hidden${files.length > 0 ? ' border border-gray-100' : ''}`}>
+      <div
+        className={cn('overflow-hidden rounded-xl divide-y divide-gray-100 lg:hidden', files.length > 0 && 'border border-gray-100')}
+      >
         {files.length === 0 ? (
           <FileTableEmpty />
         ) : (
@@ -27,7 +30,7 @@ export default function FileTable({ files }: FileTableProps) {
       </div>
 
       {/* Desktop: table */}
-      <div className="hidden overflow-hidden rounded-xl border border-gray-100 md:block">
+      <div className="hidden overflow-hidden rounded-xl border border-gray-100 lg:block">
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50 hover:bg-gray-50">
