@@ -12,9 +12,32 @@ import ExperienceExtractionPollingListener from '@/features/experience/component
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://gonggomoon.com'),
   title: '공고문',
   description:
-    '직무별 채용 공고를 한눈에. AI 포트폴리오 전략과 모의 면접까지, 취업 준비의 모든 것을 공고문에서 시작하세요.',
+    '직무별 채용 공고를 한눈에. AI 포트폴리오 전략과 면접 질문 생성까지, 취업 준비의 모든 것을 공고문에서 시작하세요.',
+  openGraph: {
+    title: '공고문',
+    description:
+      '직무별 채용 공고를 한눈에. AI 포트폴리오 전략과 면접 질문 생성까지, 취업 준비의 모든 것을 공고문에서 시작하세요.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: '공고문',
+      },
+    ],
+    type: 'website',
+    locale: 'ko_KR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '공고문',
+    description:
+      '직무별 채용 공고를 한눈에. AI 포트폴리오 전략과 면접 질문 생성까지, 취업 준비의 모든 것을 공고문에서 시작하세요.',
+    images: ['/og-image.png'],
+  },
 };
 
 const pretendard = localFont({
