@@ -8,9 +8,10 @@ interface MyNavItemProps {
   href: string;
   label: string;
   iconKey: NavItemKey;
+  onNavigate?: () => void;
 }
 
-export default function MyNavItem({ href, label, iconKey }: MyNavItemProps) {
+export default function MyNavItem({ href, label, iconKey, onNavigate }: MyNavItemProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
   const Icon = ICON_MAP[iconKey];
@@ -19,6 +20,7 @@ export default function MyNavItem({ href, label, iconKey }: MyNavItemProps) {
     <li key={href}>
       <Link
         href={href}
+        onClick={onNavigate}
         className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 ${
           isActive ? 'bg-blue-50' : 'hover:bg-gray-50'
         }`}
