@@ -10,22 +10,37 @@ import { createInterviewHistoryItems } from '@/features/interview/utils/createIn
 export default function InterviewHistorySidebar() {
   const { data: interviewData } = useGetInterviewList();
 
-  const items = createInterviewHistoryItems(interviewData?.contents ?? []);
-
   const requests = useInterviewGenerationStore((state) => state.requests);
   const requestOrder = useInterviewGenerationStore((state) => state.requestOrder);
 
-  const processingItems: HistorySidebarItem[] = useMemo(() => {
+  const processingRequests = useMemo(() => {
     return [...requestOrder]
       .reverse()
       .map((id) => requests[id])
-      .filter((request) => request?.status === 'PROCESSING')
-      .map((request) => ({
-        title: '생성 중인 질문',
-        date: '진행 중',
-        href: `/interview/result/${request.id}`,
-      }));
+      .filter((request) => request?.status === 'PROCESSING');
   }, [requestOrder, requests]);
+
+  const processingItems: HistorySidebarItem[] = useMemo(() => {
+    return processingRequests.map((request) => ({
+      title: '생성 중인 질문',
+      date: '진행 중',
+      href: `/interview/result/${request.id}`,
+    }));
+  }, [processingRequests]);
+
+  const processingIds = useMemo(() => {
+    return new Set(processingRequests.map((request) => request.id));
+  }, [processingRequests]);
+
+  const items = useMemo(() => {
+    const contents = interviewData?.contents ?? [];
+
+    const filteredContents = contents.filter(
+      (interview) => !processingIds.has(interview.interviewStrategyId),
+    );
+
+    return createInterviewHistoryItems(filteredContents);
+  }, [interviewData?.contents, processingIds]);
 
   return (
     <HistorySidebar

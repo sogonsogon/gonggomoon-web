@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function MyInterviewEmpty() {
   return (
-    <div className="flex h-90 flex-col items-center justify-center gap-4 rounded-xl border border-gray-200 bg-white">
+    <div className="flex flex-col items-center justify-center gap-4 py-32">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
         <MessageCircleIcon className="h-6 w-6 text-gray-400" />
       </div>

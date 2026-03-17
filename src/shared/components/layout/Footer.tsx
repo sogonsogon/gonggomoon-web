@@ -1,4 +1,6 @@
 import { Instagram, Facebook, Youtube, Linkedin } from 'lucide-react';
+import Image from 'next/image';
+import logo from '@/shared/assets/images/logo.png';
 
 export default function Footer() {
   return (
@@ -6,10 +8,7 @@ export default function Footer() {
       <div className="hidden w-full max-w-7xl flex-col gap-6 px-4 py-10 md:flex">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-900">
-              <span className="text-sm font-bold text-white">G</span>
-            </div>
-            <span className="text-base font-bold text-gray-900">공고문</span>
+            <Image src={logo} alt="공고문" width={100} height={32} />
           </div>
           <div className="flex items-center gap-6">
             <span className="cursor-pointer text-sm font-medium text-gray-600">기업소개</span>

@@ -12,7 +12,7 @@ interface RecruitmentListProps {
 
 export default function RecruitmentList({ recruitments }: RecruitmentListProps) {
   const { data: user } = useUser();
-  const { data: bookmarks = [] } = useGetBookmarks(!!user);
+  const { data: bookmarks } = useGetBookmarks(!!user);
 
   const bookmarkedPostIds = useMemo(
     () => new Set((bookmarks?.content ?? []).map((bookmark) => bookmark.postId)),

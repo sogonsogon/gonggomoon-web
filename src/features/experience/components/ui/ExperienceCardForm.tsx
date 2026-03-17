@@ -17,26 +17,30 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import { Textarea } from '@/shared/components/ui/textarea';
-import { PencilIcon, Trash2Icon } from 'lucide-react';
+import { PencilIcon, SparklesIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import ExperienceCancelDialog from '@/features/experience/components/ui/ExperienceCancelDialog';
 
 interface ExperienceCardFormProps {
   experience: Experience;
   isNew: boolean;
+  isAiGenerated?: boolean;
   onUpdateSuccess: (targetId: number, updatedData: Experience) => void;
   onDeleteSuccess: (targetId: number) => void;
-  onOpenChange: (next: boolean) => void;
+  onDeleteDialogOpen: (next: boolean) => void;
 }
 
 export default function ExperienceCardForm({
   experience,
   isNew,
+  isAiGenerated = false,
   onUpdateSuccess,
   onDeleteSuccess,
-  onOpenChange,
+  onDeleteDialogOpen,
 }: ExperienceCardFormProps) {
   const [isEditing, setIsEditing] = useState(isNew);
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
 
   const { mutate: createExperience, isPending: isCreating } = useCreateExperience();
   const { mutate: updateExperience, isPending: isUpdating } = useUpdateExperience();
@@ -54,12 +58,19 @@ export default function ExperienceCardForm({
     setDraft((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleCancel = () => {
+  const isDirty =
+    (isAiGenerated && experience.experienceId < 0) ||
+    draft.title !== experience.title ||
+    draft.experienceType !== experience.experienceType ||
+    draft.startDate !== (experience.startDate ? toDisplayDate(experience.startDate) : '') ||
+    (draft.endDate || null) !== (experience.endDate ? toDisplayDate(experience.endDate) : null) ||
+    draft.experienceContent !== (experience.experienceContent ?? '');
+
+  const handleCancelConfirm = () => {
     if (draft.experienceId < 0) {
       onDeleteSuccess(draft.experienceId);
       return;
     }
-    // 기존 데이터로 복구
     setDraft({
       experienceId: experience.experienceId,
       title: experience.title,
@@ -69,6 +80,14 @@ export default function ExperienceCardForm({
       experienceContent: experience.experienceContent ?? '',
     });
     setIsEditing(false);
+  };
+
+  const handleCancelRequest = () => {
+    if (isDirty) {
+      setIsCancelDialogOpen(true);
+      return;
+    }
+    handleCancelConfirm();
   };
 
   const handleSave = async () => {
@@ -145,12 +164,18 @@ export default function ExperienceCardForm({
   if (isEditing) {
     return (
       <>
-        <div className="flex items-center justify-between gap-3 border-b-2 border-blue-400 px-5 py-4">
-          <div className="flex flex-1 items-center gap-3">
+        <div className="flex flex-col gap-2 border-b-2 border-blue-400 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <div className="flex flex-1 flex-wrap items-center gap-2">
             <div className="flex shrink-0 items-center gap-1.5 rounded-md bg-blue-50 px-2 py-0.5">
               <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
               <span className="text-[11px] font-semibold text-blue-700">수정 중</span>
             </div>
+            {isAiGenerated && (
+              <div className="flex shrink-0 items-center gap-1 rounded-full bg-violet-50 px-2 py-0.5">
+                <SparklesIcon className="h-3 w-3 text-violet-500" />
+                <span className="text-[11px] font-semibold text-violet-600">AI 생성</span>
+              </div>
+            )}
             {/* 경험 유형 */}
             <Select
               value={draft.experienceType}
@@ -158,7 +183,7 @@ export default function ExperienceCardForm({
                 handleUpdateDraft('experienceType', value as ExperienceType)
               }
             >
-              <SelectTrigger className="w-40 shrink-0 text-[13px] text-gray-800">
+              <SelectTrigger className="w-25 md:w-40 shrink-0 text-[13px] text-gray-800">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -174,39 +199,42 @@ export default function ExperienceCardForm({
             <Input
               value={draft.title}
               onChange={(e) => handleUpdateDraft('title', e.target.value)}
-              placeholder="경험 제목을 입력하세요"
-              className="flex-1 text-[14px] text-gray-900"
+              placeholder="경험 제목"
+              className="min-w-0 w-full flex-1 sm:w-auto text-[14px] text-gray-900"
             />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => onDeleteDialogOpen(true)}
+              aria-label="삭제"
+              className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+            >
+              <Trash2Icon className="h-4 w-4 " />
+            </Button>
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => onOpenChange(true)}
-            aria-label="삭제"
-            className="text-gray-400 hover:text-red-500 hover:bg-red-50"
-          >
-            <Trash2Icon className="h-4 w-4 " />
-          </Button>
         </div>
 
         <div className="flex flex-col gap-4 px-5 py-4">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
             {/* 경험 기간 */}
             <span className="shrink-0 text-[13px] font-semibold text-gray-600">기간</span>
-            <MonthYearPicker
-              value={stringToDate(draft.startDate)}
-              onChange={(date) => handleUpdateDraft('startDate', date ? dateToString(date) : '')}
-            />
-            <span className="text-gray-400">–</span>
-            <MonthYearPicker
-              value={stringToDate(draft.endDate ?? '')}
-              onChange={(date) =>
-                setDraft((prev) => ({ ...prev, endDate: date ? dateToString(date) : null }))
-              }
-              placeholder="YYYY.MM (미입력 시 현재)"
-              className="w-52"
-            />
+            <div className="flex items-center gap-2">
+              <MonthYearPicker
+                value={stringToDate(draft.startDate)}
+                onChange={(date) => handleUpdateDraft('startDate', date ? dateToString(date) : '')}
+                className="flex-1 sm:w-40"
+              />
+              <span className="text-gray-400">–</span>
+              <MonthYearPicker
+                value={stringToDate(draft.endDate ?? '')}
+                onChange={(date) =>
+                  setDraft((prev) => ({ ...prev, endDate: date ? dateToString(date) : null }))
+                }
+                placeholder="종료 (미입력 시 현재)"
+                className="flex-1 sm:w-52"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             {/* 경험 내용 */}
@@ -214,7 +242,7 @@ export default function ExperienceCardForm({
             <Textarea
               value={draft.experienceContent}
               onChange={(e) => handleUpdateDraft('experienceContent', e.target.value)}
-              placeholder="경험 내용을 입력하세요"
+              placeholder="경험 내용"
               rows={4}
               className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-[14px] leading-[1.7] text-gray-700"
             />
@@ -223,7 +251,12 @@ export default function ExperienceCardForm({
 
         {/* 액션 버튼 */}
         <div className="flex justify-end gap-2 border-t border-gray-200 px-5 py-3">
-          <Button type="button" variant="outline" onClick={handleCancel} className="rounded-lg">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCancelRequest}
+            className="rounded-lg"
+          >
             취소
           </Button>
           <Button
@@ -236,6 +269,11 @@ export default function ExperienceCardForm({
             저장
           </Button>
         </div>
+        <ExperienceCancelDialog
+          isOpen={isCancelDialogOpen}
+          onOpenChange={setIsCancelDialogOpen}
+          onConfirm={handleCancelConfirm}
+        />
       </>
     );
   }
@@ -270,25 +308,26 @@ export default function ExperienceCardForm({
       </div>
 
       {/* 액션 버튼 */}
-      <div className="flex shrink-0 items-center gap-3">
+      <div className="flex shrink-0 items-center gap-1">
         <Button
           type="button"
           variant="ghost"
+          size="icon"
           onClick={() => setIsEditing(true)}
-          className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200"
+          aria-label="수정"
+          className="text-gray-400 hover:bg-gray-100 hover:text-gray-600"
         >
-          <PencilIcon className="h-3 w-3" />
-          수정
+          <PencilIcon className="h-3.75 w-3.75" />
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="icon"
-          onClick={() => onOpenChange(true)}
+          onClick={() => onDeleteDialogOpen(true)}
           aria-label="삭제"
-          className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+          className="text-gray-400 hover:bg-red-50 hover:text-red-500"
         >
-          <Trash2Icon className="h-3.75 w-3.75 " />
+          <Trash2Icon className="h-3.75 w-3.75" />
         </Button>
       </div>
     </div>

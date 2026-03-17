@@ -31,7 +31,7 @@ interface MonthYearPickerProps {
 export default function MonthYearPicker({
   value,
   onChange,
-  placeholder = 'YYYY.MM',
+  placeholder = '시작',
   className,
 }: MonthYearPickerProps) {
   const [open, setOpen] = useState(false);
@@ -61,12 +61,12 @@ export default function MonthYearPicker({
           type="button"
           variant="outline"
           className={cn(
-            'w-40 justify-between px-3 text-[13px] font-normal',
+            'min-w-0 w-40 justify-between px-3 text-[13px] font-normal',
             !value && 'text-muted-foreground',
             className,
           )}
         >
-          <span>{value ? formatDisplay(value) : placeholder}</span>
+          <span className="truncate">{value ? formatDisplay(value) : placeholder}</span>
           <CalendarIcon className="h-3.5 w-3.5 text-gray-400" />
         </Button>
       </PopoverTrigger>

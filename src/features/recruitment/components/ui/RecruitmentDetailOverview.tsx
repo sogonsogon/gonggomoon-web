@@ -16,7 +16,7 @@ interface RecruitmentDetailOverviewProps {
 
 export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDetailOverviewProps) {
   const { data: user } = useUser();
-  const { data: bookmarks = [] } = useGetBookmarks(!!user);
+  const { data: bookmarks } = useGetBookmarks(!!user);
 
   const isBookmarked = (bookmarks?.content ?? []).some(
     (item) => item.postId === recruitment.postId,

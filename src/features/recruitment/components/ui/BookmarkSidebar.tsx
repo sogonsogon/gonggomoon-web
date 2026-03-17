@@ -56,7 +56,7 @@ export default function BookmarkSidebar({ showHeader = true }: BookmarkSidebarPr
               <p className="text-sm font-medium leading-relaxed text-gray-900">
                 {bookmark.postTitle}
               </p>
-              <span className="text-xs text-gray-400">{formatBookmarkDate(bookmark.deadline)}</span>
+              <span className="text-xs text-gray-400">{formatBookmarkDate(bookmark.dueDate)}</span>
             </Link>
           ))}
         </div>

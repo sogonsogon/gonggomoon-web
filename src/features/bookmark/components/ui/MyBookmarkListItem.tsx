@@ -11,7 +11,7 @@ interface BookmarkListItem {
 }
 
 export default function MyBookmarkListItem({ bookmark }: BookmarkListItem) {
-  const dday = formatDDay(bookmark.deadline);
+  const dday = formatDDay(bookmark.dueDate);
 
   return (
     <div className="group relative flex items-center justify-between rounded-xl border border-gray-100 px-6 py-5">
@@ -27,7 +27,7 @@ export default function MyBookmarkListItem({ bookmark }: BookmarkListItem) {
         <span className="text-base font-semibold text-gray-900">{bookmark.postTitle}</span>
         <div className="flex items-center gap-1.5">
           <CalendarIcon className="h-3 w-3 text-gray-500" />
-          <span className="text-xs text-gray-500">{formatDeadline(bookmark.deadline)}</span>
+          <span className="text-xs text-gray-500">{formatDeadline(bookmark.dueDate)}</span>
         </div>
       </div>
       <div className="relative flex items-center gap-2 z-10">

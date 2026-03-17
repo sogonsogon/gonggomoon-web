@@ -14,7 +14,7 @@ export default async function ExperiencePage() {
   return (
     <div className="flex flex-col w-full bg-white">
       {/* 메인 영역 */}
-      <div className="flex flex-1 flex-col gap-8">
+      <div className="flex flex-1 flex-col gap-6">
         {/* 페이지 타이틀 */}
         <Title
           title={'내 경험'}
