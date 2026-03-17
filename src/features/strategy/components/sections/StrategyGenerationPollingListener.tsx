@@ -24,17 +24,20 @@ export default function StrategyGenerationPollingListener() {
   const handleCompleted = useCallback(
     (id: number, _response: GetGenerationStatusResponse) => {
       markRequestCompleted(id);
+      const isCurrentResultPage = pathname === `/strategy/result/${id}`;
 
-      if (pathname === `/strategy/result/${id}`) {
+      if (isCurrentResultPage) {
         router.refresh();
       }
 
-      toast.success('포폴 전략 생성이 완료되었어요.', {
-        action: {
-          label: '결과 보기',
-          onClick: () => router.push(`/strategy/result/${id}`),
-        },
-      });
+      if (!isCurrentResultPage) {
+        toast.success('포폴 전략 생성이 완료되었어요.', {
+          action: {
+            label: '결과 보기',
+            onClick: () => router.push(`/strategy/result/${id}`),
+          },
+        });
+      }
 
       removeRequest(id);
     },

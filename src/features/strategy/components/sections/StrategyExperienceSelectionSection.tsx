@@ -61,7 +61,7 @@ export default function StrategyExperienceSelectionSection() {
   return (
     <>
       <div className="flex min-w-0 flex-1 flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-2.5">
           <div className="flex flex-col gap-0.5">
             <span className="text-base font-bold text-gray-900">내 경험 선택</span>
             <span className="text-[12px] text-gray-400">
@@ -69,13 +69,13 @@ export default function StrategyExperienceSelectionSection() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 max-md:w-full max-md:justify-between">
             {experienceList.length > 0 && (
               <button
                 type="button"
                 onClick={handleToggleAllExp}
                 disabled={isFormLocked}
-                className="inline-flex h-8 cursor-pointer items-center rounded-md px-2.5 text-[12px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-gray-500"
+                className="inline-flex h-8 cursor-pointer items-center rounded-md px-2.5 text-[12px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-gray-500 max-md:px-2"
               >
                 {allSelected ? '전체 해제' : '전체 선택'}
               </button>

@@ -21,8 +21,13 @@ import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreate
 import { Button } from '@/shared/components/ui/button';
 import { useGetStrategyAvailability } from '@/features/strategy/queries';
 import { TODAY_USAGE, DAILY_LIMIT } from '@/features/strategy/constants/limit';
+import { cn } from '@/shared/lib/cn';
 
-export default function StrategyConditionPanel() {
+interface StrategyConditionPanelProps {
+  variant?: 'sidebar' | 'sheet';
+}
+
+export default function StrategyConditionPanel({ variant = 'sidebar' }: StrategyConditionPanelProps) {
   const router = useRouter();
   const { startStrategyGeneration } = useStartStrategyGeneration();
 
@@ -72,10 +77,21 @@ export default function StrategyConditionPanel() {
   };
 
   return (
-    <div className="sticky top-6 flex w-80 shrink-0 self-start flex-col gap-4">
-      <div className="flex flex-col gap-4 rounded-xl border border-gray-100 p-5">
-        <h2 className="text-base font-bold text-gray-900">조건 설정</h2>
-        <div className="h-px bg-gray-100" />
+    <div
+      className={cn(
+        'flex flex-col gap-4',
+        variant === 'sidebar'
+          ? 'sticky top-6 w-80 shrink-0 self-start max-lg:static max-lg:w-full max-lg:self-auto max-md:gap-3'
+          : 'w-full gap-3',
+      )}
+    >
+      <div className="flex flex-col gap-4 rounded-xl border border-gray-100 p-5 max-md:p-4">
+        {variant === 'sidebar' && (
+          <>
+            <h2 className="text-base font-bold text-gray-900">조건 설정</h2>
+            <div className="h-px bg-gray-100" />
+          </>
+        )}
 
         <div className="flex flex-col gap-2.5">
           <span className="text-[13px] font-semibold text-gray-700">직무 선택</span>
@@ -192,7 +208,7 @@ export default function StrategyConditionPanel() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
+      <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3 max-md:px-3.5 max-md:py-2.5">
         <div className="flex flex-col gap-0.5">
           <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
           <div className="flex items-center gap-1">
@@ -217,37 +233,41 @@ export default function StrategyConditionPanel() {
         </div>
       </div>
 
-      <Button
-        type="button"
-        onClick={handleGenerateClick}
-        disabled={formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked}
-        className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-      >
-        {submitLoading ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            전략 생성 요청 중...
-          </>
-        ) : (
-          <>
-            <Sparkles className="h-4 w-4" />
-            포트폴리오 전략 생성
-          </>
-        )}
-      </Button>
+      {variant === 'sidebar' && (
+        <>
+          <Button
+            type="button"
+            onClick={handleGenerateClick}
+            disabled={formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked}
+            className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 max-md:h-11"
+          >
+            {submitLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                전략 생성 요청 중...
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-4 w-4" />
+                포트폴리오 전략 생성
+              </>
+            )}
+          </Button>
 
-      {processingCount > 0 ? (
-        <div className="flex items-center justify-center gap-1">
-          <Timer className="h-3 w-3 text-gray-400" />
-          <span className="text-[11px] text-gray-400">
-            현재 생성 중인 전략 {processingCount}건 · 추가 생성은 가능합니다.
-          </span>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center gap-1">
-          <Timer className="h-3 w-3 text-gray-400" />
-          <span className="text-[11px] text-gray-400">생성 후 자동 저장 · 결과 페이지로 이동</span>
-        </div>
+          {processingCount > 0 ? (
+            <div className="flex items-center justify-center gap-1">
+              <Timer className="h-3 w-3 text-gray-400" />
+              <span className="text-[11px] text-gray-400">
+                현재 생성 중인 전략 {processingCount}건 · 추가 생성은 가능합니다.
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-1">
+              <Timer className="h-3 w-3 text-gray-400" />
+              <span className="text-[11px] text-gray-400">생성 후 자동 저장 · 결과 페이지로 이동</span>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
