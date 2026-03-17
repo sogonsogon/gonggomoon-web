@@ -1,6 +1,6 @@
 import { addBookmark, deleteBookmark, getBookmarks } from '@/features/bookmark/actions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { Bookmark } from '@/features/bookmark/types';
+import type { Bookmark, GetBookmarksResponse } from '@/features/bookmark/types';
 import { toast } from 'sonner';
 
 export const bookmarkKeys = {
@@ -20,14 +20,14 @@ export function useGetBookmarks(enabled = true) {
 export function bookmarkQueryOptions() {
   return {
     queryKey: bookmarkKeys.list(),
-    queryFn: async (): Promise<Bookmark[]> => {
+    queryFn: async (): Promise<GetBookmarksResponse> => {
       const result = await getBookmarks();
 
       if (!result.success) {
-        return Promise.reject(result);
+        throw new Error(result.message ?? '북마크 목록 조회 실패');
       }
 
-      return result.data;
+      return result.data ?? createEmptyBookmarkResponse();
     },
     staleTime: Infinity,
     gcTime: 1000 * 60 * 30,
@@ -36,28 +36,14 @@ export function bookmarkQueryOptions() {
   };
 }
 
-type BookmarkStatusMap = Record<number, boolean>;
-
-function reconcileBookmarkStatusMap(
-  previousStatusMap: BookmarkStatusMap = {},
-  bookmarks: Bookmark[],
-): BookmarkStatusMap {
-  const fetchedIds = new Set(bookmarks.map((bookmark) => bookmark.postId));
-  const nextStatusMap: BookmarkStatusMap = { ...previousStatusMap };
-
-  // 기존에 알고 있던 postId는 이번 bookmark list 기준으로 true/false 재계산
-  Object.keys(nextStatusMap).forEach((key) => {
-    const postId = Number(key);
-    nextStatusMap[postId] = fetchedIds.has(postId);
-  });
-
-  // 이번에 받아온 bookmark는 무조건 true
-  fetchedIds.forEach((postId) => {
-    nextStatusMap[postId] = true;
-  });
-
-  return nextStatusMap;
+function createEmptyBookmarkResponse(): GetBookmarksResponse {
+  return {
+    content: [],
+    pageInfo: {} as GetBookmarksResponse['pageInfo'],
+  };
 }
+
+type BookmarkStatusMap = Record<number, boolean>;
 
 // 북마크 상태 조회
 export function useBookmarkStatus(enabled = true) {
@@ -71,7 +57,7 @@ export function useBookmarkStatus(enabled = true) {
       const previousStatusMap =
         queryClient.getQueryData<BookmarkStatusMap>(bookmarkKeys.status()) ?? {};
 
-      return reconcileBookmarkStatusMap(previousStatusMap, bookmarks);
+      return reconcileBookmarkStatusMap(previousStatusMap, bookmarks.content);
     },
     staleTime: Infinity,
     gcTime: 1000 * 60 * 30,
@@ -80,13 +66,33 @@ export function useBookmarkStatus(enabled = true) {
   });
 }
 
+function reconcileBookmarkStatusMap(
+  previousStatusMap: BookmarkStatusMap = {},
+  bookmarks: Bookmark[],
+): BookmarkStatusMap {
+  const fetchedIds = new Set(bookmarks.map((bookmark) => bookmark.postId));
+  const nextStatusMap: BookmarkStatusMap = { ...previousStatusMap };
+
+  Object.keys(nextStatusMap).forEach((key) => {
+    const postId = Number(key);
+    nextStatusMap[postId] = fetchedIds.has(postId);
+  });
+
+  fetchedIds.forEach((postId) => {
+    nextStatusMap[postId] = true;
+  });
+
+  return nextStatusMap;
+}
+
 type ToggleBookmarkVariables = {
   postId: number;
   nextBookmarked: boolean;
+  bookmarkId?: number;
 };
 
 type BookmarkMutationContext = {
-  previousBookmarks?: Bookmark[];
+  previousBookmarks?: GetBookmarksResponse;
   hadPreviousBookmarks: boolean;
   previousStatusMap?: BookmarkStatusMap;
 };
@@ -100,13 +106,25 @@ export function useToggleBookmark(postId: number) {
     scope: {
       id: `bookmark-${postId}`,
     },
-    mutationFn: async ({ postId, nextBookmarked }: ToggleBookmarkVariables) => {
-      const result = nextBookmarked
-        ? await addBookmark({ postId })
-        : await deleteBookmark({ postId });
+    mutationFn: async ({ postId, nextBookmarked, bookmarkId }: ToggleBookmarkVariables) => {
+      if (nextBookmarked) {
+        const result = await addBookmark({ postId });
+
+        if (!result.success) {
+          throw new Error(result.message ?? '북마크 추가 실패');
+        }
+
+        return result.data;
+      }
+
+      if (bookmarkId == null) {
+        throw new Error('bookmarkId가 없어 북마크를 해제할 수 없어요.');
+      }
+
+      const result = await deleteBookmark({ bookmarkId });
 
       if (!result.success) {
-        return Promise.reject(result);
+        throw new Error(result.message ?? '북마크 해제 실패');
       }
 
       return result.data;
@@ -118,7 +136,7 @@ export function useToggleBookmark(postId: number) {
         queryClient.cancelQueries({ queryKey: bookmarkKeys.status() }),
       ]);
 
-      const previousBookmarks = queryClient.getQueryData<Bookmark[]>(bookmarkKeys.list());
+      const previousBookmarks = queryClient.getQueryData<GetBookmarksResponse>(bookmarkKeys.list());
       const hadPreviousBookmarks = previousBookmarks !== undefined;
       const previousStatusMap = queryClient.getQueryData<BookmarkStatusMap>(bookmarkKeys.status());
 
@@ -129,7 +147,7 @@ export function useToggleBookmark(postId: number) {
 
       // 북마크 목록 cache는 기존 cache가 있을 때만 optimistic 반영
       if (hadPreviousBookmarks) {
-        queryClient.setQueryData<Bookmark[]>(bookmarkKeys.list(), (old = []) =>
+        queryClient.setQueryData<GetBookmarksResponse>(bookmarkKeys.list(), (old) =>
           updateBookmarkListCache(old, postId, nextBookmarked),
         );
       }
@@ -137,20 +155,25 @@ export function useToggleBookmark(postId: number) {
       return { previousBookmarks, hadPreviousBookmarks, previousStatusMap };
     },
 
-    onError: (_error, variables, context) => {
+    onError: (error, variables, context) => {
       queryClient.setQueryData<BookmarkStatusMap>(
         bookmarkKeys.status(),
         context?.previousStatusMap ?? {},
       );
 
-      if (context?.hadPreviousBookmarks) {
-        queryClient.setQueryData(bookmarkKeys.list(), context.previousBookmarks);
+      if (context?.hadPreviousBookmarks && context.previousBookmarks) {
+        queryClient.setQueryData<GetBookmarksResponse>(
+          bookmarkKeys.list(),
+          context.previousBookmarks,
+        );
       }
 
       toast.error(
-        variables.nextBookmarked
-          ? '북마크 추가에 실패했어요. 다시 시도해 주세요.'
-          : '북마크 해제에 실패했어요. 다시 시도해 주세요.',
+        error instanceof Error
+          ? error.message
+          : variables.nextBookmarked
+            ? '북마크 추가에 실패했어요. 다시 시도해 주세요.'
+            : '북마크 해제에 실패했어요. 다시 시도해 주세요.',
       );
     },
 
@@ -164,20 +187,38 @@ export function useToggleBookmark(postId: number) {
 }
 
 function updateBookmarkListCache(
-  old: Bookmark[] = [],
+  old: GetBookmarksResponse | undefined,
   postId: number,
   nextBookmarked: boolean,
-): Bookmark[] {
-  const exists = old.some((item) => item.postId === postId);
+): GetBookmarksResponse {
+  const current = old ?? createEmptyBookmarkResponse();
+  const exists = current.content.some((item) => item.postId === postId);
 
   if (nextBookmarked) {
-    if (exists) return old;
+    if (exists) return current;
 
-    // Bookmark 타입에 postId 외 필수 필드가 있다면 기본값을 채워주세요.
-    return [{ postId } as Bookmark, ...old];
+    return {
+      ...current,
+      content: [
+        {
+          bookmarkId: 0,
+          postId,
+          postTitle: '',
+          companyName: '',
+          postStatus: 'PUBLISHED',
+          startDate: null,
+          dueDate: null,
+          createdAt: new Date().toISOString(),
+        },
+        ...current.content,
+      ],
+    };
   }
 
-  return old.filter((item) => item.postId !== postId);
+  return {
+    ...current,
+    content: current.content.filter((item) => item.postId !== postId),
+  };
 }
 
 function updateBookmarkStatusMap(

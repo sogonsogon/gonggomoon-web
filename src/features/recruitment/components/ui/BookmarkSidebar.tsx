@@ -8,9 +8,10 @@ import { useGetBookmarks } from '@/features/bookmark/queries';
 
 export default function BookmarkSidebar() {
   const { data: user } = useUser();
-  const { data: bookmarks } = useGetBookmarks();
+  const { data: bookmarks } = useGetBookmarks(!!user);
 
-  const hasBookmarks = bookmarks && bookmarks.length > 0;
+  const bookmarkItems = bookmarks?.content ?? [];
+  const hasBookmarks = bookmarkItems.length > 0;
 
   return (
     <div className="flex w-80 shrink-0 flex-col gap-4">
@@ -40,7 +41,7 @@ export default function BookmarkSidebar() {
         />
       ) : (
         <div className="flex flex-col gap-3">
-          {bookmarks.slice(0, 4).map((bookmark) => (
+          {bookmarkItems.slice(0, 4).map((bookmark) => (
             <Link
               key={bookmark.postId}
               href={`/recruitment/${bookmark.postId}`}
@@ -49,7 +50,7 @@ export default function BookmarkSidebar() {
               <p className="text-sm font-medium leading-relaxed text-gray-900">
                 {bookmark.postTitle}
               </p>
-              <span className="text-xs text-gray-400">{formatBookmarkDate(bookmark.deadline)}</span>
+              <span className="text-xs text-gray-400">{formatBookmarkDate(bookmark.dueDate)}</span>
             </Link>
           ))}
         </div>

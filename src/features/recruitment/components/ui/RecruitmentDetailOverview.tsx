@@ -16,9 +16,11 @@ interface RecruitmentDetailOverviewProps {
 
 export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDetailOverviewProps) {
   const { data: user } = useUser();
-  const { data: bookmarks = [] } = useGetBookmarks(!!user);
+  const { data: bookmarks } = useGetBookmarks(!!user);
 
-  const isBookmarked = bookmarks.some((item) => item.postId === recruitment.postId);
+  const isBookmarked = (bookmarks?.content ?? []).some(
+    (item) => item.postId === recruitment.postId,
+  );
 
   const dDayInfo = formatDDay(recruitment.dueDate);
   const dDayStyle = DDAY_VARIANT_CLASS[dDayInfo.variant];

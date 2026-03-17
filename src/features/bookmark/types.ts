@@ -1,18 +1,25 @@
+import type { PageInfo } from '@/shared/types/pageInfo';
+
 export type Bookmark = {
+  bookmarkId: number;
   postId: number;
   postTitle: string;
   companyName: string;
-  deadline: string | null;
+  postStatus: 'PUBLISHED' | string;
+  startDate: string | null;
+  dueDate: string | null;
+  createdAt: string;
 };
 
-// ----------------------- 요청 타입 -----------------------
 export type AddBookmarkRequest = {
   postId: number;
 };
 
 export type DeleteBookmarkRequest = {
-  postId: number;
+  bookmarkId: number;
 };
 
-// ----------------------- 응답 타입 -----------------------
-export type GetBookmarksResponse = Bookmark[];
+export type GetBookmarksResponse = {
+  content: Bookmark[];
+  pageInfo: PageInfo;
+};

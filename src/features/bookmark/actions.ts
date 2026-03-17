@@ -9,8 +9,9 @@ import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
 
 export async function addBookmark({ postId }: AddBookmarkRequest): Promise<ApiResponse<null>> {
-  const response = await privateFetch<null>(`/api/v1/bookmarks/${postId}`, {
+  const response = await privateFetch<null>(`/api/v1/bookmarks`, {
     method: 'POST',
+    body: JSON.stringify({ postId }),
   });
   return response;
 }
@@ -21,11 +22,10 @@ export async function getBookmarks(): Promise<ApiResponse<GetBookmarksResponse>>
 }
 
 export async function deleteBookmark({
-  postId,
+  bookmarkId,
 }: DeleteBookmarkRequest): Promise<ApiResponse<null>> {
-  const response = await privateFetch<null>('/api/v1/bookmarks', {
+  const response = await privateFetch<null>(`/api/v1/bookmarks/${bookmarkId}`, {
     method: 'DELETE',
-    body: JSON.stringify({ postId }),
   });
   return response;
 }
