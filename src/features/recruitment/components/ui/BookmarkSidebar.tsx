@@ -12,9 +12,10 @@ interface BookmarkSidebarProps {
 
 export default function BookmarkSidebar({ showHeader = true }: BookmarkSidebarProps) {
   const { data: user } = useUser();
-  const { data: bookmarks } = useGetBookmarks();
+  const { data: bookmarks } = useGetBookmarks(!!user);
 
-  const hasBookmarks = bookmarks && bookmarks.length > 0;
+  const bookmarkItems = bookmarks?.content ?? [];
+  const hasBookmarks = bookmarkItems.length > 0;
 
   return (
     <div className="flex w-80 shrink-0 flex-col gap-4 max-md:w-full lg:w-full xl:w-80">
@@ -46,7 +47,7 @@ export default function BookmarkSidebar({ showHeader = true }: BookmarkSidebarPr
         />
       ) : (
         <div className="flex flex-col gap-3">
-          {bookmarks.slice(0, 4).map((bookmark) => (
+          {bookmarkItems.slice(0, 4).map((bookmark) => (
             <Link
               key={bookmark.postId}
               href={`/recruitment/${bookmark.postId}`}

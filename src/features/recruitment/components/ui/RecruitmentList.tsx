@@ -15,7 +15,7 @@ export default function RecruitmentList({ recruitments }: RecruitmentListProps) 
   const { data: bookmarks = [] } = useGetBookmarks(!!user);
 
   const bookmarkedPostIds = useMemo(
-    () => new Set(bookmarks.map((bookmark) => bookmark.postId)),
+    () => new Set((bookmarks?.content ?? []).map((bookmark) => bookmark.postId)),
     [bookmarks],
   );
 

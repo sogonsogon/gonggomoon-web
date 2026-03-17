@@ -18,7 +18,9 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
   const { data: user } = useUser();
   const { data: bookmarks = [] } = useGetBookmarks(!!user);
 
-  const isBookmarked = bookmarks.some((item) => item.postId === recruitment.postId);
+  const isBookmarked = (bookmarks?.content ?? []).some(
+    (item) => item.postId === recruitment.postId,
+  );
 
   const dDayInfo = formatDDay(recruitment.dueDate);
   const dDayStyle = DDAY_VARIANT_CLASS[dDayInfo.variant];
@@ -68,11 +70,7 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
         </div>
 
         <div className="absolute right-0 top-0 lg:hidden">
-          <BookmarkButton
-            postId={recruitment.postId}
-            isBookmarked={isBookmarked}
-            variant="icon"
-          />
+          <BookmarkButton postId={recruitment.postId} isBookmarked={isBookmarked} variant="icon" />
         </div>
         <div className="max-lg:hidden">
           <BookmarkButton postId={recruitment.postId} isBookmarked={isBookmarked} />
