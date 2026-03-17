@@ -75,8 +75,8 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
         ) : (
           <div className="flex flex-col gap-2">
             {/* 상단 정보 바 */}
-            <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5">
-              <div className="flex items-center gap-2.5">
+            <div className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <div className="flex items-center gap-1.5">
                   <FilesIcon className="h-3.5 w-3.5 text-gray-400" />
                   <span className="text-[12px] font-medium text-gray-500">

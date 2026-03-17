@@ -164,8 +164,8 @@ export default function ExperienceCardForm({
   if (isEditing) {
     return (
       <>
-        <div className="flex items-center justify-between gap-3 border-b-2 border-blue-400 px-5 py-4">
-          <div className="flex flex-1 items-center gap-3">
+        <div className="flex flex-col gap-2 border-b-2 border-blue-400 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <div className="flex flex-1 flex-wrap items-center gap-2">
             <div className="flex shrink-0 items-center gap-1.5 rounded-md bg-blue-50 px-2 py-0.5">
               <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
               <span className="text-[11px] font-semibold text-blue-700">수정 중</span>
@@ -183,7 +183,7 @@ export default function ExperienceCardForm({
                 handleUpdateDraft('experienceType', value as ExperienceType)
               }
             >
-              <SelectTrigger className="w-40 shrink-0 text-[13px] text-gray-800">
+              <SelectTrigger className="w-25 md:w-40 shrink-0 text-[13px] text-gray-800">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -199,39 +199,42 @@ export default function ExperienceCardForm({
             <Input
               value={draft.title}
               onChange={(e) => handleUpdateDraft('title', e.target.value)}
-              placeholder="경험 제목을 입력하세요"
-              className="flex-1 text-[14px] text-gray-900"
+              placeholder="경험 제목"
+              className="min-w-0 w-full flex-1 sm:w-auto text-[14px] text-gray-900"
             />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => onDeleteDialogOpen(true)}
+              aria-label="삭제"
+              className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+            >
+              <Trash2Icon className="h-4 w-4 " />
+            </Button>
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => onDeleteDialogOpen(true)}
-            aria-label="삭제"
-            className="text-gray-400 hover:text-red-500 hover:bg-red-50"
-          >
-            <Trash2Icon className="h-4 w-4 " />
-          </Button>
         </div>
 
         <div className="flex flex-col gap-4 px-5 py-4">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
             {/* 경험 기간 */}
             <span className="shrink-0 text-[13px] font-semibold text-gray-600">기간</span>
-            <MonthYearPicker
-              value={stringToDate(draft.startDate)}
-              onChange={(date) => handleUpdateDraft('startDate', date ? dateToString(date) : '')}
-            />
-            <span className="text-gray-400">–</span>
-            <MonthYearPicker
-              value={stringToDate(draft.endDate ?? '')}
-              onChange={(date) =>
-                setDraft((prev) => ({ ...prev, endDate: date ? dateToString(date) : null }))
-              }
-              placeholder="YYYY.MM (미입력 시 현재)"
-              className="w-52"
-            />
+            <div className="flex items-center gap-2">
+              <MonthYearPicker
+                value={stringToDate(draft.startDate)}
+                onChange={(date) => handleUpdateDraft('startDate', date ? dateToString(date) : '')}
+                className="flex-1 sm:w-40"
+              />
+              <span className="text-gray-400">–</span>
+              <MonthYearPicker
+                value={stringToDate(draft.endDate ?? '')}
+                onChange={(date) =>
+                  setDraft((prev) => ({ ...prev, endDate: date ? dateToString(date) : null }))
+                }
+                placeholder="종료 (미입력 시 현재)"
+                className="flex-1 sm:w-52"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             {/* 경험 내용 */}
@@ -239,7 +242,7 @@ export default function ExperienceCardForm({
             <Textarea
               value={draft.experienceContent}
               onChange={(e) => handleUpdateDraft('experienceContent', e.target.value)}
-              placeholder="경험 내용을 입력하세요"
+              placeholder="경험 내용"
               rows={4}
               className="w-full resize-none rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-3 text-[14px] leading-[1.7] text-gray-700"
             />
@@ -305,15 +308,16 @@ export default function ExperienceCardForm({
       </div>
 
       {/* 액션 버튼 */}
-      <div className="flex shrink-0 items-center gap-3">
+      <div className="flex shrink-0 items-center gap-1">
         <Button
           type="button"
           variant="ghost"
+          size="icon"
           onClick={() => setIsEditing(true)}
-          className="flex items-center gap-1 rounded-md bg-gray-100 px-2.5 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200"
+          aria-label="수정"
+          className="text-gray-400 hover:bg-gray-100 hover:text-gray-600"
         >
-          <PencilIcon className="h-3 w-3" />
-          수정
+          <PencilIcon className="h-3.75 w-3.75" />
         </Button>
         <Button
           type="button"
@@ -321,9 +325,9 @@ export default function ExperienceCardForm({
           size="icon"
           onClick={() => onDeleteDialogOpen(true)}
           aria-label="삭제"
-          className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+          className="text-gray-400 hover:bg-red-50 hover:text-red-500"
         >
-          <Trash2Icon className="h-3.75 w-3.75 " />
+          <Trash2Icon className="h-3.75 w-3.75" />
         </Button>
       </div>
     </div>

@@ -11,7 +11,7 @@ export default async function StrategyPage() {
   return (
     <div className="flex flex-col w-full">
       {/* 메인 영역 */}
-      <div className="flex flex-1 flex-col gap-8">
+      <div className="flex flex-1 flex-col gap-6">
         {/* 페이지 타이틀 */}
         <Title
           title={'포폴 전략'}
