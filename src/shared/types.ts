@@ -6,7 +6,10 @@ export interface HistorySidebarItem {
 
 export type GenerationStatus = 'PROCESSING' | 'FAILED' | 'READY';
 
-export type GenerationRequestType = 'EXPERIENCE_EXTRACTION' | 'STRATEGY' | 'INTERVIEW';
+export type GenerationRequestType =
+  | 'EXTRACT_EXPERIENCE'
+  | 'PORTFOLIO_STRATEGY'
+  | 'INTERVIEW_STRATEGY';
 
 export type GenerationRequestStatus = 'PROCESSING' | 'FAILED' | 'READY';
 
