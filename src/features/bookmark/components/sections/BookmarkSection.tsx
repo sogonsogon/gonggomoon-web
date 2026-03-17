@@ -11,7 +11,7 @@ export default function BookmarkSection() {
     <>
       {/* 북마크 개수 */}
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-600">
+        <span className="text-[13px] font-medium text-gray-600">
           총 {bookmarks?.length || 0}개의 북마크
         </span>
       </div>

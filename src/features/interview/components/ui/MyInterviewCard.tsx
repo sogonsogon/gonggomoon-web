@@ -33,7 +33,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
             size="icon-sm"
             onClick={() => setIsDialogOpen(true)}
             aria-label="면접 질문 삭제"
-            className="mt-0.5 shrink-0  text-gray-400 hover:bg-transparent hover:text-red-500"
+            className="mt-0.5 shrink-0 text-gray-400 hover:bg-transparent hover:text-red-500"
           >
             <Trash2Icon className="h-3.75 w-3.75" />
           </Button>
@@ -47,7 +47,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
       {/* 보기 버튼 */}
       <Link
         href={`/interview/result/${interview.interviewStrategyId}`}
-        className="flex w-full h-9.5 items-center justify-center rounded-lg py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50"
+        className="flex w-full h-9 items-center justify-center rounded-lg py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50"
       >
         보기
       </Link>

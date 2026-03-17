@@ -8,6 +8,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { userQueryOptions } from '@/features/user/queries';
 import LoginModal from '@/features/auth/components/ui/LoginModal';
 import LoginModalTrigger from '@/features/auth/components/ui/LoginModalTrigger';
+import ExperienceExtractionPollingListener from '@/features/experience/components/sections/ExperienceExtractionPollingListener';
 import { Suspense } from 'react';
 import InterviewGenerationPollingListener from '@/features/interview/components/sections/InterviewGenerationPollingListener';
 import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
@@ -40,6 +41,7 @@ export default async function RootLayout({
             {children}
             <StrategyGenerationPollingListener />
             <InterviewGenerationPollingListener />
+            <ExperienceExtractionPollingListener />
             <Toaster richColors position="top-right" />
             <LoginModal />
             <Suspense>

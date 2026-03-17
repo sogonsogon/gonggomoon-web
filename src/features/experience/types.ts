@@ -7,6 +7,7 @@ export type Experience = {
   experienceContent?: string;
   startDate: string;
   endDate: string | null;
+  isAiGenerated?: boolean;
 };
 
 export type GetExperienceListResponse = {
@@ -47,4 +48,13 @@ export type UpdateExperienceResponse = Experience;
 
 export type DeleteExperienceRequest = {
   experienceId: number;
+};
+
+export type StartExtractExperienceResponse = {
+  extractedExperienceIds: number[];
+};
+
+export type GetExtractedExperienceResponse = {
+  totalCount: number;
+  contents: Omit<Experience, 'experienceId'>[];
 };

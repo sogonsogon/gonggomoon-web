@@ -4,6 +4,9 @@ import { Input } from '@/shared/components/ui/input';
 import { formatFileSize } from '@/features/file/utils/formatFileSize';
 import { FileTextIcon, UploadIcon } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { toast } from 'sonner';
+
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 
 interface FileUploadAreaProps {
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,11 +22,30 @@ export default function FileUploadArea({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
+  const validateAndPick = (file: globalThis.File | null) => {
+    if (!file) return;
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      toast.error('파일 크기는 10MB 이하여야 합니다.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    setPickedFile(file);
+  };
+
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragging(false);
-    const file = event.dataTransfer.files?.[0] ?? null;
-    setPickedFile(file);
+    validateAndPick(event.dataTransfer.files?.[0] ?? null);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    if (file && file.size > MAX_FILE_SIZE_BYTES) {
+      toast.error('파일 크기는 10MB 이하여야 합니다.');
+      event.target.value = '';
+      return;
+    }
+    handleFileChange(event);
   };
 
   return (
@@ -34,7 +56,7 @@ export default function FileUploadArea({
         type="file"
         accept=".pdf"
         className="hidden"
-        onChange={handleFileChange}
+        onChange={handleInputChange}
       />
       <div
         className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border bg-gray-50 px-6 py-8 transition-colors ${
@@ -60,7 +82,7 @@ export default function FileUploadArea({
             <span className="text-sm font-medium text-gray-600">
               클릭하거나 파일을 드래그해서 업로드
             </span>
-            <span className="text-xs text-gray-400">PDF 최대 20MB</span>
+            <span className="text-xs text-gray-400">PDF 최대 10MB</span>
           </>
         )}
       </div>

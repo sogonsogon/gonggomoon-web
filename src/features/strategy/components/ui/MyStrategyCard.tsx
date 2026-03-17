@@ -23,7 +23,7 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
     >
       {/* Card Top */}
       <div
-        className="flex h-30 flex-col justify-between rounded-t-xl px-5 pb-4 pt-5"
+        className="flex h-30 flex-col justify-between border-b border-gray-100 px-5 pb-4 pt-5"
         // style={{ backgroundColor: theme.bg }}
       >
         <div className="flex items-center justify-between">

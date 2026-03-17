@@ -15,9 +15,40 @@ const CATEGORY_BADGE_CLASS: Record<FileCategory, string> = {
 
 interface FileTableRowProps {
   file: File;
+  variant?: 'row' | 'card';
 }
 
-export default function FileTableRow({ file }: FileTableRowProps) {
+export default function FileTableRow({ file, variant = 'row' }: FileTableRowProps) {
+  if (variant === 'card') {
+    return (
+      <div className="flex items-center justify-between gap-3 px-4 py-3.5">
+        <div className="flex min-w-0 flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <span
+              className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${CATEGORY_BADGE_CLASS[file.category]}`}
+            >
+              {FILE_CATEGORY_LABEL[file.category]}
+            </span>
+            <div className="flex min-w-0 items-center gap-1.5">
+              {isPdf(file.originalFileName) ? (
+                <FileTextIcon className="h-3.5 w-3.5 shrink-0 text-gray-500" />
+              ) : (
+                <FileIcon className="h-3.5 w-3.5 shrink-0 text-gray-500" />
+              )}
+              <span className="truncate text-sm font-medium text-gray-900">
+                {file.originalFileName}
+              </span>
+            </div>
+          </div>
+          <span className="text-xs text-gray-400">
+            {formatFileSize(file.sizeBytes)} · {formatDate(file.createdAt)}
+          </span>
+        </div>
+        <FileDeleteButton file={file} />
+      </div>
+    );
+  }
+
   return (
     <TableRow>
       {/* 파일 카테고리 */}

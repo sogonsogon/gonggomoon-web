@@ -14,7 +14,7 @@ export default function FileSection() {
   return (
     <>
       {/* 파일 개수 / 첨부파일 등록 버튼 */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative">
         <div className="flex items-center gap-1">
           <span className="text-sm font-medium text-gray-500">파일</span>
           <span className="text-sm font-bold text-gray-900">{currentFileCount ?? 0}</span>
