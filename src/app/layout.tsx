@@ -9,6 +9,8 @@ import { userQueryOptions } from '@/features/user/queries';
 import LoginModal from '@/features/auth/components/ui/LoginModal';
 import LoginModalTrigger from '@/features/auth/components/ui/LoginModalTrigger';
 import { Suspense } from 'react';
+import InterviewGenerationPollingListener from '@/features/interview/components/sections/InterviewGenerationPollingListener';
+import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -36,6 +38,8 @@ export default async function RootLayout({
           <HydrationBoundary state={dehydrate(queryClient)}>
             <Header />
             {children}
+            <StrategyGenerationPollingListener />
+            <InterviewGenerationPollingListener />
             <Toaster richColors position="top-right" />
             <LoginModal />
             <Suspense>
