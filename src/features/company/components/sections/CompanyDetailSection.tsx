@@ -8,7 +8,7 @@ interface CompanyDetailSectionProps {
 
 export default function CompanyDetailSection({ company }: CompanyDetailSectionProps) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col">
+    <div className="flex min-w-0 flex-1 flex-col max-lg:w-full">
       <CompanyDetailOverview company={company} />
 
       <div className="h-px bg-gray-100" />
