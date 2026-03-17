@@ -17,26 +17,30 @@ import {
   SelectValue,
 } from '@/shared/components/ui/select';
 import { Textarea } from '@/shared/components/ui/textarea';
-import { PencilIcon, Trash2Icon } from 'lucide-react';
+import { PencilIcon, SparklesIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import ExperienceCancelDialog from '@/features/experience/components/ui/ExperienceCancelDialog';
 
 interface ExperienceCardFormProps {
   experience: Experience;
   isNew: boolean;
+  isAiGenerated?: boolean;
   onUpdateSuccess: (targetId: number, updatedData: Experience) => void;
   onDeleteSuccess: (targetId: number) => void;
-  onOpenChange: (next: boolean) => void;
+  onDeleteDialogOpen: (next: boolean) => void;
 }
 
 export default function ExperienceCardForm({
   experience,
   isNew,
+  isAiGenerated = false,
   onUpdateSuccess,
   onDeleteSuccess,
-  onOpenChange,
+  onDeleteDialogOpen,
 }: ExperienceCardFormProps) {
   const [isEditing, setIsEditing] = useState(isNew);
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
 
   const { mutate: createExperience, isPending: isCreating } = useCreateExperience();
   const { mutate: updateExperience, isPending: isUpdating } = useUpdateExperience();
@@ -54,12 +58,19 @@ export default function ExperienceCardForm({
     setDraft((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleCancel = () => {
+  const isDirty =
+    (isAiGenerated && experience.experienceId < 0) ||
+    draft.title !== experience.title ||
+    draft.experienceType !== experience.experienceType ||
+    draft.startDate !== (experience.startDate ? toDisplayDate(experience.startDate) : '') ||
+    (draft.endDate || null) !== (experience.endDate ? toDisplayDate(experience.endDate) : null) ||
+    draft.experienceContent !== (experience.experienceContent ?? '');
+
+  const handleCancelConfirm = () => {
     if (draft.experienceId < 0) {
       onDeleteSuccess(draft.experienceId);
       return;
     }
-    // 기존 데이터로 복구
     setDraft({
       experienceId: experience.experienceId,
       title: experience.title,
@@ -69,6 +80,14 @@ export default function ExperienceCardForm({
       experienceContent: experience.experienceContent ?? '',
     });
     setIsEditing(false);
+  };
+
+  const handleCancelRequest = () => {
+    if (isDirty) {
+      setIsCancelDialogOpen(true);
+      return;
+    }
+    handleCancelConfirm();
   };
 
   const handleSave = async () => {
@@ -151,6 +170,12 @@ export default function ExperienceCardForm({
               <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
               <span className="text-[11px] font-semibold text-blue-700">수정 중</span>
             </div>
+            {isAiGenerated && (
+              <div className="flex shrink-0 items-center gap-1 rounded-full bg-violet-50 px-2 py-0.5">
+                <SparklesIcon className="h-3 w-3 text-violet-500" />
+                <span className="text-[11px] font-semibold text-violet-600">AI 생성</span>
+              </div>
+            )}
             {/* 경험 유형 */}
             <Select
               value={draft.experienceType}
@@ -182,7 +207,7 @@ export default function ExperienceCardForm({
             type="button"
             variant="ghost"
             size="icon"
-            onClick={() => onOpenChange(true)}
+            onClick={() => onDeleteDialogOpen(true)}
             aria-label="삭제"
             className="text-gray-400 hover:text-red-500 hover:bg-red-50"
           >
@@ -223,7 +248,12 @@ export default function ExperienceCardForm({
 
         {/* 액션 버튼 */}
         <div className="flex justify-end gap-2 border-t border-gray-200 px-5 py-3">
-          <Button type="button" variant="outline" onClick={handleCancel} className="rounded-lg">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCancelRequest}
+            className="rounded-lg"
+          >
             취소
           </Button>
           <Button
@@ -236,6 +266,11 @@ export default function ExperienceCardForm({
             저장
           </Button>
         </div>
+        <ExperienceCancelDialog
+          isOpen={isCancelDialogOpen}
+          onOpenChange={setIsCancelDialogOpen}
+          onConfirm={handleCancelConfirm}
+        />
       </>
     );
   }
@@ -284,7 +319,7 @@ export default function ExperienceCardForm({
           type="button"
           variant="ghost"
           size="icon"
-          onClick={() => onOpenChange(true)}
+          onClick={() => onDeleteDialogOpen(true)}
           aria-label="삭제"
           className="text-gray-400 hover:text-red-500 hover:bg-red-50"
         >

@@ -11,10 +11,10 @@ export default function ExperienceAddButton({ onAddCard }: ExperienceAddButtonPr
       type="button"
       variant="outline"
       onClick={onAddCard}
-      className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 hover:bg-gray-50"
+      className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 hover:bg-gray-50 rounded-lg"
     >
       <CirclePlusIcon className="h-4.5 w-4.5 text-gray-500" />
-      <span className="text-base font-semibold text-gray-600">경험 추가</span>
+      <span className="text-sm font-semibold text-gray-600">경험 추가</span>
     </Button>
   );
 }

@@ -49,7 +49,10 @@ export function useGetExperienceList() {
 
 // 경험 단건 조회
 export function useGetExperience(experienceId: number) {
-  return useQuery(experienceQueryOptions(experienceId));
+  return useQuery({
+    ...experienceQueryOptions(experienceId),
+    enabled: experienceId > 0,
+  });
 }
 
 // 경험 등록

@@ -11,12 +11,16 @@ import { toast } from 'sonner';
 interface ExperienceCardProps {
   experienceId: number;
   defaultEditMode?: boolean;
+  prefillData?: Experience;
+  isAiGenerated?: boolean;
   onUpdateSuccess: (targetId: number, updatedData: Experience) => void;
   onDeleteSuccess: (targetId: number) => void;
 }
 export default function ExperienceCard({
   experienceId,
   defaultEditMode = false,
+  prefillData,
+  isAiGenerated = false,
   onUpdateSuccess,
   onDeleteSuccess,
 }: ExperienceCardProps) {
@@ -26,7 +30,7 @@ export default function ExperienceCard({
   // 카드 삭제 애니메이션
   const [isExiting, setIsExiting] = useState(false);
   // 삭제 다이얼로그
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const { data: experience, isLoading } = useGetExperience(experienceId);
   const { mutate: deleteExperience } = useDeleteExperience();
@@ -72,6 +76,7 @@ export default function ExperienceCard({
       ) : (
         <ExperienceCardForm
           experience={
+            prefillData ??
             experience ?? {
               experienceId,
               title: '',
@@ -82,14 +87,15 @@ export default function ExperienceCard({
             }
           }
           isNew={isNew}
+          isAiGenerated={isAiGenerated}
           onUpdateSuccess={onUpdateSuccess}
           onDeleteSuccess={onDeleteSuccess}
-          onOpenChange={setIsDialogOpen}
+          onDeleteDialogOpen={setIsDeleteDialogOpen}
         />
       )}
       <ExperienceDeleteDialog
-        isOpen={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
+        isOpen={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
         onConfirm={handleDelete}
       />
     </div>
