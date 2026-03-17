@@ -10,6 +10,8 @@ import LoginModal from '@/features/auth/components/ui/LoginModal';
 import LoginModalTrigger from '@/features/auth/components/ui/LoginModalTrigger';
 import ExperienceExtractionPollingListener from '@/features/experience/components/sections/ExperienceExtractionPollingListener';
 import { Suspense } from 'react';
+import InterviewGenerationPollingListener from '@/features/interview/components/sections/InterviewGenerationPollingListener';
+import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://gonggomoon.com'),
@@ -61,6 +63,8 @@ export default async function RootLayout({
           <HydrationBoundary state={dehydrate(queryClient)}>
             <Header />
             {children}
+            <StrategyGenerationPollingListener />
+            <InterviewGenerationPollingListener />
             <ExperienceExtractionPollingListener />
             <Toaster richColors position="top-right" />
             <LoginModal />

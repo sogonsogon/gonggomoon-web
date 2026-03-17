@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
 import { GetGenerationStatusResponse } from '@/shared/types';
@@ -9,6 +9,7 @@ import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrate
 
 export default function StrategyGenerationPollingListener() {
   const router = useRouter();
+  const pathname = usePathname();
 
   const requests = useStrategyGenerationStore((state) => state.requests);
   const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
@@ -24,6 +25,10 @@ export default function StrategyGenerationPollingListener() {
     (id: number, _response: GetGenerationStatusResponse) => {
       markRequestCompleted(id);
 
+      if (pathname === `/strategy/result/${id}`) {
+        router.refresh();
+      }
+
       toast.success('포폴 전략 생성이 완료되었어요.', {
         action: {
           label: '결과 보기',
@@ -33,13 +38,12 @@ export default function StrategyGenerationPollingListener() {
 
       removeRequest(id);
     },
-    [markRequestCompleted, removeRequest, router],
+    [markRequestCompleted, pathname, removeRequest, router],
   );
 
   const handleFailed = useCallback(
     (id: number, error: string) => {
       markRequestFailed(id, error);
-
       toast.error(error || '포폴 전략 생성 중 문제가 발생했습니다.');
     },
     [markRequestFailed],
@@ -47,7 +51,7 @@ export default function StrategyGenerationPollingListener() {
 
   useGenerationPolling({
     requestIds: processingRequestIds,
-    requestType: 'STRATEGY',
+    requestType: 'PORTFOLIO_STRATEGY',
     onCompleted: handleCompleted,
     onFailed: handleFailed,
   });

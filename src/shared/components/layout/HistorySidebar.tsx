@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Plus, Settings2 } from 'lucide-react';
+import { LoaderCircle, Plus, Settings2 } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -40,7 +40,7 @@ export default function HistorySidebar({
 }: HistorySidebarProps) {
   const pathname = usePathname();
 
-  const renderMenuItems = (menuItems: HistorySidebarItem[]) =>
+  const renderMenuItems = (menuItems: HistorySidebarItem[], isProcessingSection = false) =>
     menuItems.map((item) => {
       const isActive = pathname === item.href;
 
@@ -49,25 +49,40 @@ export default function HistorySidebar({
           <SidebarMenuButton asChild isActive={isActive} className="h-auto p-0">
             <Link
               href={item.href}
-              className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 ${
+              className={`flex gap-2.5 rounded-lg border px-3 py-2.5 ${
                 isActive ? 'border-[#90c2ff] bg-[#e8f3ff]' : 'border-transparent hover:bg-gray-100'
               }`}
             >
-              <div
-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                  isActive ? 'bg-[#2272eb]' : 'bg-gray-300'
-                }`}
-              />
+              <div className="flex h-4 w-4 shrink-0 items-center justify-center">
+                {isProcessingSection ? (
+                  <LoaderCircle
+                    className={`h-3 w-3 animate-spin ${
+                      isActive ? 'text-[#2272eb]' : 'text-gray-400'
+                    }`}
+                  />
+                ) : (
+                  <div
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      isActive ? 'bg-[#2272eb]' : 'bg-gray-300'
+                    }`}
+                  />
+                )}
+              </div>
 
-              <div className="flex min-w-0 flex-col gap-0.5">
+              <div className="flex min-w-0 flex-col">
                 <span
-                  className={`truncate text-[12px] font-semibold ${
+                  className={`truncate text-[12px] font-semibold leading-4 ${
                     isActive ? 'text-[#1b64da]' : 'text-gray-700'
                   }`}
                 >
                   {item.title}
                 </span>
-                <span className={`text-[11px] ${isActive ? 'text-[#4593e6]' : 'text-gray-400'}`}>
+
+                <span
+                  className={`mt-0.5 text-[11px] leading-4 ${
+                    isActive ? 'text-[#4593e6]' : 'text-gray-400'
+                  }`}
+                >
                   {item.date}
                 </span>
               </div>
@@ -104,7 +119,9 @@ export default function HistorySidebar({
             </SidebarGroupLabel>
 
             <SidebarGroupContent>
-              <SidebarMenu className="gap-0.5">{renderMenuItems(processingItems)}</SidebarMenu>
+              <SidebarMenu className="gap-0.5">
+                {renderMenuItems(processingItems, true)}
+              </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         )}

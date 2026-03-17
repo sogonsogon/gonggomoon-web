@@ -29,12 +29,31 @@ export async function createStrategy(
 export async function getStrategyDetail(
   strategyId: number,
 ): Promise<ApiResponse<GetStrategyDetailResponse>> {
-  return await privateFetch<GetStrategyDetailResponse>(
-    `/api/v1/portfolio-strategies/${strategyId}`,
-    {
-      cache: 'no-store',
-    },
-  );
+  try {
+    return await privateFetch<GetStrategyDetailResponse>(
+      `/api/v1/portfolio-strategies/${strategyId}`,
+      {
+        cache: 'no-store',
+      },
+    );
+  } catch (error) {
+    const code = getFailureCode(error);
+    const message = getFailureMessage(error);
+
+    if (code === 'PORTFOLIO_STRATEGY_RESULT_NOT_READY') {
+      return {
+        success: false,
+        code,
+        message,
+      } as ApiResponse<GetStrategyDetailResponse>;
+    }
+
+    return {
+      success: false,
+      code: code ?? 'UNKNOWN_ERROR',
+      message,
+    } as ApiResponse<GetStrategyDetailResponse>;
+  }
 }
 
 // 포폴 전략 삭제
@@ -49,4 +68,32 @@ export async function getStrategyAvailability(): Promise<
   ApiResponse<GetStrategyAvailablityResponse>
 > {
   return await privateFetch<GetStrategyAvailablityResponse>('/api/v1/strategies/availability');
+}
+
+type ApiFailureLike = {
+  response?: {
+    bodyJson?: {
+      code?: string;
+      message?: string;
+    };
+    status?: number;
+  };
+};
+
+function getFailureCode(error: unknown): string | undefined {
+  if (typeof error === 'object' && error !== null) {
+    return (error as ApiFailureLike).response?.bodyJson?.code;
+  }
+  return undefined;
+}
+
+function getFailureMessage(error: unknown): string {
+  if (typeof error === 'object' && error !== null) {
+    return (
+      (error as ApiFailureLike).response?.bodyJson?.message ??
+      (error as { message?: string }).message ??
+      '알 수 없는 오류가 발생했습니다.'
+    );
+  }
+  return '알 수 없는 오류가 발생했습니다.';
 }
