@@ -94,7 +94,7 @@ export default function ExperienceSection() {
       <ExperienceExtractBanner />
 
       {/* 경험 개수 표시 */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <span className="text-[13px] font-medium text-gray-600">
           총 {clientExperienceList.length}개의 경험
         </span>

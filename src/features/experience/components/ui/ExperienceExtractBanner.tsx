@@ -3,7 +3,7 @@ import ExperienceExtractButton from '@/features/experience/components/ui/Experie
 
 export default function ExperienceExtractBanner() {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-xl border border-blue-100 bg-blue-50 px-6 py-5">
+    <div className="flex flex-col gap-3 rounded-xl border border-blue-100 bg-blue-50 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
       <div className="flex flex-1 items-center gap-3.5">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-blue-100">
           <SparklesIcon className="h-5 w-5 text-blue-600" />
