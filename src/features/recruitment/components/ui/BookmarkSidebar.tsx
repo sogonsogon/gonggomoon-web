@@ -5,20 +5,31 @@ import { Bookmark as BookmarkIcon, ChevronRight } from 'lucide-react';
 import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 import { useUser } from '@/features/user/queries';
 import { useGetBookmarks } from '@/features/bookmark/queries';
+import { cn } from '@/shared/lib/cn';
 
 interface BookmarkSidebarProps {
   showHeader?: boolean;
+  variant?: 'sidebar' | 'sheet';
 }
 
-export default function BookmarkSidebar({ showHeader = true }: BookmarkSidebarProps) {
+export default function BookmarkSidebar({
+  showHeader = true,
+  variant = 'sidebar',
+}: BookmarkSidebarProps) {
   const { data: user } = useUser();
   const { data: bookmarks } = useGetBookmarks(!!user);
+  const isSheet = variant === 'sheet';
 
   const bookmarkItems = bookmarks?.content ?? [];
   const hasBookmarks = bookmarkItems.length > 0;
 
   return (
-    <div className="flex w-80 shrink-0 flex-col gap-4 max-md:w-full lg:w-full xl:w-80">
+    <div
+      className={cn(
+        'flex flex-col gap-4',
+        isSheet ? 'w-full' : 'w-80 shrink-0 max-md:w-full lg:w-full xl:w-80',
+      )}
+    >
       {showHeader && (
         <div className="flex items-center justify-between">
           <span className="text-[15px] font-semibold text-gray-900">북마크한 공고</span>
@@ -46,12 +57,15 @@ export default function BookmarkSidebar({ showHeader = true }: BookmarkSidebarPr
           description="관심 있는 공고를 북마크해 보세요"
         />
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="flex w-full flex-col gap-3">
           {bookmarkItems.slice(0, 4).map((bookmark) => (
             <Link
               key={bookmark.postId}
               href={`/recruitment/${bookmark.postId}`}
-              className="flex flex-col gap-2.5 rounded-[10px] border border-gray-100 bg-gray-50 p-4 hover:bg-gray-100"
+              className={cn(
+                'flex w-full flex-col gap-2.5 rounded-[10px] border border-gray-100 bg-gray-50 p-4 hover:bg-gray-100',
+                isSheet && 'max-w-none',
+              )}
             >
               <p className="text-sm font-medium leading-relaxed text-gray-900">
                 {bookmark.postTitle}

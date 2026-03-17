@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Bookmark } from 'lucide-react';
 import BookmarkSidebar from '@/features/recruitment/components/ui/BookmarkSidebar';
 import {
@@ -11,9 +12,27 @@ import {
 } from '@/shared/components/ui/sheet';
 
 export default function MobileBookmarkSheet() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
   return (
     <div className="fixed left-5 z-40 lg:hidden md:bottom-8 max-md:bottom-[calc(env(safe-area-inset-bottom)+6.75rem)]">
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <button
             type="button"
@@ -31,7 +50,7 @@ export default function MobileBookmarkSheet() {
             <SheetTitle className="text-sm font-semibold text-gray-900">북마크한 공고</SheetTitle>
           </SheetHeader>
           <div className="px-4 py-4">
-            <BookmarkSidebar showHeader={false} />
+            <BookmarkSidebar showHeader={false} variant="sheet" />
           </div>
         </SheetContent>
       </Sheet>
