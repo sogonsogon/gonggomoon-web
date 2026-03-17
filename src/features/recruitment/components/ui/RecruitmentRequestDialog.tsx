@@ -60,16 +60,16 @@ export default function RecruitmentRequestDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="w-[min(92vw,520px)] rounded-2xl border border-gray-200 bg-white p-0 shadow-xl"
+        className="w-[min(92vw,520px)] rounded-2xl border border-gray-200 bg-white p-0 shadow-xl max-md:top-auto max-md:left-1/2 max-md:bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] max-md:w-[calc(100%-1rem)] max-md:max-w-none max-md:-translate-x-1/2 max-md:translate-y-0 max-md:rounded-2xl max-md:border max-md:border-gray-200 max-md:gap-0 max-md:max-h-[85dvh] max-md:flex max-md:flex-col"
       >
-        <DialogHeader className="border-b border-gray-100 px-6 pb-4 pt-5">
+        <DialogHeader className="border-b border-gray-100 px-6 pb-4 pt-5 text-left max-md:px-4 max-md:pb-3 max-md:pt-4">
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
+            <div className="min-w-0 flex-1 space-y-1">
               <DialogTitle className="text-base font-semibold text-gray-900">
-                공고 추가 요청
+                채용 공고 요청
               </DialogTitle>
-              <DialogDescription className="text-sm text-gray-500">
-                추가를 원하는 채용 공고 정보를 입력해주세요
+              <DialogDescription className="text-left text-sm text-gray-500">
+                추가를 원하는 채용 공고 URL을 입력해 주세요
               </DialogDescription>
             </div>
 
@@ -77,7 +77,7 @@ export default function RecruitmentRequestDialog({
               type="button"
               onClick={() => handleOpenChange(false)}
               disabled={isPending}
-              className="rounded-md p-1 text-gray-400 transition hover:bg-gray-50 hover:text-gray-600 disabled:opacity-50"
+              className="rounded-md p-1.5 text-gray-400 transition hover:bg-gray-50 hover:text-gray-600 disabled:opacity-50"
               aria-label="닫기"
             >
               <X className="h-4 w-4" />
@@ -85,7 +85,7 @@ export default function RecruitmentRequestDialog({
           </div>
         </DialogHeader>
 
-        <div className="space-y-6 px-6 py-5">
+        <div className="space-y-6 px-6 py-5 max-md:flex-1 max-md:overflow-y-auto max-md:px-4 max-md:py-4">
           <div className="space-y-2.5">
             <Label className="text-sm font-semibold text-gray-900">플랫폼</Label>
 
@@ -126,14 +126,14 @@ export default function RecruitmentRequestDialog({
           </div>
         </div>
 
-        <DialogFooter className="border-t border-gray-100 px-6 py-4">
+        <DialogFooter className="border-t border-gray-100 px-6 py-4 max-md:sticky max-md:bottom-0 max-md:bg-white max-md:px-4 max-md:py-3 max-md:pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
           <div className="flex w-full justify-end gap-2">
             <Button
               type="button"
               variant="outline"
               onClick={() => handleOpenChange(false)}
               disabled={isPending}
-              className="h-10 rounded-lg border-gray-200 px-4 text-sm"
+              className="h-10 rounded-lg border-gray-200 px-4 text-sm max-md:hidden"
             >
               취소
             </Button>
@@ -142,7 +142,7 @@ export default function RecruitmentRequestDialog({
               type="button"
               onClick={handleSubmit}
               disabled={!isValid || isPending || platformOptions.length === 0}
-              className="h-10 rounded-lg bg-gray-900 px-4 text-sm text-white hover:bg-gray-800"
+              className="h-10 rounded-lg bg-gray-900 px-4 text-sm text-white hover:bg-gray-800 max-md:h-11 max-md:w-full"
             >
               {isPending ? '요청 중...' : '요청하기'}
             </Button>

@@ -3,15 +3,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, X } from 'lucide-react';
+import { cn } from '@/shared/lib/cn';
 
 interface SearchBarProps {
   placeholder?: string;
   debounceMs?: number;
+  className?: string;
 }
 
 export default function SearchBar({
   placeholder = '공고명을 검색하세요',
   debounceMs = 180,
+  className,
 }: SearchBarProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -106,9 +109,14 @@ export default function SearchBar({
   };
 
   return (
-    <div className="flex w-105 items-center gap-2.5 rounded-full bg-gray-100 px-5 py-2.5">
+    <div
+      className={cn(
+        'flex w-[min(26.25rem,calc(100vw-2rem))] max-w-full items-center gap-2.5 rounded-full bg-gray-100 px-5 py-2.5 max-md:gap-2 max-md:px-4 max-md:py-2',
+        className,
+      )}
+    >
       <button type="button" onClick={handleImmediateSearch} aria-label="검색" className="shrink-0">
-        <Search className="h-4.5 w-4.5 text-gray-500" />
+        <Search className="h-4.5 w-4.5 text-gray-500 max-md:h-4 max-md:w-4" />
       </button>
 
       <input
@@ -138,7 +146,7 @@ export default function SearchBar({
           scheduleReplace();
         }}
         placeholder={placeholder}
-        className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+        className="flex-1 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none max-md:text-[13px]"
       />
 
       <div className="flex w-4 items-center justify-center">

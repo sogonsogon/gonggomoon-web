@@ -27,8 +27,8 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
 
   return (
     <div className="min-h-screen w-full bg-white font-sans">
-      <div className="mx-auto flex w-full max-w-7xl gap-10 px-4 py-10">
-        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+      <div className="mx-auto flex w-full max-w-7xl items-start gap-10 px-4 py-10 max-lg:flex-col max-lg:items-stretch max-lg:gap-6 max-lg:py-7 max-md:py-6 max-md:pb-[calc(env(safe-area-inset-bottom)+7rem)]">
+        <div className="flex min-w-0 flex-1 flex-col max-lg:w-full">
           <RecruitmentDetailOverview recruitment={recruitment} />
 
           <div className="h-px bg-gray-100" />
@@ -43,6 +43,7 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
       <FloatingActionButton
         href="/strategy/create"
         ariaLabel="포트폴리오 전략 생성 페이지로 이동"
+        wrapperClassName="max-md:right-4 max-md:bottom-[calc(env(safe-area-inset-bottom)+1rem)]"
         buttonClassName="bg-[#3182f6] hover:bg-[#2c74dd] border-transparent"
         icon={<Lightbulb className="h-5 w-5 text-white" />}
         label={
