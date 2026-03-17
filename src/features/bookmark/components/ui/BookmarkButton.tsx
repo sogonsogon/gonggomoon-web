@@ -1,9 +1,10 @@
 'use client';
 
+import type { MouseEvent } from 'react';
 import { Bookmark } from 'lucide-react';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
-import { useBookmarkStatus, useToggleBookmark } from '@/features/bookmark/queries';
+import { useBookmarkStatus, useGetBookmarks, useToggleBookmark } from '@/features/bookmark/queries';
 
 interface BookmarkButtonProps {
   postId: number;
@@ -20,7 +21,9 @@ export default function BookmarkButton({
 }: BookmarkButtonProps) {
   const { data: user } = useUser();
   const { openDialog } = useLoginModal();
+
   const { data: bookmarkStatusMap } = useBookmarkStatus(Boolean(user));
+  const { data: bookmarks } = useGetBookmarks(Boolean(user));
   const { mutate: toggleBookmark, isPending } = useToggleBookmark(postId);
 
   const isIconOnly = variant === 'icon';
@@ -28,7 +31,9 @@ export default function BookmarkButton({
   const cachedIsBookmarked = bookmarkStatusMap?.[postId];
   const resolvedIsBookmarked = cachedIsBookmarked === undefined ? isBookmarked : cachedIsBookmarked;
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const currentBookmark = (bookmarks?.content ?? []).find((item) => item.postId === postId);
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -40,6 +45,7 @@ export default function BookmarkButton({
     toggleBookmark({
       postId,
       nextBookmarked: !resolvedIsBookmarked,
+      bookmarkId: currentBookmark?.bookmarkId,
     });
   };
 

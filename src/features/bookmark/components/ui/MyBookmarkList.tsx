@@ -7,7 +7,7 @@ export default function BookmarkList() {
 
   return (
     <div className="flex flex-col gap-3">
-      {bookmarks?.map((bookmark) => (
+      {bookmarks?.content.map((bookmark) => (
         <MyBookmarkListItem key={bookmark.postId} bookmark={bookmark} />
       ))}
     </div>
