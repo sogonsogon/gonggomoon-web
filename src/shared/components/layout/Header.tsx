@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import SearchBar from '@/shared/components/ui/SearchBar';
 import ProfileMenu from '@/features/auth/components/ui/ProfileMenu';
 import { Suspense } from 'react';
+import Image from 'next/image';
+import logo from '@/shared/assets/images/logo.png';
 
 export default function Header() {
   const currentPath = usePathname();
@@ -18,10 +20,7 @@ export default function Header() {
       <div className="relative flex h-full w-full max-w-7xl items-center px-4">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-1.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-900">
-              <span className="text-sm font-bold text-white">G</span>
-            </div>
-            <span className="text-base font-bold text-gray-900">공고문</span>
+            <Image src={logo} alt="공고문" width={100} height={32} priority />
           </Link>
 
           <nav className="flex items-center gap-6">
