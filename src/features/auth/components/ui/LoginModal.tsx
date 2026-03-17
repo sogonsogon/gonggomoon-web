@@ -9,7 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/components/ui/dialog';
-import { MoonStar, Search, Sparkles, MessagesSquare } from 'lucide-react';
+import { Search, Sparkles, MessagesSquare } from 'lucide-react';
+import Image from 'next/image';
+import logo from '@/shared/assets/images/logo.png';
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -34,8 +36,13 @@ export default function LoginModal() {
       <DialogContent className="gap-0 overflow-hidden rounded-2xl border-gray-100 p-0 max-w-100">
         <DialogHeader className="flex flex-col items-center gap-3 px-8 pb-7 pt-8">
           <DialogTitle className="flex items-center gap-1.5">
-            <MoonStar className="h-5.5 w-5.5 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">공고문</span>
+            <Image
+              src={logo}
+              alt="공고문"
+              sizes="100vw"
+              style={{ width: '100px', height: 'auto' }}
+              priority
+            />
           </DialogTitle>
           <DialogDescription className="text-center text-sm text-gray-500">
             취업 준비의 모든 것, 공고문과 함께하세요
@@ -86,7 +93,7 @@ export default function LoginModal() {
 }
 
 const BENEFITS = [
-  { icon: Search, label: '339개+ 공고를 한눈에 탐색' },
+  { icon: Search, label: '공고별 분석을 한눈에 탐색' },
   { icon: Sparkles, label: 'AI 포트폴리오 전략 자동 생성' },
   { icon: MessagesSquare, label: '맞춤 면접 질문 자동 생성' },
 ];

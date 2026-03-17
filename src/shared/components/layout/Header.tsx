@@ -34,17 +34,19 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
     currentPath === '/' ||
     SEARCH_BAR_ALLOWED_PREFIXES.some((prefix) => currentPath.startsWith(prefix));
 
-  const currentSectionLabel = useMemo(() => {
-    return NAV_ITEMS.find((item) => item.match(currentPath))?.label ?? '채용 공고';
-  }, [currentPath]);
-
   return (
     <header className="sticky top-0 z-50 flex w-full justify-center border-b border-gray-100 bg-white">
       <div className="relative flex h-16 w-full max-w-7xl items-center px-4 md:h-20 lg:px-5 xl:px-6">
         <div className="hidden w-full items-center md:flex">
           <div className="flex min-w-0 items-center gap-8 lg:gap-7 xl:gap-8">
             <Link href="/" className="flex items-center gap-1.5">
-              <Image src={logo} alt="공고문" width={100} height={32} priority />
+              <Image
+                src={logo}
+                alt="공고문"
+                sizes="100vw"
+                style={{ width: '100px', height: 'auto' }}
+                priority
+              />
             </Link>
 
             <nav className="hidden flex-nowrap items-center gap-4 md:flex lg:gap-5 xl:gap-6">
@@ -125,10 +127,13 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
           ) : (
             <>
               <Link href="/" className="flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gray-900">
-                  <span className="text-xs font-bold text-white">G</span>
-                </div>
-                <span className="text-sm font-semibold text-gray-900">{currentSectionLabel}</span>
+                <Image
+                  src={logo}
+                  alt="공고문"
+                  sizes="100vw"
+                  style={{ width: '100px', height: 'auto' }}
+                  priority
+                />
               </Link>
 
               <div className="ml-auto flex items-center gap-2">
