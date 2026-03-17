@@ -1,8 +1,8 @@
 import { getInterview } from '@/features/interview/actions';
 import InterviewQuestionListSection from '@/features/interview/components/sections/InterviewQuestionListSection';
+import InterviewQuestionListSkeleton from '@/features/interview/components/sections/InterviewQuestionListSkeleton';
 import InterviewTipsPanel from '@/features/interview/components/sections/InterviewTipsPanel';
 import InterviewMetaBar from '@/features/interview/components/ui/InterviewMetaBar';
-import InterviewQuestionListSkeleton from '@/features/interview/components/ui/InterviewMetaBarSkeleton';
 import InterviewMetaBarSkeleton from '@/features/interview/components/ui/InterviewMetaBarSkeleton';
 
 import Title from '@/shared/components/ui/Title';
@@ -15,16 +15,6 @@ export default async function InterviewResultPage({ params }: InterviewResultPag
   const interviewId = Number((await params).interviewId);
 
   const result = await getInterview(interviewId);
-  const isGenerating = !result.success && result.code === 'INTERVIEW_RESULT_NOT_READY';
-
-  if (!result.success && !isGenerating) {
-    return (
-      <div className="flex items-center justify-center rounded-xl border border-gray-100 py-20">
-        <p className="text-gray-500">면접 결과를 찾을 수 없습니다.</p>
-      </div>
-    );
-  }
-
   const interview = result.success ? result.data : null;
 
   return (
