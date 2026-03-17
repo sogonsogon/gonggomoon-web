@@ -2,7 +2,13 @@
 
 import { Bookmark } from 'lucide-react';
 import BookmarkSidebar from '@/features/recruitment/components/ui/BookmarkSidebar';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/shared/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/shared/components/ui/sheet';
 
 export default function MobileBookmarkSheet() {
   return (

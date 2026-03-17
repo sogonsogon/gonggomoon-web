@@ -75,7 +75,7 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
                   <button
                     type="button"
                     aria-label="검색 열기"
-                    className="hidden h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-600 md:max-lg:flex"
+                    className="hidden h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-600 md:max-lg:flex cursor-pointer"
                   >
                     <Search className="h-3.5 w-3.5" strokeWidth={1.75} />
                   </button>
@@ -117,7 +117,7 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
                 type="button"
                 aria-label="검색 닫기"
                 onClick={() => setIsMobileSearchOpen(false)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 cursor-pointer"
               >
                 <X className="h-3.5 w-3.5" strokeWidth={1.75} />
               </button>
@@ -137,7 +137,7 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
                     type="button"
                     aria-label="검색 열기"
                     onClick={() => setIsMobileSearchOpen(true)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-600"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-600 cursor-pointer"
                   >
                     <Search className="h-3.5 w-3.5" strokeWidth={1.75} />
                   </button>
