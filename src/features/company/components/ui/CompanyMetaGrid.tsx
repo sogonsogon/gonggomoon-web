@@ -26,7 +26,7 @@ export default function CompanyMetaGrid({ company }: CompanyMetaGridProps) {
           <MapPin className="h-4 w-4 shrink-0 text-gray-400" />
           <div className="flex min-w-0 flex-col gap-0.5">
             <span className="text-[11px] text-gray-400">주소지</span>
-            <span className="break-words text-[13px] font-semibold text-gray-800 max-md:leading-snug">
+            <span className="wrap-break-word text-[13px] font-semibold text-gray-800 max-md:leading-snug">
               {company.address}
             </span>
           </div>
