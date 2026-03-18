@@ -1,7 +1,6 @@
 import Footer from '@/shared/components/layout/Footer';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
 import InterviewHistorySidebar from '@/features/interview/components/layout/InterviewHistorySidebar';
-import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
 import MobileInterviewHistoryTrigger from '@/features/interview/components/ui/MobileInterviewHistoryTrigger';
 
 export default function InterviewLayout({
@@ -29,8 +28,6 @@ export default function InterviewLayout({
           <Footer />
         </div>
       </SidebarInset>
-
-      <MobileMainBottomNav />
     </SidebarProvider>
   );
 }
