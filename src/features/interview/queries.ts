@@ -42,13 +42,14 @@ export const getInterviewQueryOptions = (interviewStrategyId: number) => ({
   queryKey: interviewKeys.detail(interviewStrategyId),
   queryFn: async () => {
     const result = await getInterview(interviewStrategyId);
-    if (!result.success) {
+    if (!result.success && result.code !== 'INTERVIEW_STRATEGY_RESULT_NOT_READY') {
       return Promise.reject(result);
     }
     return result.data;
   },
   staleTime: 60 * 1000,
   enabled: !!interviewStrategyId,
+  retry: false,
 });
 
 // 면접 질문 생성
