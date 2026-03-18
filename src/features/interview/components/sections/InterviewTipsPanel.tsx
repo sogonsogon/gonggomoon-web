@@ -2,7 +2,7 @@ import { Star } from 'lucide-react';
 
 export default function InterviewTipsPanel() {
   return (
-    <div className="flex w-75 shrink-0 flex-col gap-4">
+    <div className="flex w-full flex-col gap-4 lg:w-75 lg:shrink-0">
       <div className="flex items-center gap-1.5">
         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#fff3e0]">
           <Star className="h-3.5 w-3.5 text-amber-500" />

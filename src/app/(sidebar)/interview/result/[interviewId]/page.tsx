@@ -19,7 +19,7 @@ export default async function InterviewResultPage({ params }: InterviewResultPag
 
   return (
     <div className="flex flex-col gap-8 bg-white font-sans">
-      <div className="flex flex-col gap-8 pt-0 pb-10">
+      <div className="flex flex-col gap-8 pt-0 pb-10 max-md:gap-6">
         <Title
           title="면접 질문 결과"
           description="AI가 생성한 맞춤형 면접 질문입니다. 생성 시 자동으로 저장됩니다."
@@ -27,7 +27,7 @@ export default async function InterviewResultPage({ params }: InterviewResultPag
 
         {interview ? <InterviewMetaBar interview={interview} /> : <InterviewMetaBarSkeleton />}
 
-        <div className="flex flex-1 gap-6">
+        <div className="flex flex-1 gap-6 max-lg:flex-col max-lg:gap-5">
           {interview ? (
             <InterviewQuestionListSection interview={interview} />
           ) : (

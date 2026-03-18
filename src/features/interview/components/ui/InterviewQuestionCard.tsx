@@ -13,7 +13,7 @@ export default function InterviewQuestionCard({
   questionLevel,
 }: InterviewQuestionCardProps) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-white px-5 py-4.5">
+    <div className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-white px-4 py-4 md:px-5 md:py-4.5">
       <div className="flex items-center justify-between">
         <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-blue-600">
           Q{order}
@@ -23,7 +23,7 @@ export default function InterviewQuestionCard({
         </span>
       </div>
 
-      <p className="text-[14px] font-medium leading-[1.6] text-gray-800">{content}</p>
+      <p className="break-words text-[14px] font-medium leading-[1.6] text-gray-800">{content}</p>
     </div>
   );
 }
