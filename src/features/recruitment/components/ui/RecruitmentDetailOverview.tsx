@@ -39,7 +39,7 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
           <Building2 className="h-3.5 w-3.5 text-blue-600" />
           <Link
             href={`/company/${recruitment.companyId}`}
-            className="text-[13px] font-semibold text-blue-600 max-md:inline-block max-md:max-w-[180px] max-md:truncate"
+            className="text-[13px] font-semibold text-blue-600 max-md:inline-block max-md:max-w-45 max-md:truncate"
           >
             {recruitment.companyName ?? '기업명'}
           </Link>
@@ -58,7 +58,7 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
           className="flex w-fit items-center gap-1.5"
         >
           <ExternalLink className="h-3.5 w-3.5 text-blue-500" />
-          <span className="text-[13px] font-medium text-blue-500">공고 원문 보기</span>
+          <span className="text-[13px] font-medium text-blue-500">공고 바로가기</span>
         </Link>
       )}
 
