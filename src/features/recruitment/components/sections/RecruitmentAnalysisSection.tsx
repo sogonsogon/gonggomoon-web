@@ -19,28 +19,25 @@ export default function RecruitmentAnalysisSection({ analysis }: RecruitmentAnal
 
       {analysis ? (
         <>
-          <AnalysisInfoCard title="회사 한줄 소개" content={analysis.companySummary} />
+          <AnalysisInfoCard title="회사 한줄 소개" content={analysis.company_intro} />
 
-          <AnalysisInfoCard
-            title="R&R (역할과 책임)"
-            content={analysis.rolesResponsibilities ?? []}
-          />
+          <AnalysisInfoCard title="R&R (역할과 책임)" content={analysis.rnr ?? []} />
 
           <KeywordTagList
             title="필수 역량"
-            keywords={analysis.requiredSkills ?? []}
+            keywords={analysis.required_skills ?? []}
             variant="blue"
           />
 
           <AnalysisInfoCard
             title="차별 포인트"
-            content={analysis.highlightPoints}
+            content={analysis.differentiators}
             preserveLineBreak
           />
 
           <KeywordTagList
             title="숨은 키워드"
-            keywords={analysis.hiddenKeywords ?? []}
+            keywords={analysis.hidden_keywords ?? []}
             variant="gray"
           />
         </>
@@ -50,9 +47,7 @@ export default function RecruitmentAnalysisSection({ analysis }: RecruitmentAnal
         </div>
       )}
 
-      <RecommendedActionsCard
-        actions={analysis?.recommendedActions ?? FALLBACK_RECOMMENDED_ACTIONS}
-      />
+      <RecommendedActionsCard actions={analysis?.action_items ?? FALLBACK_RECOMMENDED_ACTIONS} />
 
       <FitAnalysisCard />
     </aside>

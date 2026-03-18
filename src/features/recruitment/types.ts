@@ -18,12 +18,12 @@ export type PostStatus = 'ANALYZING' | 'ANALYZED' | 'ANALYSIS_FAILED' | 'PUBLISH
 
 export type RecruitmentAnalysis = {
   summary: string; // 공고 한 줄 요약
-  companySummary: string; // 회사 한 줄 소개
-  rolesResponsibilities: string[]; // R&R
-  requiredSkills: string[]; // 필수 역량
-  highlightPoints: string[]; // 차별 포인트
-  hiddenKeywords: string[]; // 숨은 키워드
-  recommendedActions: string[]; // 추천 활동
+  company_intro: string; // 회사 한 줄 소개
+  rnr: string[]; // R&R
+  required_skills: string[]; // 필수 역량
+  differentiators: string[]; // 차별 포인트
+  hidden_keywords: string[]; // 숨은 키워드
+  action_items: string[]; // 추천 활동
 };
 
 export type Recruitment = {
@@ -65,7 +65,7 @@ export type RecruitmentDetail = {
   status: PostStatus;
   stateDate: string;
   dueDate: string;
-  analysis?: RecruitmentAnalysis;
+  analyzedContent?: RecruitmentAnalysis;
 };
 
 export type GetRecruitmentDetailResponse = RecruitmentDetail;
