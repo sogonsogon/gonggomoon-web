@@ -1,8 +1,13 @@
 'use server';
 
-import { privateFetch } from '@/shared/api/httpClient';
+import { privateFetch, publicFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
-import { GetIndustryAnalysisResponse } from '@/features/industry/types';
+import { GetIndustryAnalysisResponse, GetIndustryListResponse } from '@/features/industry/types';
+
+// 산업 목록 조회
+export async function getIndustryList(): Promise<ApiResponse<GetIndustryListResponse>> {
+  return await publicFetch<GetIndustryListResponse>(`/api/v1/industries`);
+}
 
 // 산업 분석 조회
 export async function getIndustryAnalysis(
