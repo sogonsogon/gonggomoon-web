@@ -26,7 +26,9 @@ interface StrategyConditionPanelProps {
   variant?: 'sidebar' | 'sheet';
 }
 
-export default function StrategyConditionPanel({ variant = 'sidebar' }: StrategyConditionPanelProps) {
+export default function StrategyConditionPanel({
+  variant = 'sidebar',
+}: StrategyConditionPanelProps) {
   const router = useRouter();
   const { startStrategyGeneration } = useStartStrategyGeneration();
 
@@ -219,7 +221,7 @@ export default function StrategyConditionPanel({ variant = 'sidebar' }: Strategy
         </div>
       </div>
 
-      <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3 max-md:px-3.5 max-md:py-2.5">
+      {/* <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3 max-md:px-3.5 max-md:py-2.5">
         <div className="flex flex-col gap-0.5">
           <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
           <div className="flex items-center gap-1">
@@ -242,7 +244,7 @@ export default function StrategyConditionPanel({ variant = 'sidebar' }: Strategy
             />
           ))}
         </div>
-      </div>
+      </div> */}
 
       {variant === 'sidebar' && (
         <>
@@ -275,7 +277,9 @@ export default function StrategyConditionPanel({ variant = 'sidebar' }: Strategy
           ) : (
             <div className="flex items-center justify-center gap-1">
               <Timer className="h-3 w-3 text-gray-400" />
-              <span className="text-[11px] text-gray-400">생성 후 자동 저장 · 결과 페이지로 이동</span>
+              <span className="text-[11px] text-gray-400">
+                생성 후 자동 저장 · 결과 페이지로 이동
+              </span>
             </div>
           )}
         </>

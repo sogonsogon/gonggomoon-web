@@ -126,7 +126,7 @@ export default function InterviewConditionalPanel() {
           )}
         </div>
 
-        <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
+        {/* <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
           <div className="flex flex-col gap-0.5">
             <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
             <div className="flex items-center gap-1">
@@ -149,7 +149,7 @@ export default function InterviewConditionalPanel() {
               />
             ))}
           </div>
-        </div>
+        </div> */}
 
         <button
           type="button"
