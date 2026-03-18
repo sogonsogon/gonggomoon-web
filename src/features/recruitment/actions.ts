@@ -17,7 +17,7 @@ export async function getRecruitments(
   const searchParams = new URLSearchParams();
 
   if (params.jobType) searchParams.set('jobType', params.jobType);
-  if (params.name) searchParams.set('name', params.name);
+  if (params.title) searchParams.set('title', params.title);
   if (typeof params.page === 'number') searchParams.set('page', String(params.page));
   if (typeof params.size === 'number') searchParams.set('size', String(params.size));
   const query = searchParams.toString();
