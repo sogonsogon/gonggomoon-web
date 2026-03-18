@@ -38,7 +38,7 @@ export function useGetRecruitments(params: GetRecruitmentsParams = {}) {
 }
 
 export function getRecruitmentsInfiniteQueryOption(params: GetRecruitmentsParams = {}) {
-  const { jobType, name, size } = params;
+  const { jobType, title, size } = params;
 
   return {
     queryKey: recruitmentKeys.list(params),
@@ -46,7 +46,7 @@ export function getRecruitmentsInfiniteQueryOption(params: GetRecruitmentsParams
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       const response = await getRecruitments({
         jobType,
-        name,
+        title,
         page: pageParam,
         size,
       });

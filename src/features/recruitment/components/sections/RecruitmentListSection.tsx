@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { SearchX } from 'lucide-react';
 import type { TabValue } from '@/features/recruitment/constants/tabs';
 import RecruitmentList from '@/features/recruitment/components/ui/RecruitmentList';
@@ -17,7 +17,7 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
 
   const trimmedSearch = search.trim();
   const normalizedSearch = trimmedSearch.toLowerCase();
-  const params = createRecruitmentListParams(activeTab, trimmedSearch);
+  const params = createRecruitmentListParams(activeTab, normalizedSearch);
 
   const { data, isPending, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetRecruitments(params);
@@ -25,19 +25,8 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
   const recruitments = data?.items ?? [];
   const totalElements = data?.totalElements ?? 0;
 
-  const filteredRecruitments = useMemo(() => {
-    if (!normalizedSearch) return recruitments;
-
-    return recruitments.filter((item) => {
-      return (
-        item.postTitle.toLowerCase().includes(normalizedSearch) ||
-        item.companyName.toLowerCase().includes(normalizedSearch)
-      );
-    });
-  }, [recruitments, normalizedSearch]);
-
-  const isEmpty = filteredRecruitments.length === 0;
-  const isInitialLoading = isPending && recruitments.length === 0;
+  const isEmpty = totalElements === 0;
+  const isInitialLoading = isPending && totalElements === 0;
   const isEnd = !hasNextPage;
   const hasSearch = Boolean(trimmedSearch);
 
@@ -91,8 +80,7 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
             <span className="text-sm font-medium text-gray-900">
               {hasSearch ? (
                 <>
-                  <span className="text-blue-500">{filteredRecruitments.length}개</span>의 검색
-                  결과가 있어요.
+                  <span className="text-blue-500">{totalElements}개</span>의 검색 결과가 있어요.
                 </>
               ) : (
                 <>
@@ -102,7 +90,7 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
             </span>
           </div>
 
-          <RecruitmentList recruitments={filteredRecruitments} />
+          <RecruitmentList recruitments={recruitments} />
 
           <div ref={sentinelRef} className="h-px" />
 

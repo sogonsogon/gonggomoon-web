@@ -3,10 +3,10 @@ import type { GetRecruitmentsParams } from '@/features/recruitment/types';
 
 export function createRecruitmentListParams(
   activeTab: TabValue,
-  search: string,
+  title: string,
 ): GetRecruitmentsParams {
   return {
-    name: search.trim() || undefined,
+    title: title || undefined,
     jobType: activeTab === 'ALL' ? undefined : activeTab,
     size: 10,
   };

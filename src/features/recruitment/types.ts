@@ -41,7 +41,7 @@ export type Recruitment = {
 
 export type GetRecruitmentsParams = {
   jobType?: JobType;
-  name?: string; // 검색어(공고명)
+  title?: string; // 검색어(공고명)
   page?: number;
   size?: number;
 };
