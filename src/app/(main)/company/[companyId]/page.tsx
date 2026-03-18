@@ -30,7 +30,10 @@ export default async function CompanyDetailPage({ params }: CompanyDetailPagePro
     <div className="flex min-h-screen w-full flex-col bg-white font-sans">
       <div className="mx-auto flex w-full max-w-7xl items-start gap-10 px-4 py-10 max-lg:flex-col max-lg:items-stretch max-lg:gap-6 max-lg:py-7 max-md:py-6 max-md:pb-[calc(env(safe-area-inset-bottom)+7rem)]">
         <CompanyDetailSection company={company} />
-        <CompanyIndustryAnalysisSection analysis={industryAnalysis} />
+        <CompanyIndustryAnalysisSection
+          analysis={industryAnalysis}
+          industryName={company.industryName}
+        />
       </div>
       <FloatingActionButton
         href="/strategy/create"

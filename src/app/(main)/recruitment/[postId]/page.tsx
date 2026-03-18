@@ -38,7 +38,7 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
           />
         </div>
 
-        <RecruitmentAnalysisSection analysis={recruitment.analysis} />
+        <RecruitmentAnalysisSection analysis={recruitment.analyzedContent} />
       </div>
       <FloatingActionButton
         href="/strategy/create"
