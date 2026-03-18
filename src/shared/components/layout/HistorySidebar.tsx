@@ -14,6 +14,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/shared/components/ui/sidebar';
 import { HistorySidebarItem } from '@/shared/types';
 
@@ -39,6 +40,12 @@ export default function HistorySidebar({
   processingItems = [],
 }: HistorySidebarProps) {
   const pathname = usePathname();
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const closeMobileSidebar = () => {
+    if (!isMobile) return;
+    setOpenMobile(false);
+  };
 
   const renderMenuItems = (menuItems: HistorySidebarItem[], isProcessingSection = false) =>
     menuItems.map((item) => {
@@ -49,6 +56,7 @@ export default function HistorySidebar({
           <SidebarMenuButton asChild isActive={isActive} className="h-auto p-0">
             <Link
               href={item.href}
+              onClick={closeMobileSidebar}
               className={`flex gap-2.5 rounded-lg border px-3 py-2.5 ${
                 isActive ? 'border-[#90c2ff] bg-[#e8f3ff]' : 'border-transparent hover:bg-gray-100'
               }`}

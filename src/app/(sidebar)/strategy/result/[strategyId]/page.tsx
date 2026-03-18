@@ -18,7 +18,7 @@ export default async function StrategyResultPage({ params }: StrategyResultPageP
 
   return (
     <div className="flex flex-col gap-8 bg-white font-sans">
-      <div className="flex flex-col gap-8 pt-0 pb-10">
+      <div className="flex flex-col gap-8 pt-0 pb-10 max-md:gap-6 max-md:pb-8">
         <Title
           title="포폴 전략 결과"
           description="AI가 생성한 산업 맞춤형 포트폴리오 전략입니다. 생성 시 자동으로 저장됩니다."
@@ -27,7 +27,7 @@ export default async function StrategyResultPage({ params }: StrategyResultPageP
         {strategy ? <StrategyMetaBar strategy={strategy} /> : <StrategyMetaBarSkeleton />}
 
         {strategy ? (
-          <div className="flex items-start gap-6">
+          <div className="flex items-start gap-6 max-lg:flex-col max-lg:items-stretch max-lg:gap-5">
             <StrategyAnalysisPanel
               mainPositioningMessage={strategy.mainPositioningMessage}
               experienceStrategyPoints={strategy.experienceStrategyPoints}

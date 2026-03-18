@@ -15,7 +15,7 @@ export default function StrategyAnalysisPanel({
   experienceOrdering,
 }: StrategyAnalysisPanelProps) {
   return (
-    <div className="flex flex-1 flex-col gap-4">
+    <div className="flex w-full flex-1 flex-col gap-4">
       <div className="flex items-center gap-3">
         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#c9e2ff]">
           <Sparkles className="h-3.5 w-3.5 text-[#2272eb]" />
@@ -23,9 +23,9 @@ export default function StrategyAnalysisPanel({
         <span className="text-[15px] font-bold text-gray-900">AI 전략 분석</span>
       </div>
 
-      <div className="flex flex-col gap-6 rounded-xl border border-gray-100 p-6">
+      <div className="flex flex-col gap-6 rounded-xl border border-gray-100 p-6 max-md:gap-4 max-md:p-3.5">
         {/* 핵심 포지셔닝 메시지 */}
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-3.5">
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#2272eb]">
               <span className="text-[14px] font-bold text-white">1</span>
@@ -33,15 +33,17 @@ export default function StrategyAnalysisPanel({
             <span className="text-[14px] font-semibold text-gray-900">핵심 포지셔닝 메시지</span>
           </div>
 
-          <div className="rounded-lg border border-[#c9e2ff] bg-[#e8f3ff] px-4 py-3">
-            <p className="text-[14px] leading-[1.7] text-[#1557a0]">{mainPositioningMessage}</p>
+          <div className="rounded-lg border border-[#c9e2ff] bg-[#e8f3ff] px-4 py-3 max-md:px-3.5 max-md:py-2.5">
+            <p className="max-w-3xl text-[14px] leading-[1.7] text-[#1557a0] max-md:text-[13px] max-md:leading-[1.6]">
+              {mainPositioningMessage}
+            </p>
           </div>
         </section>
 
         <div className="h-px bg-gray-100" />
 
         {/* 경험별 전략 포인트 */}
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-3.5">
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#2272eb]">
               <span className="text-[14px] font-bold text-white">2</span>
@@ -49,12 +51,12 @@ export default function StrategyAnalysisPanel({
             <span className="text-[14px] font-semibold text-gray-900">경험별 전략 포인트</span>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {experienceStrategyPoints.map((strategyPoint, index) => {
               return (
                 <div
                   key={index}
-                  className="flex gap-4 rounded-lg items-center border border-gray-100 px-4 py-3"
+                  className="flex items-center gap-4 rounded-lg border border-gray-100 px-4 py-3 max-md:flex-col max-md:items-start max-md:gap-2 max-md:px-3.5 max-md:py-2.5"
                 >
                   <span
                     className={`inline-flex h-6 shrink-0 items-center rounded-full px-2 py-0 text-[11px] leading-none font-semibold ${
@@ -63,11 +65,11 @@ export default function StrategyAnalysisPanel({
                   >
                     {EXPERIENCE_LABEL_MAP[strategyPoint.experienceType]}
                   </span>
-                  <div className="flex flex-1 flex-col gap-1">
-                    <span className="text-[14px] font-semibold text-gray-800">
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
+                    <span className="text-[14px] font-semibold text-gray-800 max-md:text-[13px]">
                       {strategyPoint.experienceTitle}
                     </span>
-                    <p className="text-[14px] leading-[1.6] text-gray-500">
+                    <p className="max-w-3xl text-[14px] leading-[1.6] text-gray-500 max-md:text-[13px] max-md:leading-[1.55]">
                       {strategyPoint.strategyPoint}
                     </p>
                   </div>
@@ -80,7 +82,7 @@ export default function StrategyAnalysisPanel({
         <div className="h-px bg-gray-100" />
 
         {/* 경험 정렬 전략 */}
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-3.5">
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#2272eb]">
               <span className="text-[14px] font-bold text-white">3</span>
@@ -95,7 +97,7 @@ export default function StrategyAnalysisPanel({
               return (
                 <div
                   key={oe.order}
-                  className={`flex items-center gap-4 px-4 py-3 ${!isLast ? 'border-b border-gray-100' : ''}`}
+                  className={`flex items-center gap-4 px-4 py-3 max-md:gap-3 max-md:px-3.5 max-md:py-2.5 ${!isLast ? 'border-b border-gray-100' : ''}`}
                 >
                   {/* 번호 */}
                   <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#c9e2ff]">
@@ -105,11 +107,13 @@ export default function StrategyAnalysisPanel({
                   </div>
 
                   {/* 내용 */}
-                  <div className="flex flex-1 flex-col gap-0.5">
-                    <span className="text-[14px] font-semibold text-gray-800">
+                  <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span className="text-[14px] font-semibold text-gray-800 max-md:text-[13px]">
                       {oe.order}번 — {oe.title}
                     </span>
-                    <p className="text-[14px] leading-[1.6] text-gray-500">{oe.reason}</p>
+                    <p className="max-w-3xl text-[14px] leading-[1.6] text-gray-500 max-md:text-[13px] max-md:leading-[1.55]">
+                      {oe.reason}
+                    </p>
                   </div>
                 </div>
               );

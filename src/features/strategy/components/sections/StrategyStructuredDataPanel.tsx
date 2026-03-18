@@ -7,9 +7,9 @@ interface StrategyStructuredDataPanelProps {
 
 export default function StrategyStructuredDataPanel({ detail }: StrategyStructuredDataPanelProps) {
   return (
-    <div className="flex w-75 shrink-0 flex-col gap-4">
+    <div className="flex w-75 shrink-0 flex-col items-stretch gap-4 max-lg:w-full max-lg:shrink max-md:gap-3">
       {/* 강조 키워드 */}
-      <div className="flex items-center gap-2">
+      <div className="flex w-full items-center gap-2">
         <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-100">
           <LayoutList className="h-3.5 w-3.5 text-blue-600" />
         </div>
@@ -17,7 +17,7 @@ export default function StrategyStructuredDataPanel({ detail }: StrategyStructur
       </div>
 
       {/* 키워드 카드 */}
-      <div className="flex flex-col gap-3 rounded-xl border border-gray-100 px-4 py-4.5">
+      <div className="flex w-full flex-col gap-3 rounded-xl border border-gray-100 px-4 py-4.5 max-md:px-3.5 max-md:py-3.5">
         <div className="flex items-center gap-1.5">
           <Tag className="h-3.5 w-3.5 text-gray-500" />
           <span className="text-[12px] font-bold text-gray-700">강조 키워드</span>
@@ -35,7 +35,7 @@ export default function StrategyStructuredDataPanel({ detail }: StrategyStructur
       </div>
 
       {/* 강점 카드 */}
-      <div className="flex flex-col gap-3 rounded-xl border border-gray-100 px-4 py-4.5">
+      <div className="flex w-full flex-col gap-3 rounded-xl border border-gray-100 px-4 py-4.5 max-md:px-3.5 max-md:py-3.5">
         <div className="flex items-center gap-1.5">
           <Zap className="h-3.5 w-3.5 text-gray-500" />
           <span className="text-[12px] font-bold text-gray-700">강조 역량</span>
@@ -51,7 +51,7 @@ export default function StrategyStructuredDataPanel({ detail }: StrategyStructur
       </div>
 
       {/* KPI 체크리스트 카드 */}
-      <div className="flex flex-col gap-2.5 rounded-xl border border-gray-100 px-4 py-4.5">
+      <div className="flex w-full flex-col gap-2.5 rounded-xl border border-gray-100 px-4 py-4.5 max-md:px-3.5 max-md:py-3.5">
         <div className="flex items-center gap-1.5">
           <ChartColumnBig className="h-3.5 w-3.5 text-gray-500" />
           <span className="text-[12px] font-bold text-gray-700">KPI 체크리스트</span>
@@ -67,7 +67,7 @@ export default function StrategyStructuredDataPanel({ detail }: StrategyStructur
       </div>
 
       {/* 개선 가이드 카드 */}
-      <div className="flex flex-col gap-3 rounded-xl border border-[#fde68a] bg-[#fffbeb] px-4 py-4.5">
+      <div className="flex w-full flex-col gap-3 rounded-xl border border-[#fde68a] bg-[#fffbeb] px-4 py-4.5 max-md:px-3.5 max-md:py-3.5">
         <div className="flex items-center gap-1.5">
           <TriangleAlert className="h-3.5 w-3.5 text-[#d97706]" />
           <span className="text-[12px] font-bold text-[#92400e]">보완 가이드</span>

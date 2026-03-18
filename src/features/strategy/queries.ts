@@ -44,7 +44,7 @@ export const getStrategyQueryOption = (strategyId: number) => ({
   queryFn: async () => {
     const response = await getStrategyDetail(strategyId);
 
-    if (!response.success) {
+    if (!response.success && response.code !== 'PORTFOLIO_STRATEGY_RESULT_NOT_READY') {
       return Promise.reject(response);
     }
 
@@ -52,6 +52,7 @@ export const getStrategyQueryOption = (strategyId: number) => ({
   },
   staleTime: 60 * 1000,
   enabled: !!strategyId,
+  retry: false,
 });
 
 // 포폴 전략 생성
@@ -71,8 +72,6 @@ export function useCreateStrategy() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: strategyKeys.list() });
       queryClient.invalidateQueries({ queryKey: strategyKeys.availability() });
-
-      // 생성 직후 상세 캐시를 미리 무효화하고 싶다면 추가
       queryClient.invalidateQueries({
         queryKey: strategyKeys.detail(data.strategyId),
       });
