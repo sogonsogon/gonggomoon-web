@@ -52,7 +52,7 @@ export type GetRecruitmentsResponse = {
 };
 
 export type RecruitmentDetail = {
-  postId: number; // 추가 요청
+  postId: number;
   companyId: number;
   industryId: number;
   companyName: string;

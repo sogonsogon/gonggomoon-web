@@ -1,10 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Code, Info, Loader2, Server, Sparkles, Timer } from 'lucide-react';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { Switch } from '@/shared/components/ui/switch';
 import {
   Select,
@@ -13,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import type { IndustryType } from '@/features/industry/types';
 import type { StrategyJobType } from '@/features/strategy/types';
 import { useStartStrategyGeneration } from '@/features/strategy/hooks/useStartStrategyGeneration';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
@@ -21,6 +19,7 @@ import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreate
 import { Button } from '@/shared/components/ui/button';
 import { useGetStrategyAvailability } from '@/features/strategy/queries';
 import { TODAY_USAGE, DAILY_LIMIT } from '@/features/strategy/constants/limit';
+import { useGetIndustryList } from '@/features/industry/queries';
 
 export default function StrategyConditionPanel() {
   const router = useRouter();
@@ -32,6 +31,16 @@ export default function StrategyConditionPanel() {
   const submitLoading = useStrategyGenerationStore((state) => state.submitLoading);
   const requests = useStrategyGenerationStore((state) => state.requests);
   const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
+
+  const { data: industryData } = useGetIndustryList();
+
+  const industries = industryData?.content ?? [];
+
+  useEffect(() => {
+    if (industries.length > 0 && formData.selectedIndustryId === null) {
+      updateFormData('selectedIndustryId', industries[0].industryId);
+    }
+  }, [industries]);
 
   const { data: availability, isLoading: isAvailabilityLoading } = useGetStrategyAvailability();
 
@@ -55,9 +64,9 @@ export default function StrategyConditionPanel() {
     updateFormData('isIndustryOn', checked);
   };
 
-  const handleIndustryChange = (industry: IndustryType) => {
+  const handleIndustryChange = (industryIdStr: string) => {
     if (isFormLocked) return;
-    updateFormData('selectedIndustry', industry);
+    updateFormData('selectedIndustryId', Number(industryIdStr));
   };
 
   const handleGenerateClick = async () => {
@@ -139,29 +148,29 @@ export default function StrategyConditionPanel() {
               formData.isIndustryOn ? 'opacity-100' : 'opacity-50'
             }`}
           >
-            <Select
-              value={formData.selectedIndustry}
-              onValueChange={(value) => handleIndustryChange(value as IndustryType)}
-              disabled={!formData.isIndustryOn || isFormLocked}
-            >
-              <SelectTrigger className="h-10 w-full cursor-pointer border-[1.5px] border-[#4593e6] text-[13px] font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50">
-                <SelectValue>{INDUSTRY_LABEL_MAP[formData.selectedIndustry]}</SelectValue>
-              </SelectTrigger>
+            {industryData && (
+              <Select
+                value={formData.selectedIndustryId ? String(formData.selectedIndustryId) : ''}
+                onValueChange={handleIndustryChange}
+                disabled={!formData.isIndustryOn || isFormLocked}
+              >
+                <SelectTrigger className="h-10 w-full cursor-pointer border-[1.5px] border-[#4593e6] text-[13px] font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50">
+                  <SelectValue placeholder="산업을 선택하세요" />
+                </SelectTrigger>
 
-              <SelectContent position="popper">
-                {(Object.keys(INDUSTRY_LABEL_MAP) as IndustryType[])
-                  .filter((industry) => industry !== 'OTHER')
-                  .map((industry) => (
+                <SelectContent position="popper">
+                  {industries.map((industry) => (
                     <SelectItem
-                      key={industry}
-                      value={industry}
+                      key={industry.industryId}
+                      value={String(industry.industryId)}
                       className="cursor-pointer text-[13px]"
                     >
-                      {INDUSTRY_LABEL_MAP[industry]}
+                      {industry.industryName}
                     </SelectItem>
                   ))}
-              </SelectContent>
-            </Select>
+                </SelectContent>
+              </Select>
+            )}
 
             <div className="flex items-center gap-1">
               <Info className="h-3 w-3 text-[#4593e6]" />
@@ -186,7 +195,9 @@ export default function StrategyConditionPanel() {
             <span className="text-[11px] text-gray-500">직무 · 산업</span>
             <span className="text-[12px] font-semibold text-[#1b64da]">
               {JOB_LABEL_MAP[formData.selectedJob]}
-              {formData.isIndustryOn ? ` · ${INDUSTRY_LABEL_MAP[formData.selectedIndustry]}` : ''}
+              {formData.isIndustryOn && formData.selectedIndustryId
+                ? ` · ${industries.find((i) => i.industryId === formData.selectedIndustryId)?.industryName ?? ''}`
+                : ''}
             </span>
           </div>
         </div>
