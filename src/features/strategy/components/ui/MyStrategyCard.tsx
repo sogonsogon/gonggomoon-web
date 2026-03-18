@@ -13,7 +13,6 @@ interface MyStrategyCardProps {
 }
 
 export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
-  // const theme = INDUSTRY_THEMES[strategy.industryType ?? 'MASTER'];
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   return (
@@ -22,15 +21,9 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
       className="overflow-hidden rounded-xl border border-gray-200 bg-white"
     >
       {/* Card Top */}
-      <div
-        className="flex h-30 flex-col justify-between border-b border-gray-100 px-5 pb-4 pt-5"
-        // style={{ backgroundColor: theme.bg }}
-      >
+      <div className="flex h-30 flex-col justify-between border-b border-gray-100 px-5 pb-4 pt-5">
         <div className="flex items-center justify-between">
-          <span
-            className="text-xl font-extrabold leading-tight"
-            // style={{ color: theme.titleColor }}
-          >
+          <span className="text-xl font-extrabold leading-tight">
             {strategy.industryName || '마스터 포트폴리오'}
           </span>
           <Button
@@ -45,16 +38,8 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
           </Button>
         </div>
         <div className="flex items-center gap-1.5">
-          <CalendarIcon
-            className="h-3 w-3"
-            // style={{ color: theme.accentColor }}
-          />
-          <span
-            className="text-xs"
-            // style={{ color: theme.accentColor }}
-          >
-            {formatCreatedDate(strategy.createdAt)}
-          </span>
+          <CalendarIcon className="h-3 w-3" />
+          <span className="text-xs">{formatCreatedDate(strategy.createdAt)}</span>
         </div>
       </div>
 
@@ -73,52 +58,3 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
     </div>
   );
 }
-
-// type StrategyCardTheme = {
-//   bg: string;
-//   titleColor: string;
-//   accentColor: string;
-// };
-
-// const INDUSTRY_THEMES: Record<StrategyIndustryType, StrategyCardTheme> = {
-//   MEDIA_CONTENT: {
-//     bg: '#e8f3ff',
-//     titleColor: '#1b64da',
-//     accentColor: '#4593e6',
-//   },
-//   COMMERCE: {
-//     bg: '#e8f3ff',
-//     titleColor: '#1b64da',
-//     accentColor: '#4593e6',
-//   },
-//   FINTECH_FINANCIAL: {
-//     bg: '#e8f4fd',
-//     titleColor: '#1557a0',
-//     accentColor: '#5a9fd4',
-//   },
-//   MOBILITY_LOGISTICS: {
-//     bg: '#fff7ed',
-//     titleColor: '#92400e',
-//     accentColor: '#d97706',
-//   },
-//   AI: {
-//     bg: '#edf7ee',
-//     titleColor: '#1a6b2a',
-//     accentColor: '#4aaa5c',
-//   },
-//   HEALTHCARE_BIO: {
-//     bg: '#fce7f3',
-//     titleColor: '#9d174d',
-//     accentColor: '#ec4899',
-//   },
-//   MANUFACTURING_INDUSTRY: {
-//     bg: '#f1f5f9',
-//     titleColor: '#334155',
-//     accentColor: '#64748b',
-//   },
-//   MASTER: {
-//     bg: '#f9fafb',
-//     titleColor: '#374151',
-//     accentColor: '#6b7280',
-//   },
-// };

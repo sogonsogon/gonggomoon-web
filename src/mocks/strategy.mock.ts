@@ -1,5 +1,4 @@
 import { ExperienceType } from '@/features/experience/types';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import {
   ExperienceOrdering,
   ExperienceStrategyPoint,
@@ -93,26 +92,26 @@ export const mockStrategies: Strategy[] = [
   {
     strategyId: 9001,
     jobType: 'FRONTEND',
-    industryName: INDUSTRY_LABEL_MAP.COMMERCE,
+    industryName: '커머스',
     createdAt: '2026-03-01T02:00:00.000Z',
   },
   {
     strategyId: 9002,
     jobType: 'FRONTEND',
-    industryName: INDUSTRY_LABEL_MAP.FINTECH_FINANCIAL,
+    industryName: '핀테크 · 금융',
     createdAt: '2026-03-02T02:00:00.000Z',
   },
   {
     strategyId: 9003,
     jobType: 'BACKEND',
-    industryName: INDUSTRY_LABEL_MAP.AI,
+    industryName: '인공지능',
     createdAt: '2026-03-03T02:00:00.000Z',
   },
 ];
 
 // 상세 조회용 mock 데이터
 export const mockStrategyDetails: Record<number, StrategyDetail> = {
-  9001: makeDetail(INDUSTRY_LABEL_MAP.COMMERCE),
-  9002: makeDetail(INDUSTRY_LABEL_MAP.FINTECH_FINANCIAL),
-  9003: makeDetail(INDUSTRY_LABEL_MAP.AI),
+  9001: makeDetail('커머스'),
+  9002: makeDetail('핀테크 · 금융'),
+  9003: makeDetail('인공지능'),
 };

@@ -2,12 +2,11 @@
 
 import { create } from 'zustand';
 import type { StrategyJobType } from '@/features/strategy/types';
-import type { IndustryType } from '@/features/industry/types';
 
 export type CreateStrategyFormValue = {
   selectedJob: StrategyJobType;
   isIndustryOn: boolean;
-  selectedIndustry: IndustryType;
+  selectedIndustryId: number | null;
   selectedExperienceIds: number[];
 };
 
@@ -24,8 +23,8 @@ type StrategyCreateFormStore = {
 
 const initialFormData: CreateStrategyFormValue = {
   selectedJob: 'FRONTEND',
-  isIndustryOn: true,
-  selectedIndustry: 'FINTECH_FINANCIAL',
+  isIndustryOn: false,
+  selectedIndustryId: null,
   selectedExperienceIds: [],
 };
 

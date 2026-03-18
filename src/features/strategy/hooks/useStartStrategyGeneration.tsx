@@ -22,7 +22,7 @@ export function useStartStrategyGeneration() {
 
     const payload: CreateStrategyRequest = {
       jobType: formData.selectedJob,
-      industryType: formData.isIndustryOn ? formData.selectedIndustry : null,
+      industryId: formData.isIndustryOn ? formData.selectedIndustryId : null,
       experienceIds: formData.selectedExperienceIds,
     };
 

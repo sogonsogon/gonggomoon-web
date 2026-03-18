@@ -1,55 +1,30 @@
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
-import type { IndustryType } from '@/features/industry/types';
 import { PLATFORM_OPTIONS } from '@/features/recruitment/constants/platformOptions';
 import type {
   GetRecruitmentPlatformsResponse,
   GetRecruitmentsResponse,
-  JobType,
   PlatformType,
-  PostStatus,
   Recruitment,
   RecruitmentAnalysis,
   RecruitmentDetail,
 } from '@/features/recruitment/types';
 
-type RecruitmentSeed = {
-  postId: number;
-  companyId: number;
-  companyName: string;
+type RecruitmentSeed = Omit<RecruitmentDetail, 'dueDate'> & {
   platformName: PlatformType;
-  postTitle: string;
-  jobType: JobType;
-  industryType: IndustryType;
-  experienceLevel: number;
-  status: PostStatus;
-  stateDate: string;
-  dueDate: string | null;
-  postUrl: string;
   analysisSummary: string;
-  originalContent: string;
+  dueDate: string | null;
   analysis: RecruitmentAnalysis;
-};
-
-const INDUSTRY_ID_MAP: Record<IndustryType, number> = {
-  MEDIA_CONTENT: 1,
-  COMMERCE: 2,
-  FINTECH_FINANCIAL: 3,
-  MOBILITY_LOGISTICS: 4,
-  AI: 5,
-  HEALTHCARE_BIO: 6,
-  MANUFACTURING_INDUSTRY: 7,
-  OTHER: 8,
 };
 
 const recruitmentSeeds: RecruitmentSeed[] = [
   {
     postId: 3001,
     companyId: 11,
+    industryId: 2,
     companyName: '커머스랩',
+    industryName: '커머스',
     platformName: 'WANTED',
     postTitle: '프론트엔드 엔지니어 (커머스 플랫폼 주문/결제 사용자 경험 개선 및 성능 최적화 담당)',
     jobType: 'FRONTEND',
-    industryType: 'COMMERCE',
     experienceLevel: 3,
     status: 'PUBLISHED',
     stateDate: '2026-03-10T09:00:00.000Z',
@@ -102,11 +77,12 @@ const recruitmentSeeds: RecruitmentSeed[] = [
   {
     postId: 3002,
     companyId: 12,
+    industryId: 3,
     companyName: '페이웨이브',
+    industryName: '핀테크 · 금융',
     platformName: 'SARAMIN',
     postTitle: '프론트엔드 인턴 (핀테크 서비스 UI 개발 및 디자인 시스템 기반 컴포넌트 운영 지원)',
     jobType: 'FRONTEND',
-    industryType: 'FINTECH_FINANCIAL',
     experienceLevel: 0,
     status: 'PUBLISHED',
     stateDate: '2026-03-11T09:00:00.000Z',
@@ -142,11 +118,12 @@ const recruitmentSeeds: RecruitmentSeed[] = [
   {
     postId: 3003,
     companyId: 13,
+    industryId: 5,
     companyName: '에이아이코어',
+    industryName: '인공지능',
     platformName: 'JABKOREA',
     postTitle: '백엔드 엔지니어 (AI 데이터 처리 파이프라인 및 모델 서빙 플랫폼 구축 담당)',
     jobType: 'BACKEND',
-    industryType: 'AI',
     experienceLevel: 3,
     status: 'PUBLISHED',
     stateDate: '2026-03-12T09:00:00.000Z',
@@ -200,9 +177,9 @@ const makeRecruitment = (seed: RecruitmentSeed): Recruitment => ({
 const makeRecruitmentDetail = (seed: RecruitmentSeed): RecruitmentDetail => ({
   postId: seed.postId,
   companyId: seed.companyId,
-  industryId: INDUSTRY_ID_MAP[seed.industryType],
+  industryId: seed.industryId,
   companyName: seed.companyName,
-  industryName: INDUSTRY_LABEL_MAP[seed.industryType],
+  industryName: seed.industryName,
   postTitle: seed.postTitle,
   postUrl: seed.postUrl,
   experienceLevel: seed.experienceLevel,
@@ -211,6 +188,7 @@ const makeRecruitmentDetail = (seed: RecruitmentSeed): RecruitmentDetail => ({
   status: seed.status,
   stateDate: seed.stateDate,
   dueDate: seed.dueDate ?? '',
+  analysis: seed.analysis,
 });
 
 export const mockRecruitments: GetRecruitmentsResponse = {

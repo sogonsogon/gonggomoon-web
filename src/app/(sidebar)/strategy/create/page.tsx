@@ -4,10 +4,14 @@ import StrategyExperienceSelectionSection from '@/features/strategy/components/s
 import MobileStrategyGenerateBar from '@/features/strategy/components/ui/MobileStrategyGenerateBar';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { experienceListQueryOptions } from '@/features/experience/queries';
+import { getIndustryListQueryOptions } from '@/features/industry/queries';
 
 export default async function StrategyCreatePage() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(experienceListQueryOptions());
+  await Promise.all([
+    queryClient.prefetchQuery(experienceListQueryOptions()),
+    queryClient.prefetchQuery(getIndustryListQueryOptions()),
+  ]);
 
   return (
     <div className="flex flex-col gap-8 bg-white font-sans">
