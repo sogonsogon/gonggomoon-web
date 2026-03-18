@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
-import { INDUSTRY_LABEL_MAP } from '@/features/industry/constants/industryOptions';
 import { useGetStrategyAvailability } from '@/features/strategy/queries';
 import { TODAY_USAGE, DAILY_LIMIT } from '@/features/strategy/constants/limit';
 import { useStartStrategyGeneration } from '@/features/strategy/hooks/useStartStrategyGeneration';
@@ -41,7 +40,7 @@ export default function MobileStrategyGenerateBar() {
         <div className="flex items-center justify-between gap-3 border-b border-gray-100 px-4 pt-3 pb-2.5">
           <p className="truncate text-[12px] font-semibold text-gray-700">
             {JOB_LABEL_MAP[formData.selectedJob]}
-            {formData.isIndustryOn ? ` · ${INDUSTRY_LABEL_MAP[formData.selectedIndustry]}` : ''}
+            {formData.isIndustryOn ? ` · ${formData.selectedIndustryId}` : ''}
           </p>
           <p className="shrink-0 text-[11px] font-medium text-gray-500">
             {todayUsage}/{dailyLimit}회
@@ -57,7 +56,9 @@ export default function MobileStrategyGenerateBar() {
           <Button
             type="button"
             onClick={handleGenerateClick}
-            disabled={formData.selectedExperienceIds.length === 0 || isLimitReached || submitLoading}
+            disabled={
+              formData.selectedExperienceIds.length === 0 || isLimitReached || submitLoading
+            }
             className="inline-flex h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[14px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
           >
             {submitLoading ? (
