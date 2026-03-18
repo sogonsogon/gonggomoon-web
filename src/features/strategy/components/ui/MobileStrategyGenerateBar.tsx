@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
@@ -10,6 +11,7 @@ import { useStartStrategyGeneration } from '@/features/strategy/hooks/useStartSt
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import MobileStrategyConditionSheet from '@/features/strategy/components/ui/MobileStrategyConditionSheet';
+import { useGetIndustryList } from '@/features/industry/queries';
 
 export default function MobileStrategyGenerateBar() {
   const router = useRouter();
@@ -18,10 +20,23 @@ export default function MobileStrategyGenerateBar() {
   const formData = useStrategyCreateFormStore((state) => state.formData);
   const submitLoading = useStrategyGenerationStore((state) => state.submitLoading);
   const { data: availability } = useGetStrategyAvailability();
+  const { data: industryData } = useGetIndustryList();
 
   const todayUsage = availability?.usedCount ?? TODAY_USAGE;
   const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
+
+  const selectedIndustryName = useMemo(() => {
+    if (!formData.isIndustryOn || !formData.selectedIndustryId) return '';
+
+    const industries = industryData?.content ?? [];
+
+    const selectedIndustry = industries.find(
+      (industry) => String(industry.industryId) === String(formData.selectedIndustryId),
+    );
+
+    return selectedIndustry?.industryName ?? '';
+  }, [formData.isIndustryOn, formData.selectedIndustryId, industryData]);
 
   const handleGenerateClick = async () => {
     if (formData.selectedExperienceIds.length === 0 || isLimitReached || submitLoading) return;
@@ -35,19 +50,20 @@ export default function MobileStrategyGenerateBar() {
   };
 
   return (
-    <div className="fixed inset-x-0 z-50 px-5 lg:hidden bottom-[calc(env(safe-area-inset-bottom)+1rem)] max-md:bottom-[calc(env(safe-area-inset-bottom)+5.5rem)]">
+    <div className="fixed inset-x-0 z-50 bottom-[calc(env(safe-area-inset-bottom)+1rem)] px-5 max-md:bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] lg:hidden">
       <div className="mx-auto w-full max-w-7xl rounded-2xl border border-gray-200 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.1)]">
-        <div className="flex items-center justify-between gap-3 border-b border-gray-100 px-4 pt-3 pb-2.5">
+        <div className="flex items-center justify-between gap-3 border-b border-gray-100 px-4 pb-2.5 pt-3">
           <p className="truncate text-[12px] font-semibold text-gray-700">
             {JOB_LABEL_MAP[formData.selectedJob]}
-            {formData.isIndustryOn ? ` · ${formData.selectedIndustryId}` : ''}
+            {formData.isIndustryOn && selectedIndustryName ? ` · ${selectedIndustryName}` : ''}
           </p>
+
           <p className="shrink-0 text-[11px] font-medium text-gray-500">
             {todayUsage}/{dailyLimit}회
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-4 pt-2.5 pb-3">
+        <div className="flex items-center gap-2 px-4 pb-3 pt-2.5">
           <MobileStrategyConditionSheet
             className="shrink-0"
             triggerClassName="h-11 w-auto rounded-[10px] border-gray-200 bg-gray-50 px-3 text-[13px] font-medium text-gray-600 shadow-none hover:bg-gray-100"
