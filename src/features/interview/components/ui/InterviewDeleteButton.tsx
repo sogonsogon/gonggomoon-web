@@ -8,9 +8,15 @@ import { toast } from 'sonner';
 
 interface InterviewDeleteButtonProps {
   interviewStrategyId: number;
+  className?: string;
+  hideLabelOnMobile?: boolean;
 }
 
-export default function InterviewDeleteButton({ interviewStrategyId }: InterviewDeleteButtonProps) {
+export default function InterviewDeleteButton({
+  interviewStrategyId,
+  className,
+  hideLabelOnMobile = false,
+}: InterviewDeleteButtonProps) {
   const router = useRouter();
   const { mutateAsync: deleteInterview, isPending } = useDeleteInterview();
   const handleDelete = async () => {
@@ -30,11 +36,10 @@ export default function InterviewDeleteButton({ interviewStrategyId }: Interview
       type="button"
       onClick={handleDelete}
       disabled={isPending}
-      className="flex items-center gap-1.5 rounded-lg border border-gray-100 bg-transparent px-3 py-1.5 hover:bg-gray-50"
+      className={`flex items-center gap-1.5 rounded-lg border border-gray-100 bg-transparent px-3 py-1.5 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 ${className ?? ''}`}
     >
       <Trash2 className="h-3.5 w-3.5 text-red-500" />
-      <span className="text-[12px] font-medium text-red-500">
-        {' '}
+      <span className={`text-[12px] font-medium text-red-500 ${hideLabelOnMobile ? 'max-md:hidden' : ''}`}>
         {isPending ? '삭제 중...' : '삭제하기'}
       </span>
     </Button>

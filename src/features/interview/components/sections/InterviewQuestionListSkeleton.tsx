@@ -12,7 +12,7 @@ export default function InterviewQuestionListSkeleton() {
 
       <div className="flex flex-col gap-3">
         {Array.from({ length: 5 }).map((_, index) => (
-          <div key={index} className="rounded-3xl border border-gray-100 bg-white px-5 py-5">
+          <div key={index} className="rounded-xl border border-gray-100 bg-white px-4 py-4 md:px-5 md:py-4.5">
             <div className="mb-4 flex items-center justify-between">
               <div className="h-6 w-10 animate-pulse rounded-full bg-gray-100" />
               <div className="h-6 w-14 animate-pulse rounded-full bg-gray-100" />

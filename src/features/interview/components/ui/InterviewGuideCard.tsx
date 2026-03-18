@@ -3,9 +3,9 @@ import { DAILY_LIMIT, TODAY_USAGE } from '@/features/interview/constants/limit';
 
 export default function InterviewGuideCard() {
   return (
-    <div className="flex flex-1 flex-col gap-4">
+    <div className="flex w-full flex-1 flex-col gap-4">
       <div className="overflow-hidden rounded-xl border border-blue-100 bg-white">
-        <div className="flex items-center gap-3 bg-blue-50 px-5 py-4">
+        <div className="flex items-center gap-3 bg-blue-50 px-4 py-3.5 md:px-5 md:py-4">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100">
             <Info className="h-4 w-4 text-blue-600" />
           </div>
@@ -18,7 +18,7 @@ export default function InterviewGuideCard() {
         </div>
 
         <div className="flex flex-col">
-          <div className="flex gap-3 border-b border-blue-50 px-5 py-3.5">
+          <div className="flex gap-3 border-b border-blue-50 px-4 py-3.5 md:px-5">
             <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] font-semibold text-gray-800">면접 질문 5개 제공</span>
@@ -28,7 +28,7 @@ export default function InterviewGuideCard() {
             </div>
           </div>
 
-          <div className="flex gap-3 border-b border-blue-50 px-5 py-3.5">
+          <div className="flex gap-3 border-b border-blue-50 px-4 py-3.5 md:px-5">
             <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] font-semibold text-gray-800">하루 1회 생성 제한</span>
@@ -38,7 +38,7 @@ export default function InterviewGuideCard() {
             </div>
           </div>
 
-          <div className="flex gap-3 border-b border-blue-50 px-5 py-3.5">
+          <div className="flex gap-3 border-b border-blue-50 px-4 py-3.5 md:px-5">
             <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] font-semibold text-gray-800">
@@ -50,7 +50,7 @@ export default function InterviewGuideCard() {
             </div>
           </div>
 
-          <div className="flex gap-3 rounded-b-xl px-5 py-3.5">
+          <div className="flex gap-3 rounded-b-xl px-4 py-3.5 md:px-5">
             <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-300" />
             <div className="flex flex-col gap-0.5">
               <div className="flex items-center gap-1.5">

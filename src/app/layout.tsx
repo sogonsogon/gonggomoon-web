@@ -12,6 +12,7 @@ import ExperienceExtractionPollingListener from '@/features/experience/component
 import { Suspense } from 'react';
 import InterviewGenerationPollingListener from '@/features/interview/components/sections/InterviewGenerationPollingListener';
 import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
+import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://gonggomoon.com'),
@@ -68,6 +69,7 @@ export default async function RootLayout({
             <ExperienceExtractionPollingListener />
             <Toaster richColors position="top-right" />
             <LoginModal />
+            <MobileMainBottomNav />
             <Suspense>
               <LoginModalTrigger />
             </Suspense>

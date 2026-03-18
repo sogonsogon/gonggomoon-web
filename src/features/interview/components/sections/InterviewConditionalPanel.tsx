@@ -63,8 +63,8 @@ export default function InterviewConditionalPanel() {
 
   return (
     <>
-      <div className="flex w-80 shrink-0 flex-col gap-4">
-        <div className="flex flex-col gap-2.5 rounded-xl border border-gray-100 p-5">
+      <div className="flex w-full flex-col gap-4 lg:w-80 lg:shrink-0">
+        <div className="flex flex-col gap-2.5 rounded-xl border border-gray-100 p-4 md:p-5">
           <div className="flex items-center justify-between">
             <span className="text-[13px] font-bold text-gray-700">포트폴리오 선택</span>
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-500">
@@ -100,7 +100,7 @@ export default function InterviewConditionalPanel() {
             </>
           ) : (
             <>
-              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-10 py-9">
+              <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-6 py-8 md:px-10 md:py-9">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                   <FileText className="h-5 w-5 text-gray-400" />
                 </div>
@@ -171,7 +171,7 @@ export default function InterviewConditionalPanel() {
         </button>
 
         {processingCount > 0 && (
-          <div className="flex items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-1 px-1 text-center">
             <Timer className="h-3 w-3 text-gray-400" />
             <span className="text-[11px] text-gray-400">
               현재 생성 중인 질문 {processingCount}건 · 추가 생성은 가능합니다.
@@ -180,7 +180,7 @@ export default function InterviewConditionalPanel() {
         )}
 
         {processingCount === 0 && (
-          <div className="flex items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-1 px-1 text-center">
             <Timer className="h-3 w-3 text-gray-400" />
             <span className="text-[11px] text-gray-400">
               생성 후 자동 저장 · 결과 페이지로 이동

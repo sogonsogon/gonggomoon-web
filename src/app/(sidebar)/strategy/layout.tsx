@@ -2,7 +2,6 @@ import Footer from '@/shared/components/layout/Footer';
 import StrategyHistorySidebar from '@/features/strategy/components/layout/StrategyHistorySidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar';
 import MobileStrategyHistoryTrigger from '@/features/strategy/components/ui/MobileStrategyHistoryTrigger';
-import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
 
 export default function StrategyLayout({
   children,
@@ -29,8 +28,6 @@ export default function StrategyLayout({
           <Footer />
         </div>
       </SidebarInset>
-
-      <MobileMainBottomNav />
     </SidebarProvider>
   );
 }
