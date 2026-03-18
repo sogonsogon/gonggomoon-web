@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import SearchBar from '@/shared/components/ui/SearchBar';
 import ProfileMenu from '@/features/auth/components/ui/ProfileMenu';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useState } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -30,9 +30,7 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isTabletSearchOpen, setIsTabletSearchOpen] = useState(false);
 
-  const showSearchBar =
-    currentPath === '/' ||
-    SEARCH_BAR_ALLOWED_PREFIXES.some((prefix) => currentPath.startsWith(prefix));
+  const showSearchBar = currentPath === '/';
 
   return (
     <header className="sticky top-0 z-50 flex w-full justify-center border-b border-gray-100 bg-white">
@@ -156,8 +154,6 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
     </header>
   );
 }
-
-const SEARCH_BAR_ALLOWED_PREFIXES = ['/recruitment/', '/company/'];
 
 const NAV_ITEMS = [
   {
