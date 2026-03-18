@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import StrategyConditionPanel from '@/features/strategy/components/sections/StrategyConditionPanel';
+import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/components/ui/button';
 import {
   Sheet,
@@ -13,7 +14,15 @@ import {
   SheetTrigger,
 } from '@/shared/components/ui/sheet';
 
-export default function MobileStrategyConditionSheet() {
+interface MobileStrategyConditionSheetProps {
+  className?: string;
+  triggerClassName?: string;
+}
+
+export default function MobileStrategyConditionSheet({
+  className,
+  triggerClassName,
+}: MobileStrategyConditionSheetProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -36,12 +45,15 @@ export default function MobileStrategyConditionSheet() {
   }, []);
 
   return (
-    <div className="fixed left-4 z-40 bottom-[calc(env(safe-area-inset-bottom)+6.25rem)] lg:hidden">
+    <div className={cn('lg:hidden', className)}>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <button
             type="button"
-            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 text-[13px] font-medium text-gray-700 shadow-sm"
+            className={cn(
+              'inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 text-[13px] font-medium text-gray-700 shadow-sm',
+              triggerClassName,
+            )}
           >
             <SlidersHorizontal className="h-4 w-4" />
             조건 설정
