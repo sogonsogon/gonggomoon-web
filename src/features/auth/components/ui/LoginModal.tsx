@@ -12,6 +12,7 @@ import {
 import { Search, Sparkles, MessagesSquare } from 'lucide-react';
 import Image from 'next/image';
 import logo from '@/shared/assets/images/logo.png';
+import Link from 'next/link';
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -82,9 +83,22 @@ export default function LoginModal() {
         <div className="px-8 py-4">
           <p className="text-center text-[11px] text-gray-400">
             가입 시{' '}
-            <span className="cursor-pointer font-medium text-blue-600">서비스 이용약관</span> 및{' '}
-            <span className="cursor-pointer font-medium text-blue-600">개인정보 처리방침</span>에
-            동의하게 됩니다.
+            <Link
+              href={'https://www.notion.so/3287e3ab744a80eda1bec107c7c34fd4?source=copy_link'}
+              target="_blank"
+              className="cursor-pointer font-medium text-blue-600"
+            >
+              서비스 이용약관
+            </Link>{' '}
+            및{' '}
+            <Link
+              href={'https://www.notion.so/3287e3ab744a80cc97d9ef5351dd55e0?source=copy_link'}
+              target="_blank"
+              className="cursor-pointer font-medium text-blue-600"
+            >
+              개인정보 처리방침
+            </Link>
+            에 동의하게 됩니다.
           </p>
         </div>
       </DialogContent>

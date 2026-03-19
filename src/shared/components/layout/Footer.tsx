@@ -1,6 +1,7 @@
 import { Instagram, Facebook, Youtube, Linkedin } from 'lucide-react';
 import Image from 'next/image';
 import logo from '@/shared/assets/images/logo.png';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -19,11 +20,21 @@ export default function Footer() {
             <span className="cursor-pointer text-sm font-medium text-gray-600">기업소개</span>
             <span className="cursor-pointer text-sm font-medium text-gray-600">광고문의</span>
             <span className="cursor-pointer text-sm font-medium text-gray-600">고객센터</span>
-            <span className="cursor-pointer text-sm font-medium text-gray-600">이용약관</span>
+            <Link
+              href={'https://www.notion.so/3287e3ab744a80eda1bec107c7c34fd4?source=copy_link'}
+              target="_blank"
+              className="cursor-pointer text-sm font-medium text-gray-600"
+            >
+              이용약관
+            </Link>
             <span className="cursor-pointer text-sm font-medium text-gray-600">블로그</span>
-            <span className="cursor-pointer text-sm font-semibold text-gray-600">
+            <Link
+              href={'https://www.notion.so/3287e3ab744a80cc97d9ef5351dd55e0?source=copy_link'}
+              target="_blank"
+              className="cursor-pointer text-sm font-semibold text-gray-600"
+            >
               개인정보 처리방침
-            </span>
+            </Link>
           </div>
         </div>
         <div className="h-px bg-gray-200" />
@@ -78,10 +89,20 @@ export default function Footer() {
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
           <span className="cursor-pointer text-xs text-gray-500">고객센터</span>
-          <span className="cursor-pointer text-xs text-gray-500">이용약관</span>
-          <span className="cursor-pointer text-xs font-semibold text-gray-600">
+          <Link
+            href={'https://www.notion.so/3287e3ab744a80eda1bec107c7c34fd4?source=copy_link'}
+            target="_blank"
+            className="cursor-pointer text-xs text-gray-500"
+          >
+            이용약관
+          </Link>
+          <Link
+            href={'https://www.notion.so/3287e3ab744a80cc97d9ef5351dd55e0?source=copy_link'}
+            target="_blank"
+            className="cursor-pointer text-xs font-semibold text-gray-600"
+          >
             개인정보 처리방침
-          </span>
+          </Link>
         </div>
         <p className="mt-3 text-xs text-gray-400">© 2026 소곤소곤, Inc.</p>
       </div>
