@@ -13,6 +13,7 @@ import { Suspense } from 'react';
 import InterviewGenerationPollingListener from '@/features/interview/components/sections/InterviewGenerationPollingListener';
 import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
 import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://gonggomoon.com'),
@@ -75,6 +76,7 @@ export default async function RootLayout({
             </Suspense>
           </HydrationBoundary>
         </QueryProvider>
+        <GoogleAnalytics gaId={'G-38ZXS19SCP'} />
       </body>
     </html>
   );
