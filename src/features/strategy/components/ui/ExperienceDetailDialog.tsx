@@ -1,9 +1,9 @@
 import { Calendar, X } from 'lucide-react';
 import type { Experience } from '@/features/experience/types';
 import { EXPERIENCE_LABEL_MAP } from '@/features/experience/constants/experienceOptions';
-import { formatHistoryDate } from '@/shared/utils/formatHistoryDate';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import { EXP_BADGE_CHECKED } from '@/features/experience/constants/experienceBadgeStyles';
+import { toDisplayDate } from '@/features/experience/utils/toDisplayDate';
 
 interface ExperienceDetailDialogProps {
   experience: Experience | null;
@@ -19,7 +19,7 @@ export default function ExperienceDetailDialog({
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
-        className="max-h-[80svh] max-w-125 gap-0 overflow-hidden p-0 max-md:top-auto max-md:left-1/2 max-md:bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] max-md:w-[calc(100%-1rem)] max-md:max-w-none max-md:-translate-x-1/2 max-md:translate-y-0 max-md:rounded-2xl max-md:max-h-[68dvh]"
+        className="flex flex-col max-h-[80svh] max-w-125 gap-0 overflow-hidden p-0 max-md:top-auto max-md:left-1/2 max-md:bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] max-md:w-[calc(100%-1rem)] max-md:max-w-none max-md:-translate-x-1/2 max-md:translate-y-0 max-md:rounded-2xl max-md:max-h-[68dvh]"
       >
         {experience && (
           <>
@@ -41,10 +41,8 @@ export default function ExperienceDetailDialog({
                   <div className="mt-1.5 flex items-center gap-1.5">
                     <Calendar className="h-3.5 w-3.5 shrink-0 text-gray-400" />
                     <span className="text-[13px] leading-none text-gray-400">
-                      {formatHistoryDate(experience.startDate)}
-                      {experience.endDate
-                        ? ` – ${formatHistoryDate(experience.endDate)}`
-                        : ' – 현재'}
+                      {toDisplayDate(experience.startDate)}
+                      {experience.endDate ? ` – ${toDisplayDate(experience.endDate)}` : ' – 현재'}
                     </span>
                   </div>
                 </div>
@@ -60,9 +58,9 @@ export default function ExperienceDetailDialog({
               </div>
             </DialogHeader>
 
-            <div className="min-h-0 overflow-y-auto px-6 py-4 max-md:px-4 max-md:py-3.5">
+            <div className="min-h-0 flex-1 scrollbar-hide overflow-y-auto px-6 py-4 max-md:px-4 max-md:py-3.5">
               <div className="rounded-lg border border-gray-100 bg-gray-50 px-3.5 py-3">
-                <p className="whitespace-pre-wrap wrap-break-word text-[14px] leading-[1.65] text-gray-700">
+                <p className="whitespace-pre-wrap break-words text-[14px] leading-[1.65] text-gray-700">
                   {experience.experienceContent ?? '경험 내용이 없습니다.'}
                 </p>
               </div>
