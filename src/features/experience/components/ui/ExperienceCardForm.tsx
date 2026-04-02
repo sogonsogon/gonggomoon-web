@@ -21,6 +21,7 @@ import { PencilIcon, SparklesIcon, Trash2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import ExperienceCancelDialog from '@/features/experience/components/ui/ExperienceCancelDialog';
+import { useExperienceDetailDialog } from '@/features/experience/stores/useExperienceDetailDialog';
 
 interface ExperienceCardFormProps {
   experience: Experience;
@@ -41,6 +42,7 @@ export default function ExperienceCardForm({
 }: ExperienceCardFormProps) {
   const [isEditing, setIsEditing] = useState(isNew);
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+  const { openDialog, setExperience } = useExperienceDetailDialog();
 
   const { mutate: createExperience, isPending: isCreating } = useCreateExperience();
   const { mutate: updateExperience, isPending: isUpdating } = useUpdateExperience();
@@ -280,7 +282,13 @@ export default function ExperienceCardForm({
 
   return (
     /* 조회 용 */
-    <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+    <div
+      className="flex items-center justify-between gap-3 px-5 py-3.5 cursor-pointer"
+      onClick={() => {
+        setExperience(experience);
+        openDialog();
+      }}
+    >
       <div className="flex flex-1 items-center gap-2.5 overflow-hidden">
         {/* 경험 유형 */}
         <span
@@ -313,7 +321,10 @@ export default function ExperienceCardForm({
           type="button"
           variant="ghost"
           size="icon"
-          onClick={() => setIsEditing(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsEditing(true);
+          }}
           aria-label="수정"
           className="text-gray-400 hover:bg-gray-100 hover:text-gray-600"
         >
@@ -323,7 +334,10 @@ export default function ExperienceCardForm({
           type="button"
           variant="ghost"
           size="icon"
-          onClick={() => onDeleteDialogOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteDialogOpen(true);
+          }}
           aria-label="삭제"
           className="text-gray-400 hover:bg-red-50 hover:text-red-500"
         >

@@ -11,6 +11,8 @@ import { useGetExperienceList } from '@/features/experience/queries';
 import { useFiles } from '@/features/file/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
+import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
+import { useExperienceDetailDialog } from '@/features/experience/stores/useExperienceDetailDialog';
 
 export default function ExperienceSection() {
   const { data: filesData } = useFiles();
@@ -19,6 +21,8 @@ export default function ExperienceSection() {
   const experienceList = experienceData?.contents ?? [];
 
   const [clientExperienceList, setClientExperienceList] = useState<Experience[]>(experienceList);
+
+  const { experience, closeDialog } = useExperienceDetailDialog();
 
   const completedExtractionIds = useExperienceExtractionStore(
     (state) => state.completedExtractionIds,
@@ -124,6 +128,7 @@ export default function ExperienceSection() {
         )}
       </div>
       <ExperienceExtractDialog files={files} />
+      <ExperienceDetailDialog experience={experience} onClose={closeDialog} />
     </>
   );
 }
