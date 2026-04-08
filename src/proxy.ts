@@ -22,9 +22,9 @@ function redirectToLoginRequired(request: NextRequest): NextResponse {
 }
 
 export async function proxy(request: NextRequest) {
-  if (process.env.NODE_ENV === 'development') {
-    return NextResponse.next();
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   return NextResponse.next();
+  // }
 
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get('access_token')?.value;
@@ -44,43 +44,20 @@ export async function proxy(request: NextRequest) {
     try {
       // 토큰 재발급 API 호출
       const refreshApiUrl = `${BASE_API_URL}/api/v1/auth/reissue`;
-      const result = await publicFetch<ReissueTokenResponse>(refreshApiUrl, {
+      const response = await fetch(refreshApiUrl, {
         method: 'POST',
         headers: {
           Cookie: `refresh_token=${refreshToken}`,
         },
       });
 
-      if (result.success && result.data) {
-        const newAccessToken = result.data.accessToken;
-        const newRefreshToken = result.data.refreshToken;
-
-        request.cookies.set('access_token', newAccessToken);
-        request.cookies.set('refresh_token', newRefreshToken);
-
-        const requestHeaders = new Headers(request.headers);
-        requestHeaders.set('Cookie', request.cookies.toString());
-
-        const response = NextResponse.next({
-          request: { headers: requestHeaders },
-        });
-
-        response.cookies.set('access_token', newAccessToken, {
-          maxAge: 60 * 60, // 1시간
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
-        });
-        response.cookies.set('refresh_token', newRefreshToken, {
-          maxAge: 60 * 60 * 24 * 14, // 14일
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
-        });
-
-        return response;
+      if (response.ok) {
+        const nextResponse = NextResponse.next();
+        const setCookieHeaders = response.headers.getSetCookie?.() ?? [];
+        for (const cookie of setCookieHeaders) {
+          nextResponse.headers.append('Set-Cookie', cookie);
+        }
+        return nextResponse;
       }
     } catch (error) {
       // 갱신 실패

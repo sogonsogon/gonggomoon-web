@@ -15,9 +15,10 @@ import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/features/auth/queries';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export default function ProfileMenu() {
-  const { data: user } = useUser();
+  const { data: user, isLoading } = useUser();
   const { mutate: logout, isPending } = useLogout();
   const { openDialog } = useLoginModal();
 
@@ -25,6 +26,8 @@ export default function ProfileMenu() {
     if (isPending) return;
     logout();
   };
+
+  if (isLoading) return <Skeleton className="w-9 h-9 rounded-full" />;
 
   return (
     <>
