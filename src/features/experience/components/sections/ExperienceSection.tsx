@@ -27,17 +27,16 @@ export default function ExperienceSection() {
   const completedExtractionIds = useExperienceExtractionStore(
     (state) => state.completedExtractionIds,
   );
-  const removeCompletedExtractionId = useExperienceExtractionStore(
-    (state) => state.removeCompletedExtractionId,
+  const removeCompletedExtractionIds = useExperienceExtractionStore(
+    (state) => state.removeCompletedExtractionIds,
   );
 
-  // 완료된 추출 ID 감지 → 상세 조회 → 카드 추가
-  // 조회 성공한 ID만 소비 (원자적 처리): 실패한 ID는 store에 유지되어 재시도 가능
   useEffect(() => {
     if (completedExtractionIds.length === 0) return;
 
-    // 현재 사이클의 ID를 스냅샷으로 캡처
     const idsToFetch = [...completedExtractionIds];
+
+    removeCompletedExtractionIds(idsToFetch);
 
     const fetchAndAppend = async () => {
       const results = await Promise.allSettled(
@@ -48,10 +47,9 @@ export default function ExperienceSection() {
       let tempIdSeed = Date.now();
 
       for (const result of results) {
-        if (result.status !== 'fulfilled' || !result.value.res.success) continue;
-
-        // 조회 성공 시에만 해당 ID를 store에서 제거
-        removeCompletedExtractionId(result.value.id);
+        if (result.status !== 'fulfilled' || !result.value.res.success) {
+          continue;
+        }
 
         result.value.res.data.contents.forEach((draft) => {
           newExperiences.push({ ...draft, experienceId: -tempIdSeed++, isAiGenerated: true });
@@ -64,7 +62,7 @@ export default function ExperienceSection() {
     };
 
     fetchAndAppend();
-  }, [completedExtractionIds, removeCompletedExtractionId]);
+  }, [completedExtractionIds, removeCompletedExtractionIds]);
 
   // 새로운 빈 카드 추가
   const handleAddCard = () => {
