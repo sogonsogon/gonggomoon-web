@@ -17,6 +17,7 @@ export type ExperienceExtractionStore = GenerationStore & {
   completedExtractionIds: number[];
   addCompletedExtractionIds: (ids: number[]) => void;
   removeCompletedExtractionId: (id: number) => void;
+  removeCompletedExtractionIds: (ids: number[]) => void;
 };
 
 export const useExperienceExtractionStore = create<ExperienceExtractionStore>()(
@@ -53,12 +54,23 @@ export const useExperienceExtractionStore = create<ExperienceExtractionStore>()(
         set((state) => ({
           completedExtractionIds: state.completedExtractionIds.filter((cid) => cid !== id),
         })),
+
+      removeCompletedExtractionIds: (idsToRemove) =>
+        set((state) => ({
+          completedExtractionIds: state.completedExtractionIds.filter(
+            (cid) => !idsToRemove.includes(cid),
+          ),
+        })),
     }),
     {
-      name: 'experience-extraction-ids',
+      name: 'experience-extraction-state',
       partialize: (state) => ({
-        ...state,
-        submitLoading: false,
+        generationStatus: state.generationStatus,
+        requests: state.requests,
+        requestOrder: state.requestOrder,
+        batches: state.batches,
+        batchOrder: state.batchOrder,
+        completedExtractionIds: state.completedExtractionIds,
       }),
     },
   ),
