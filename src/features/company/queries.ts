@@ -20,5 +20,6 @@ export const getCompanyDetailQueryOptions = (companyId: number) => ({
     }
     return result.data;
   },
-  staleTime: 60 * 1000,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });

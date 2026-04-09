@@ -9,6 +9,6 @@ export async function getCompanyDetail(
   companyId: number,
 ): Promise<ApiResponse<GetCompanyDetailResponse>> {
   return await publicFetch<GetCompanyDetailResponse>(`/api/v1/companies/${companyId}`, {
-    next: { revalidate: 300, tags: ['company', `company-detail-${companyId}`] },
+    next: { revalidate: 5 * 60, tags: ['company', `company-detail-${companyId}`] },
   });
 }

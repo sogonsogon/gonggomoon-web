@@ -27,6 +27,7 @@ export const getIndustryListQueryOptions = () => ({
     return result.data;
   },
   staleTime: 24 * 60 * 60 * 1000,
+  gcTime: 24 * 60 * 60 * 1000,
 });
 
 export const getIndustryAnalysisQueryOptions = (industryId: number) => ({
@@ -38,5 +39,6 @@ export const getIndustryAnalysisQueryOptions = (industryId: number) => ({
     }
     return result.data;
   },
-  staleTime: 60 * 1000,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });
