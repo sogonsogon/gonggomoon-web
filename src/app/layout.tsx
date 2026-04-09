@@ -4,8 +4,6 @@ import '@/app/globals.css';
 import Header from '@/shared/components/layout/Header';
 import QueryProvider from '@/shared/provider/QueryProvider';
 import { Toaster } from 'sonner';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { userQueryOptions } from '@/features/user/queries';
 import LoginModal from '@/features/auth/components/ui/LoginModal';
 import LoginModalTrigger from '@/features/auth/components/ui/LoginModalTrigger';
 import ExperienceExtractionPollingListener from '@/features/experience/components/sections/ExperienceExtractionPollingListener';
@@ -14,6 +12,8 @@ import InterviewGenerationPollingListener from '@/features/interview/components/
 import StrategyGenerationPollingListener from '@/features/strategy/components/sections/StrategyGenerationPollingListener';
 import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { cookies } from 'next/headers';
+import { AuthProvider } from '@/shared/provider/AuthProvider';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://gonggomoon.com'),
@@ -56,25 +56,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(userQueryOptions());
+  const cookieStore = await cookies();
+  const isLoggedIn = cookieStore.has('access_token');
   return (
     <html lang="ko" className={`${pretendard.variable} ${pretendard.className}`}>
       <body>
         <QueryProvider>
-          <HydrationBoundary state={dehydrate(queryClient)}>
+          <AuthProvider isLoggedIn={isLoggedIn}>
             <Header />
             {children}
-            <StrategyGenerationPollingListener />
-            <InterviewGenerationPollingListener />
-            <ExperienceExtractionPollingListener />
-            <Toaster richColors position="top-right" />
-            <LoginModal />
-            <MobileMainBottomNav />
-            <Suspense>
-              <LoginModalTrigger />
-            </Suspense>
-          </HydrationBoundary>
+          </AuthProvider>
+          <StrategyGenerationPollingListener />
+          <InterviewGenerationPollingListener />
+          <ExperienceExtractionPollingListener />
+          <Toaster richColors position="top-right" />
+          <LoginModal />
+          <MobileMainBottomNav />
+          <Suspense>
+            <LoginModalTrigger />
+          </Suspense>
         </QueryProvider>
         <GoogleAnalytics gaId={'G-38ZXS19SCP'} />
       </body>

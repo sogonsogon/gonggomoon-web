@@ -15,9 +15,12 @@ import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/features/auth/queries';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
+import { useAuth } from '@/shared/provider/AuthProvider';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export default function ProfileMenu() {
-  const { data: user } = useUser();
+  const { isLoggedIn } = useAuth();
+  const { data: user, isLoading } = useUser();
   const { mutate: logout, isPending } = useLogout();
   const { openDialog } = useLoginModal();
 
@@ -26,17 +29,23 @@ export default function ProfileMenu() {
     logout();
   };
 
+  if (!isLoggedIn) {
+    return (
+      <Button
+        type="button"
+        variant="outline"
+        onClick={openDialog}
+        className="cursor-pointer rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+      >
+        로그인
+      </Button>
+    );
+  }
+
   return (
     <>
-      {!user ? (
-        <Button
-          type="button"
-          variant="outline"
-          onClick={openDialog}
-          className="cursor-pointer rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
-        >
-          로그인
-        </Button>
+      {isLoading || !user ? (
+        <Skeleton className="w-9 h-9 rounded-full" />
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
