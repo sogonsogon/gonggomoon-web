@@ -145,9 +145,19 @@ export default function ExperienceExtractionPollingListener() {
 
     return () => {
       cancelled = true;
-      window.clearTimeout(timeoutId);
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
     };
-  }, [processingRequestIds]);
+  }, [
+    processingRequestIds,
+    markRequestFailed,
+    markRequestCompleted,
+    removeBatch,
+    removeRequest,
+    addCompletedExtractionIds,
+    router,
+  ]);
 
   return null;
 }
