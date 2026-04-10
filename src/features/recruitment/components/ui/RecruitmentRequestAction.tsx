@@ -6,10 +6,9 @@ import { toast } from 'sonner';
 import FloatingActionButton from '@/shared/components/ui/FloatingActionButton';
 import RecruitmentRequestDialog from '@/features/recruitment/components/ui/RecruitmentRequestDialog';
 import { useGetRecruitmentPlatforms, useRequestRecruitment } from '@/features/recruitment/queries';
-import { useAuth } from '@/shared/provider/AuthProvider';
-
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 export default function RecruitmentRequestAction() {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [isOpen, setIsOpen] = useState(false);
   const [dialogKey, setDialogKey] = useState(0);
 

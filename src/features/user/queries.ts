@@ -2,7 +2,7 @@ import { companyKeys } from '@/features/company/queries';
 import { industryKeys } from '@/features/industry/queries';
 import { recruitmentKeys } from '@/features/recruitment/queries';
 import { getUser, deleteUser } from '@/features/user/actions';
-import { useAuth } from '@/shared/provider/AuthProvider';
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 import { Query, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const userQueryOptions = () => ({
@@ -28,8 +28,7 @@ export function useUser(options?: { enabled?: boolean }) {
 // 회원 탈퇴
 export function useDeleteUser() {
   const queryClient = useQueryClient();
-  const { setIsLoggedIn } = useAuth();
-
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   return useMutation({
     mutationFn: () => deleteUser(),
     onSuccess: () => {

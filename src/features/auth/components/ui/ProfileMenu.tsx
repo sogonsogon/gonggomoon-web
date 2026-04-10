@@ -15,11 +15,11 @@ import { Button } from '@/shared/components/ui/button';
 import { useLogout } from '@/features/auth/queries';
 import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
-import { useAuth } from '@/shared/provider/AuthProvider';
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export default function ProfileMenu() {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { data: user, isLoading, isError } = useUser({ enabled: isLoggedIn });
   const { mutate: logout, isPending } = useLogout();
   const { openDialog } = useLoginModal();

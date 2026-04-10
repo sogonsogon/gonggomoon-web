@@ -8,14 +8,13 @@ import { formatDDay } from '@/shared/utils/formatDDay';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
 import { useGetBookmarks } from '@/features/bookmark/queries';
-import { useAuth } from '@/shared/provider/AuthProvider';
-
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 interface RecruitmentDetailOverviewProps {
   recruitment: RecruitmentDetail;
 }
 
 export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDetailOverviewProps) {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { data: bookmarks } = useGetBookmarks(isLoggedIn);
 
   const isBookmarked = (bookmarks?.content ?? []).some(

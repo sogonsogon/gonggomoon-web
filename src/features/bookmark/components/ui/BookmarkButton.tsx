@@ -4,8 +4,7 @@ import type { MouseEvent } from 'react';
 import { Bookmark } from 'lucide-react';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
 import { useBookmarkStatus, useGetBookmarks, useToggleBookmark } from '@/features/bookmark/queries';
-import { useAuth } from '@/shared/provider/AuthProvider';
-
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 interface BookmarkButtonProps {
   postId: number;
   isBookmarked: boolean;
@@ -19,7 +18,7 @@ export default function BookmarkButton({
   disabled = false,
   variant = 'default',
 }: BookmarkButtonProps) {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { openDialog } = useLoginModal();
 
   const { data: bookmarkStatusMap } = useBookmarkStatus(isLoggedIn);
