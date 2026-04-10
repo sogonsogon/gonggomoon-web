@@ -20,7 +20,7 @@ import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export default function ProfileMenu() {
   const { isLoggedIn } = useAuth();
-  const { data: user, isLoading } = useUser();
+  const { data: user, isLoading, isError } = useUser({ enabled: isLoggedIn });
   const { mutate: logout, isPending } = useLogout();
   const { openDialog } = useLoginModal();
 
@@ -29,7 +29,7 @@ export default function ProfileMenu() {
     logout();
   };
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn || isError) {
     return (
       <Button
         type="button"

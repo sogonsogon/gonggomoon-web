@@ -21,8 +21,8 @@ export const userQueryOptions = () => ({
 });
 
 // 회원 정보 조회
-export function useUser() {
-  return useQuery(userQueryOptions());
+export function useUser(options?: { enabled?: boolean }) {
+  return useQuery({ ...userQueryOptions(), enabled: options?.enabled });
 }
 
 // 회원 탈퇴

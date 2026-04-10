@@ -1,4 +1,4 @@
-// src/shared/providers/AuthProvider.tsx
+// src/shared/provider/AuthProvider.tsx
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
