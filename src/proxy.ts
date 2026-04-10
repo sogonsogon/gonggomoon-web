@@ -52,11 +52,47 @@ export async function proxy(request: NextRequest) {
       });
 
       if (response.ok) {
-        const nextResponse = NextResponse.next();
-        const setCookieHeaders = response.headers.getSetCookie?.() ?? [];
+        // Edge 호환성을 고려한 Set-Cookie 안전 추출
+        let setCookieHeaders: string[] = [];
+        if (typeof response.headers.getSetCookie === 'function') {
+          setCookieHeaders = response.headers.getSetCookie();
+        } else {
+          // getSetCookie가 없는 환경을 위한 Fallback 로직
+          const rawSetCookie = response.headers.get('set-cookie');
+          if (rawSetCookie) {
+            // 쿠키 날짜 포맷(Expires=Wed, 21 Oct 2015...)에 포함된 쉼표를 피해 분리하는 정규식
+            setCookieHeaders = rawSetCookie.split(/,(?=\s*[a-zA-Z0-9_\-]+(?:=|$))/);
+          }
+        }
+
+        // 하위(서버 컴포넌트/액션)로 전달될 request 헤더 업데이트
+        const requestHeaders = new Headers(request.headers);
+
+        // 새로 받은 쿠키들을 파싱하여 request 객체 내부 상태에 동기화
+        setCookieHeaders.forEach((cookieStr) => {
+          const [firstPart] = cookieStr.split(';');
+          const [name, ...valueParts] = firstPart.split('=');
+          if (name && valueParts.length > 0) {
+            const value = valueParts.join('=').trim();
+            request.cookies.set(name.trim(), value);
+          }
+        });
+
+        // 내부 상태가 업데이트된 전체 쿠키 문자열을 requestHeaders에 덮어쓰기
+        requestHeaders.set('cookie', request.cookies.toString());
+
+        // 변경된 요청 헤더를 포함하여 NextResponse 생성 (현재 요청 흐름 수정)
+        const nextResponse = NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
+        });
+
+        // 클라이언트 브라우저에 내려줄 응답 헤더에도 Set-Cookie 설정
         for (const cookie of setCookieHeaders) {
           nextResponse.headers.append('Set-Cookie', cookie);
         }
+
         return nextResponse;
       }
     } catch (error) {
