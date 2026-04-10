@@ -28,6 +28,7 @@ export const experienceListQueryOptions = () => ({
     return result.data;
   },
   staleTime: 10 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });
 
 export const experienceQueryOptions = (experienceId: number) => ({
