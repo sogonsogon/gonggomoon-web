@@ -7,16 +7,16 @@ import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { formatDDay } from '@/shared/utils/formatDDay';
 import BookmarkButton from '@/features/bookmark/components/ui/BookmarkButton';
 import { DDAY_VARIANT_CLASS } from '@/features/recruitment/constants/dDayVariant';
-import { useUser } from '@/features/user/queries';
 import { useGetBookmarks } from '@/features/bookmark/queries';
+import { useAuth } from '@/shared/provider/AuthProvider';
 
 interface RecruitmentDetailOverviewProps {
   recruitment: RecruitmentDetail;
 }
 
 export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDetailOverviewProps) {
-  const { data: user } = useUser();
-  const { data: bookmarks } = useGetBookmarks(!!user);
+  const { isLoggedIn } = useAuth();
+  const { data: bookmarks } = useGetBookmarks(isLoggedIn);
 
   const isBookmarked = (bookmarks?.content ?? []).some(
     (item) => item.postId === recruitment.postId,

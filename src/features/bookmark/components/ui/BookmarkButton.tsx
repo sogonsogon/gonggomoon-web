@@ -2,9 +2,9 @@
 
 import type { MouseEvent } from 'react';
 import { Bookmark } from 'lucide-react';
-import { useUser } from '@/features/user/queries';
 import { useLoginModal } from '@/features/auth/stores/useLoginModal';
 import { useBookmarkStatus, useGetBookmarks, useToggleBookmark } from '@/features/bookmark/queries';
+import { useAuth } from '@/shared/provider/AuthProvider';
 
 interface BookmarkButtonProps {
   postId: number;
@@ -19,11 +19,11 @@ export default function BookmarkButton({
   disabled = false,
   variant = 'default',
 }: BookmarkButtonProps) {
-  const { data: user } = useUser();
+  const { isLoggedIn } = useAuth();
   const { openDialog } = useLoginModal();
 
-  const { data: bookmarkStatusMap } = useBookmarkStatus(Boolean(user));
-  const { data: bookmarks } = useGetBookmarks(Boolean(user));
+  const { data: bookmarkStatusMap } = useBookmarkStatus(isLoggedIn);
+  const { data: bookmarks } = useGetBookmarks(isLoggedIn);
   const { mutate: toggleBookmark, isPending } = useToggleBookmark(postId);
 
   const isIconOnly = variant === 'icon';
@@ -37,7 +37,7 @@ export default function BookmarkButton({
     event.preventDefault();
     event.stopPropagation();
 
-    if (!user) {
+    if (!isLoggedIn) {
       openDialog();
       return;
     }
