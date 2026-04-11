@@ -13,7 +13,7 @@ import StrategyGenerationPollingListener from '@/features/strategy/components/se
 import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { cookies } from 'next/headers';
-import { AuthProvider } from '@/shared/provider/AuthProvider';
+import { AuthStoreProvider } from '@/shared/provider/AuthProvider';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://gonggomoon.com'),
@@ -62,16 +62,21 @@ export default async function RootLayout({
     <html lang="ko" className={`${pretendard.variable} ${pretendard.className}`}>
       <body>
         <QueryProvider>
-          <AuthProvider isLoggedIn={isLoggedIn}>
+          <AuthStoreProvider isLoggedIn={isLoggedIn}>
             <Header />
             {children}
-          </AuthProvider>
+          </AuthStoreProvider>
+
+          {/* Polling Listener */}
           <StrategyGenerationPollingListener />
           <InterviewGenerationPollingListener />
           <ExperienceExtractionPollingListener />
+
+          {/* Global UI */}
           <Toaster richColors position="top-right" />
           <LoginModal />
           <MobileMainBottomNav />
+
           <Suspense>
             <LoginModalTrigger />
           </Suspense>

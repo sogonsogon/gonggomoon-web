@@ -2,7 +2,7 @@ import { logout } from '@/features/auth/actions';
 import { companyKeys } from '@/features/company/queries';
 import { industryKeys } from '@/features/industry/queries';
 import { recruitmentKeys } from '@/features/recruitment/queries';
-import { useAuth } from '@/shared/provider/AuthProvider';
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 import { isProtectedRoute } from '@/shared/utils/isProtectedRoute';
 import { Query, useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,8 +12,7 @@ export function useLogout() {
   const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
-  const { setIsLoggedIn } = useAuth();
-
+  const setIsLoggedIn = useAuthStore((state) => state.setIsLoggedIn);
   return useMutation({
     mutationFn: async () => {
       queryClient.removeQueries({

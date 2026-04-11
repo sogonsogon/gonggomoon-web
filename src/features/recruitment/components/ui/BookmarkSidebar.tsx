@@ -5,8 +5,7 @@ import { Bookmark as BookmarkIcon, ChevronRight } from 'lucide-react';
 import { formatBookmarkDate } from '@/shared/utils/formatBookmarkDate';
 import { useGetBookmarks } from '@/features/bookmark/queries';
 import { cn } from '@/shared/lib/cn';
-import { useAuth } from '@/shared/provider/AuthProvider';
-
+import { useAuthStore } from '@/shared/provider/AuthProvider';
 interface BookmarkSidebarProps {
   showHeader?: boolean;
   variant?: 'sidebar' | 'sheet';
@@ -16,7 +15,7 @@ export default function BookmarkSidebar({
   showHeader = true,
   variant = 'sidebar',
 }: BookmarkSidebarProps) {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { data: bookmarks } = useGetBookmarks(isLoggedIn);
   const isSheet = variant === 'sheet';
 

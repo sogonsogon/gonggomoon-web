@@ -1,37 +1,39 @@
-// src/shared/provider/AuthProvider.tsx
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useRef } from 'react';
+import { useStore } from 'zustand';
+import { createAuthStore, type AuthStore, type AuthState } from '@/features/auth/stores/authStore';
 
-type AuthContextType = {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (value: boolean) => void;
-};
+export const AuthStoreContext = createContext<AuthStore | null>(null);
 
-// 변경 함수도 함께 Context에 담습니다.
-const AuthContext = createContext<AuthContextType>({
-  isLoggedIn: false,
-  setIsLoggedIn: () => {},
-});
-
-export function AuthProvider({
-  isLoggedIn: initialIsLoggedIn,
+export function AuthStoreProvider({
   children,
+  isLoggedIn,
 }: {
-  isLoggedIn: boolean;
   children: React.ReactNode;
+  isLoggedIn: boolean;
 }) {
-  // 서버에서 넘겨받은 초기값으로 useState 세팅
-  const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
+  const storeRef = useRef<AuthStore>(null);
 
-  // Next.js 라우터 이동 등으로 서버 초기값이 변경될 때 동기화 (안전장치)
+  if (!storeRef.current) {
+    storeRef.current = createAuthStore({ isLoggedIn });
+  }
+
   useEffect(() => {
-    setIsLoggedIn(initialIsLoggedIn);
-  }, [initialIsLoggedIn]);
+    if (storeRef.current) {
+      storeRef.current.setState({ isLoggedIn });
+    }
+  }, [isLoggedIn]);
 
-  return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>{children}</AuthContext.Provider>
-  );
+  return <AuthStoreContext.Provider value={storeRef.current}>{children}</AuthStoreContext.Provider>;
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuthStore<T>(selector: (state: AuthState) => T): T {
+  const authStoreContext = useContext(AuthStoreContext);
+
+  if (!authStoreContext) {
+    throw new Error(`useAuthStore는 AuthStoreProvider 안에서 사용되어야 합니다.`);
+  }
+
+  return useStore(authStoreContext, selector);
+}
