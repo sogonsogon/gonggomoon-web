@@ -30,7 +30,8 @@ export const getInterviewListQueryOptions = () => ({
     }
     return result.data;
   },
-  staleTime: 60 * 1000,
+  staleTime: 5 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });
 
 // 면접 질문 단건 조회
@@ -47,7 +48,8 @@ export const getInterviewQueryOptions = (interviewStrategyId: number) => ({
     }
     return result.data;
   },
-  staleTime: 60 * 1000,
+  staleTime: 60 * 60 * 1000,
+  gcTime: 60 * 60 * 1000,
   enabled: !!interviewStrategyId,
   retry: false,
 });

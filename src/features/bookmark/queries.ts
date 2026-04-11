@@ -29,8 +29,8 @@ export function bookmarkQueryOptions() {
 
       return result.data ?? createEmptyBookmarkResponse();
     },
-    staleTime: Infinity,
-    gcTime: 1000 * 60 * 30,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   };
@@ -59,8 +59,8 @@ export function useBookmarkStatus(enabled = true) {
 
       return reconcileBookmarkStatusMap(previousStatusMap, bookmarks.content);
     },
-    staleTime: Infinity,
-    gcTime: 1000 * 60 * 30,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });

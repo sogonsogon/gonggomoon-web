@@ -17,8 +17,8 @@ export const fileQueryOptions = () => ({
 
     return result.data;
   },
-  // 1분
-  staleTime: 60 * 1000,
+  staleTime: 10 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });
 
 // 파일 목록 조회

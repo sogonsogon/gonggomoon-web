@@ -27,7 +27,8 @@ export const experienceListQueryOptions = () => ({
     }
     return result.data;
   },
-  staleTime: 60 * 1000,
+  staleTime: 10 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });
 
 export const experienceQueryOptions = (experienceId: number) => ({
@@ -39,7 +40,8 @@ export const experienceQueryOptions = (experienceId: number) => ({
     }
     return result.data;
   },
-  staleTime: 60 * 1000,
+  staleTime: 10 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
 });
 
 // 경험 목록 조회

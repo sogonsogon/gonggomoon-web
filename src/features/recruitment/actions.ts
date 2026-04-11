@@ -22,7 +22,9 @@ export async function getRecruitments(
   if (typeof params.size === 'number') searchParams.set('size', String(params.size));
   const query = searchParams.toString();
 
-  return await publicFetch<GetRecruitmentsResponse>(`/api/v1/posts${query ? `?${query}` : ''}`);
+  return await publicFetch<GetRecruitmentsResponse>(`/api/v1/posts${query ? `?${query}` : ''}`, {
+    next: { revalidate: 60, tags: ['recruitmentList'] },
+  });
 }
 
 // 공고 상세 조회
