@@ -2,17 +2,8 @@ import Title from '@/shared/components/ui/Title';
 import StrategyConditionPanel from '@/features/strategy/components/sections/StrategyConditionPanel';
 import StrategyExperienceSelectionSection from '@/features/strategy/components/sections/StrategyExperienceSelectionSection';
 import MobileStrategyGenerateBar from '@/features/strategy/components/ui/MobileStrategyGenerateBar';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { experienceListQueryOptions } from '@/features/experience/queries';
-import { getIndustryListQueryOptions } from '@/features/industry/queries';
 
 export default async function StrategyCreatePage() {
-  const queryClient = new QueryClient();
-  await Promise.all([
-    queryClient.prefetchQuery(experienceListQueryOptions()),
-    queryClient.prefetchQuery(getIndustryListQueryOptions()),
-  ]);
-
   return (
     <div className="flex flex-col gap-8 bg-white font-sans">
       <div className="flex flex-col gap-8 pt-0 pb-10 max-md:pb-[calc(env(safe-area-inset-bottom)+13rem)] md:max-lg:pb-[calc(env(safe-area-inset-bottom)+8rem)] max-md:gap-6">
@@ -23,9 +14,7 @@ export default async function StrategyCreatePage() {
 
         <div className="flex items-start gap-6 max-lg:flex-col max-lg:items-stretch max-lg:gap-5">
           <div className="w-full">
-            <HydrationBoundary state={dehydrate(queryClient)}>
-              <StrategyExperienceSelectionSection />
-            </HydrationBoundary>
+            <StrategyExperienceSelectionSection />
           </div>
 
           <div className="max-lg:hidden">

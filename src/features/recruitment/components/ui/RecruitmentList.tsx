@@ -3,16 +3,16 @@
 import { useMemo } from 'react';
 import RecruitmentListItem from '@/features/recruitment/components/ui/RecruitmentListItem';
 import type { Recruitment } from '@/features/recruitment/types';
-import { useUser } from '@/features/user/queries';
 import { useGetBookmarks } from '@/features/bookmark/queries';
+import { useAuth } from '@/shared/provider/AuthProvider';
 
 interface RecruitmentListProps {
   recruitments: Recruitment[];
 }
 
 export default function RecruitmentList({ recruitments }: RecruitmentListProps) {
-  const { data: user } = useUser();
-  const { data: bookmarks } = useGetBookmarks(!!user);
+  const { isLoggedIn } = useAuth();
+  const { data: bookmarks } = useGetBookmarks(isLoggedIn);
 
   const bookmarkedPostIds = useMemo(
     () => new Set((bookmarks?.content ?? []).map((bookmark) => bookmark.postId)),
