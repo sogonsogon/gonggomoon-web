@@ -22,9 +22,9 @@ function redirectToLoginRequired(request: NextRequest): NextResponse {
 }
 
 export async function proxy(request: NextRequest) {
-  if (process.env.NODE_ENV === 'development') {
-    return NextResponse.next();
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  //   return NextResponse.next();
+  // }
 
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get('access_token')?.value;
@@ -44,43 +44,56 @@ export async function proxy(request: NextRequest) {
     try {
       // 토큰 재발급 API 호출
       const refreshApiUrl = `${BASE_API_URL}/api/v1/auth/reissue`;
-      const result = await publicFetch<ReissueTokenResponse>(refreshApiUrl, {
+      const response = await fetch(refreshApiUrl, {
         method: 'POST',
         headers: {
           Cookie: `refresh_token=${refreshToken}`,
         },
       });
 
-      if (result.success && result.data) {
-        const newAccessToken = result.data.accessToken;
-        const newRefreshToken = result.data.refreshToken;
+      if (response.ok) {
+        // Edge 호환성을 고려한 Set-Cookie 안전 추출
+        let setCookieHeaders: string[] = [];
+        if (typeof response.headers.getSetCookie === 'function') {
+          setCookieHeaders = response.headers.getSetCookie();
+        } else {
+          // getSetCookie가 없는 환경을 위한 Fallback 로직
+          const rawSetCookie = response.headers.get('set-cookie');
+          if (rawSetCookie) {
+            // 쿠키 날짜 포맷(Expires=Wed, 21 Oct 2015...)에 포함된 쉼표를 피해 분리하는 정규식
+            setCookieHeaders = rawSetCookie.split(/,(?=\s*[a-zA-Z0-9_\-]+(?:=|$))/);
+          }
+        }
 
-        request.cookies.set('access_token', newAccessToken);
-        request.cookies.set('refresh_token', newRefreshToken);
-
+        // 하위(서버 컴포넌트/액션)로 전달될 request 헤더 업데이트
         const requestHeaders = new Headers(request.headers);
-        requestHeaders.set('Cookie', request.cookies.toString());
 
-        const response = NextResponse.next({
-          request: { headers: requestHeaders },
+        // 새로 받은 쿠키들을 파싱하여 request 객체 내부 상태에 동기화
+        setCookieHeaders.forEach((cookieStr) => {
+          const [firstPart] = cookieStr.split(';');
+          const [name, ...valueParts] = firstPart.split('=');
+          if (name && valueParts.length > 0) {
+            const value = valueParts.join('=').trim();
+            request.cookies.set(name.trim(), value);
+          }
         });
 
-        response.cookies.set('access_token', newAccessToken, {
-          maxAge: 60 * 60, // 1시간
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
-        });
-        response.cookies.set('refresh_token', newRefreshToken, {
-          maxAge: 60 * 60 * 24 * 14, // 14일
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'none',
-          path: '/',
+        // 내부 상태가 업데이트된 전체 쿠키 문자열을 requestHeaders에 덮어쓰기
+        requestHeaders.set('cookie', request.cookies.toString());
+
+        // 변경된 요청 헤더를 포함하여 NextResponse 생성 (현재 요청 흐름 수정)
+        const nextResponse = NextResponse.next({
+          request: {
+            headers: requestHeaders,
+          },
         });
 
-        return response;
+        // 클라이언트 브라우저에 내려줄 응답 헤더에도 Set-Cookie 설정
+        for (const cookie of setCookieHeaders) {
+          nextResponse.headers.append('Set-Cookie', cookie);
+        }
+
+        return nextResponse;
       }
     } catch (error) {
       // 갱신 실패

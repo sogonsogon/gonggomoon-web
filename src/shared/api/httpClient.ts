@@ -162,17 +162,20 @@ export async function privateFetch<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
-  const isDev = process.env.NODE_ENV === 'development';
-  const devToken = process.env.DEV_ACCESS_TOKEN;
+  // const isDev = process.env.NODE_ENV === 'development';
+  // const devToken = process.env.DEV_ACCESS_TOKEN;
 
-  let currentToken: string | undefined;
+  // let currentToken: string | undefined;
 
-  if (isDev && devToken) {
-    currentToken = devToken;
-  } else {
-    const cookieStore = await cookies();
-    currentToken = cookieStore.get('access_token')?.value;
-  }
+  // if (isDev && devToken) {
+  //   currentToken = devToken;
+  // } else {
+  //   const cookieStore = await cookies();
+  //   currentToken = cookieStore.get('access_token')?.value;
+  // }
+
+  const cookieStore = await cookies();
+  const currentToken = cookieStore.get('access_token')?.value;
 
   if (!currentToken) {
     return createErrorResponse('SESSION_EXPIRED', '접근 권한이 없습니다. 다시 로그인해 주세요.');
