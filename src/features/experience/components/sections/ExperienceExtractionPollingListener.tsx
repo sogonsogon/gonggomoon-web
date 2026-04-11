@@ -29,7 +29,6 @@ export default function ExperienceExtractionPollingListener() {
     [requestOrder, requests],
   );
 
-  // 요청 ID / 재시도 횟수
   const requestRetryCountsRef = useRef<Map<number, number>>(new Map());
 
   useEffect(() => {
@@ -43,11 +42,11 @@ export default function ExperienceExtractionPollingListener() {
     }
 
     let cancelled = false;
+    let timeoutId: number;
 
     const poll = async () => {
       if (cancelled) return;
 
-      // allSettled로 Promise 순서 보장됨
       const statusResults = await Promise.allSettled(
         processingRequestIds.map(async (id) => {
           const res = await getGenerationStatus({ id, type: 'EXTRACT_EXPERIENCE' });
@@ -61,7 +60,7 @@ export default function ExperienceExtractionPollingListener() {
         const settled = statusResults[i];
         const id = processingRequestIds[i];
 
-        // 비동기 작업 실패 (네트워크 오류 및 시간 초과)
+        // 1. 비동기 작업 자체 실패 (네트워크 오류, 시간 초과 등)
         if (settled.status === 'rejected') {
           const retryCount = (requestRetryCountsRef.current.get(id) ?? 0) + 1;
           requestRetryCountsRef.current.set(id, retryCount);
@@ -82,7 +81,7 @@ export default function ExperienceExtractionPollingListener() {
 
         const { res } = settled.value;
 
-        // API 응답 결과: 실패 시
+        // 2. 서버가 내려준 구조화된 객체 처리: API 비즈니스 로직 상 실패 시
         if (!res.success) {
           const retryCount = (requestRetryCountsRef.current.get(id) ?? 0) + 1;
           requestRetryCountsRef.current.set(id, retryCount);
@@ -98,12 +97,10 @@ export default function ExperienceExtractionPollingListener() {
           continue;
         }
 
-        // 경험 추출 상태 조회 성공 시 (FAILED, PROCESSING, READY)
+        // 3. 경험 추출 상태 조회 성공 시 (FAILED, PROCESSING, READY)
         requestRetryCountsRef.current.delete(id);
-
         const { status, error } = res.data;
 
-        // FAILED
         if (status === 'FAILED') {
           console.error(`[경험 추출] 요청ID(${id}): ${error}`);
           markRequestFailed(id, error ?? '경험 추출에 실패했습니다.');
@@ -111,13 +108,11 @@ export default function ExperienceExtractionPollingListener() {
           continue;
         }
 
-        // READY가 되기 전까지 반복 폴링
         if (status !== 'READY') continue;
 
-        // READY
+        // READY 처리 로직
         markRequestCompleted(id);
 
-        // 같은 배치 작업에 있는 요청 id가 모두 완료되었는지 확인
         const { requests: latestRequests, batches } = useExperienceExtractionStore.getState();
 
         const completedBatchEntry = Object.entries(batches).find(([, batch]) =>
@@ -130,8 +125,6 @@ export default function ExperienceExtractionPollingListener() {
 
         removeBatch(batchId);
         batch.ids.forEach((expId) => removeRequest(expId));
-
-        // 완료된 추출 ID를 store에 저장 — 페이지에서 소비
         addCompletedExtractionIds(batch.ids);
 
         toast.success('경험 추출이 완료되었어요.', {
@@ -141,19 +134,25 @@ export default function ExperienceExtractionPollingListener() {
           },
         });
       }
+
+      if (!cancelled) {
+        timeoutId = window.setTimeout(poll, POLLING_INTERVAL_MS);
+      }
     };
 
-    poll();
-    const timer = setInterval(() => poll(), POLLING_INTERVAL_MS);
+    // 첫 폴링 실행
+    void poll();
 
     return () => {
       cancelled = true;
-      clearInterval(timer);
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
     };
   }, [
     processingRequestIds,
-    markRequestCompleted,
     markRequestFailed,
+    markRequestCompleted,
     removeBatch,
     removeRequest,
     addCompletedExtractionIds,
