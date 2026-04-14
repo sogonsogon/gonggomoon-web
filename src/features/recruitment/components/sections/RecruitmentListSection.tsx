@@ -73,7 +73,7 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
   return (
     <section className="min-w-0 flex-1">
       {isEmpty ? (
-        <RecruitmentEmptyState search={search} />
+        <RecruitmentEmptyState search={trimmedSearch} />
       ) : (
         <div className="flex flex-1 flex-col">
           <div className="mb-4 flex items-center justify-between max-md:mb-3">
@@ -110,10 +110,11 @@ export default function RecruitmentListSection({ activeTab, search }: Recruitmen
 }
 
 function RecruitmentEmptyState({ search }: { search: string }) {
-  const hasSearch = Boolean(search.trim());
+  const hasSearch = Boolean(search);
+  const displaySearch = search.length > 28 ? `${search.slice(0, 28)}...` : search;
 
   return (
-    <div className="flex min-h-90 items-center justify-center rounded-2xl border border-gray-100 bg-white max-md:min-h-72 max-md:px-4">
+    <div className="flex min-h-90 items-center justify-center rounded-2xl bg-white px-4 max-md:min-h-72">
       <div className="flex flex-col items-center gap-4 text-center max-md:gap-3">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
           <SearchX className="h-6 w-6 text-gray-400" />
@@ -123,9 +124,9 @@ function RecruitmentEmptyState({ search }: { search: string }) {
           <h3 className="text-base font-semibold text-gray-900">
             {hasSearch ? '검색 결과가 없어요' : '조건에 맞는 공고가 없어요'}
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="max-w-full text-sm leading-6 text-gray-500 wrap-anywhere">
             {hasSearch
-              ? `‘${search}’에 해당하는 공고를 찾지 못했어요. 다른 검색어로 다시 시도해보세요.`
+              ? `‘${displaySearch}’에 해당하는 공고를 찾지 못했어요. 다른 검색어로 다시 시도해보세요.`
               : '선택한 조건에 맞는 공고가 아직 없어요. 다른 탭을 확인해보세요.'}
           </p>
         </div>
