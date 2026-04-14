@@ -69,13 +69,13 @@ export default function StrategyExperienceSelectionSection() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 max-md:w-full max-md:justify-between">
+          <div className="flex shrink-0 items-center gap-2 max-md:w-full max-md:justify-between">
             {experienceList.length > 0 && (
               <button
                 type="button"
                 onClick={handleToggleAllExp}
                 disabled={isFormLocked}
-                className="inline-flex h-8 cursor-pointer items-center rounded-md px-2.5 text-[12px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-gray-500 max-md:px-2"
+                className="inline-flex h-8 cursor-pointer items-center whitespace-nowrap rounded-md px-2.5 text-[12px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-gray-500 max-md:px-2"
               >
                 {allSelected ? '전체 해제' : '전체 선택'}
               </button>
@@ -83,9 +83,9 @@ export default function StrategyExperienceSelectionSection() {
 
             <Link
               href="/my/experience"
-              className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 text-[12px] font-medium text-gray-600 hover:bg-gray-50"
+              className="inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-300 bg-white px-3 text-[12px] font-medium text-gray-600 hover:bg-gray-50"
             >
-              <ExternalLink className="h-3 w-3 text-gray-500" />
+              <ExternalLink className="h-3 w-3 shrink-0 text-gray-500" />
               경험 등록하기
             </Link>
           </div>
