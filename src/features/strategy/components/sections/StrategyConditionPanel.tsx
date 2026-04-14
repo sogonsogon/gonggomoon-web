@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Code, Info, Loader2, Server, Sparkles, Timer } from 'lucide-react';
+import { Info, Loader2, Sparkles, Timer } from 'lucide-react';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { Switch } from '@/shared/components/ui/switch';
 import {
@@ -107,32 +107,23 @@ export default function StrategyConditionPanel({
         <div className="flex flex-col gap-2.5">
           <span className="text-[13px] font-semibold text-gray-700">직무 선택</span>
 
-          <div className="flex gap-2">
-            {(['FRONTEND', 'BACKEND'] as StrategyJobType[]).map((job) => {
-              const isActive = formData.selectedJob === job;
+          <Select
+            value={formData.selectedJob}
+            onValueChange={(value) => handleJobChange(value as StrategyJobType)}
+            disabled={isFormLocked}
+          >
+            <SelectTrigger className="h-10 w-full cursor-pointer border border-gray-200 text-[13px] font-medium text-gray-900 disabled:cursor-not-allowed disabled:opacity-50">
+              <SelectValue placeholder="직무를 선택하세요" />
+            </SelectTrigger>
 
-              return (
-                <Button
-                  key={job}
-                  type="button"
-                  onClick={() => handleJobChange(job)}
-                  disabled={isFormLocked}
-                  className={`inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 text-[13px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
-                    isActive
-                      ? 'border-[#2272eb] bg-[#2272eb] text-white'
-                      : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  {job === 'FRONTEND' ? (
-                    <Code className="h-3.5 w-3.5" />
-                  ) : (
-                    <Server className="h-3.5 w-3.5" />
-                  )}
+            <SelectContent position="popper">
+              {(['FRONTEND', 'BACKEND'] as StrategyJobType[]).map((job) => (
+                <SelectItem key={job} value={job} className="cursor-pointer text-[13px]">
                   {JOB_LABEL_MAP[job]}
-                </Button>
-              );
-            })}
-          </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex flex-col gap-3">
