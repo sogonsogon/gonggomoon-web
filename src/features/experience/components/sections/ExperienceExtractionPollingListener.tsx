@@ -130,7 +130,7 @@ export default function ExperienceExtractionPollingListener() {
         toast.success('경험 추출이 완료되었어요.', {
           action: {
             label: '경험 확인하기',
-            onClick: () => router.push('/my/experience'),
+            onClick: () => router.push('/resource/experience'),
           },
         });
       }
