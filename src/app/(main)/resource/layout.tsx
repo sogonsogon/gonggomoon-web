@@ -1,0 +1,14 @@
+import ResourceTabs from '@/shared/components/layout/ResourceTabs';
+
+export default function ResourceLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <div className="flex flex-col flex-1 w-full gap-4 px-4 pt-6 pb-10 md:min-h-180 md:pt-10 md:pb-20 md:gap-8">
+      <ResourceTabs />
+      {children}
+    </div>
+  );
+}

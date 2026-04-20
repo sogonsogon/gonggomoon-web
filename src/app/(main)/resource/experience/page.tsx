@@ -8,8 +8,8 @@ export default async function ExperiencePage() {
       <div className="flex flex-1 flex-col gap-6">
         {/* 페이지 타이틀 */}
         <Title
-          title={'내 경험'}
-          description={'나의 경험을 기록하고 AI로 의미 있는 단위로 추출해보세요'}
+          title={'경험 관리'}
+          description={'프로젝트, 경력, 수상내역 등의 경험을 관리합니다.'}
         />
         <ExperienceSection />
       </div>
