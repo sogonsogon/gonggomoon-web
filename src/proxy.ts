@@ -1,5 +1,3 @@
-import { ReissueTokenResponse } from '@/features/auth/types';
-import { publicFetch } from '@/shared/api/httpClient';
 import { isProtectedRoute } from '@/shared/utils/isProtectedRoute';
 import { NextRequest, NextResponse } from 'next/server';
 
