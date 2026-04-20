@@ -11,7 +11,7 @@ export default function ExperienceExtractBanner() {
         <div className="flex flex-col gap-0.5">
           <span className="text-[15px] font-bold text-blue-900">AI 경험 추출</span>
           <span className="text-[13px] text-blue-800">
-            업로드된 파일에서 AI가 의미 있는 경험 단위를 자동으로 추출해드립니다
+            업로드한 포트폴리오, 이력서에서 경험을 자동으로 추출할 수 있어요
           </span>
         </div>
       </div>
