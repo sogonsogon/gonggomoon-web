@@ -69,7 +69,7 @@ export default function PortfolioSelectDialog({ isOpen, onClose }: PortfolioSele
               </div>
 
               <Button asChild>
-                <Link href="/my/file" onClick={onClose}>
+                <Link href="/resource/file" onClick={onClose}>
                   파일 등록하러 가기
                 </Link>
               </Button>
@@ -83,7 +83,7 @@ export default function PortfolioSelectDialog({ isOpen, onClose }: PortfolioSele
                 </div>
 
                 <Button asChild variant="outline" size="sm" className="h-7 px-2.5 text-[11px]">
-                  <Link href="/my/file" onClick={onClose}>
+                  <Link href="/resource/file" onClick={onClose}>
                     <ExternalLink className="h-3 w-3 text-gray-500" />내 파일 관리
                   </Link>
                 </Button>

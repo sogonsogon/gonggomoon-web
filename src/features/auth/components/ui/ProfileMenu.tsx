@@ -121,8 +121,6 @@ const MENU_SECTIONS: MenuItem[][] = [
   [
     { icon: User, label: '프로필', href: '/my/profile' },
     { icon: Bookmark, label: '북마크', href: '/my/bookmark' },
-    { icon: Folder, label: '내 파일', href: '/my/file' },
-    { icon: Briefcase, label: '내 경험', href: '/my/experience' },
   ],
   [
     { icon: Lightbulb, label: '포폴 전략', href: '/my/strategy' },

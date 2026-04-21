@@ -102,7 +102,7 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
         </div>
 
         {showSearchBar && (
-          <div className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
+          <div className="absolute left-[58%] top-1/2 hidden -translate-x-1/2 -translate-y-1/2 lg:block">
             <Suspense fallback={null}>
               <SearchBar className="max-w-none w-72 xl:w-96" />
             </Suspense>
@@ -162,12 +162,17 @@ const NAV_ITEMS = [
     match: (path: string) => path === '/' || path.startsWith('/recruitment'),
   },
   {
+    label: '자료 정리',
+    href: '/resource/file',
+    match: (path: string) => path.startsWith('/resource'),
+  },
+  {
     label: '포폴 전략',
     href: '/strategy/create',
     match: (path: string) => path.startsWith('/strategy'),
   },
   {
-    label: '모의 면접',
+    label: '면접 질문',
     href: '/interview/create',
     match: (path: string) => path.startsWith('/interview'),
   },

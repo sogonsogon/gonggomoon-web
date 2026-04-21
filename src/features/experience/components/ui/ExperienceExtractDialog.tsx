@@ -92,7 +92,7 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
                 </div>
               </div>
               <Link
-                href="/my/file"
+                href="/resource/file"
                 onClick={() => handleDialogOpenChange(false)}
                 className="text-[13px] font-semibold text-blue-600 hover:text-blue-800"
               >

@@ -8,10 +8,7 @@ export default async function FilePage() {
       {/* 메인 영역 */}
       <div className="flex flex-1 flex-col gap-6">
         {/* 페이지 타이틀 */}
-        <Title
-          title={'내 파일'}
-          description={'포트폴리오, 이력서 등 첨부파일을 관리할 수 있습니다'}
-        />
+        <Title title={'파일 관리'} description={'포트폴리오, 이력서 등의 파일을 관리합니다'} />
         <FileSection />
       </div>
 

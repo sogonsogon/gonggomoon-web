@@ -19,7 +19,7 @@ export default function ExperienceFileEmpty() {
         </p>
       </div>
       <Link
-        href="/my/file"
+        href="/resource/file"
         onClick={closeDialog}
         className="rounded-lg bg-gray-900 px-4 py-2.5 text-[14px] font-semibold text-white hover:bg-gray-700"
       >

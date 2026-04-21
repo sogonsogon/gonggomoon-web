@@ -15,9 +15,7 @@ export default function ExperienceEmpty({ onAddCard }: ExperienceEmptyProps) {
       </div>
       <div className="flex flex-col items-center gap-1.5 text-center">
         <p className="text-[15px] font-semibold text-gray-900">아직 등록된 경험이 없어요</p>
-        <p className="text-[13px] text-gray-500">
-          나의 경험을 기록하고 AI로 의미있게 정리해 보세요
-        </p>
+        <p className="text-[13px] text-gray-500">프로젝트, 경력, 공모전 등의 경험을 등록해보세요</p>
       </div>
       <Button
         type="button"

@@ -82,7 +82,7 @@ export default function StrategyExperienceSelectionSection() {
             )}
 
             <Link
-              href="/my/experience"
+              href="/resource/experience"
               className="inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-lg border border-gray-300 bg-white px-3 text-[12px] font-medium text-gray-600 hover:bg-gray-50"
             >
               <ExternalLink className="h-3 w-3 shrink-0 text-gray-500" />
@@ -105,7 +105,7 @@ export default function StrategyExperienceSelectionSection() {
             </div>
 
             <Link
-              href="/my/experience"
+              href="/resource/experience"
               className="rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700"
             >
               경험 등록하기
