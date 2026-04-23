@@ -1,5 +1,5 @@
 export const PROTECTED_ROUTES = {
-  PREFIXES: ['/my', 'resource', '/strategy', '/interview'],
+  PREFIXES: ['/my', '/resource', '/strategy', '/interview'],
   PATTERNS: [/^\/strategy\/result\/\d+$/, /^\/interview\/result\/\d+$/],
 } as const;
 
