@@ -2,7 +2,6 @@ import { TABS, TabValue } from '@/features/recruitment/constants/tabs';
 import Banner from '@/features/recruitment/components/ui/Banner';
 import CategoryTabs from '@/features/recruitment/components/ui/CategoryTabs';
 import RecruitmentListSection from '@/features/recruitment/components/sections/RecruitmentListSection';
-import RecruitmentRequestAction from '@/features/recruitment/components/ui/RecruitmentRequestAction';
 import BookmarkSidebar from '@/features/recruitment/components/ui/BookmarkSidebar';
 import MobileBookmarkSheet from '@/features/recruitment/components/ui/MobileBookmarkSheet';
 import MobileMainBottomNav from '@/features/recruitment/components/ui/MobileMainBottomNav';
@@ -45,7 +44,6 @@ export default async function MainPage({ searchParams }: MainPageProps) {
           </div>
         </div>
 
-        <RecruitmentRequestAction />
         <MobileBookmarkSheet />
         <MobileMainBottomNav />
       </div>
