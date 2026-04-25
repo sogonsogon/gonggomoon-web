@@ -25,7 +25,7 @@ export default function CategoryTabs({ activeTab, search }: CategoryTabsProps) {
   return (
     <div
       role="tablist"
-      className="flex min-w-0 w-full max-w-full border-b border-gray-200 max-md:overflow-x-auto max-md:overscroll-x-contain max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden"
+      className="flex w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain border-b border-gray-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {TABS.map((tab) => {
         const isActive = activeTab === tab.value;
