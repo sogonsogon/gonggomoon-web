@@ -4,7 +4,7 @@ import InterviewQuestionListSkeleton from '@/features/interview/components/secti
 import InterviewTipsPanel from '@/features/interview/components/sections/InterviewTipsPanel';
 import InterviewMetaBar from '@/features/interview/components/ui/InterviewMetaBar';
 import InterviewMetaBarSkeleton from '@/features/interview/components/ui/InterviewMetaBarSkeleton';
-
+import GenerationPendingNotice from '@/shared/components/ui/GenerationPendingNotice';
 import Title from '@/shared/components/ui/Title';
 
 interface InterviewResultPageProps {
@@ -25,6 +25,13 @@ export default async function InterviewResultPage({ params }: InterviewResultPag
           description="AI가 생성한 맞춤형 면접 질문입니다. 생성 시 자동으로 저장됩니다."
         />
 
+        {!interview && (
+          <GenerationPendingNotice
+            title="면접 질문을 생성하고 있어요"
+            description="AI가 공고와 입력 정보를 바탕으로 맞춤형 질문을 구성하는 중입니다. 결과가 준비되면 자동으로 저장되고 화면에 표시됩니다."
+          />
+        )}
+
         {interview ? <InterviewMetaBar interview={interview} /> : <InterviewMetaBarSkeleton />}
 
         <div className="flex flex-1 gap-6 max-lg:flex-col max-lg:gap-5">
@@ -33,6 +40,7 @@ export default async function InterviewResultPage({ params }: InterviewResultPag
           ) : (
             <InterviewQuestionListSkeleton />
           )}
+
           <InterviewTipsPanel />
         </div>
       </div>
