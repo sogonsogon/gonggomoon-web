@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
@@ -38,11 +38,15 @@ export default function MobileStrategyGenerateBar() {
     return selectedIndustry?.industryName ?? '';
   }, [formData.isIndustryOn, formData.selectedIndustryId, industryData]);
 
+  const [isNavigating, setIsNavigating] = useState(false);
+  const isFormLocked = submitLoading || isNavigating;
+
   const handleGenerateClick = async () => {
-    if (formData.selectedExperienceIds.length === 0 || isLimitReached || submitLoading) return;
+    if (formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked) return;
 
     try {
       const response = await startStrategyGeneration();
+      setIsNavigating(true);
       router.push(`/strategy/result/${response.strategyId}`);
     } catch (error) {
       console.error(error);
@@ -72,15 +76,18 @@ export default function MobileStrategyGenerateBar() {
           <Button
             type="button"
             onClick={handleGenerateClick}
-            disabled={
-              formData.selectedExperienceIds.length === 0 || isLimitReached || submitLoading
-            }
+            disabled={formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked}
             className="inline-flex h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[14px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
           >
-            {submitLoading ? (
+            {isNavigating ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                전략 생성 요청 중...
+                결과 페이지로 이동 중...
+              </>
+            ) : submitLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                생성 요청 중...
               </>
             ) : (
               <>

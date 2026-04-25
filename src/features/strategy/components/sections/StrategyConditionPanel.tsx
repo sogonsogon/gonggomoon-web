@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Info, Loader2, Sparkles, Timer } from 'lucide-react';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
@@ -56,7 +56,8 @@ export default function StrategyConditionPanel({
   const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
-  const isFormLocked = submitLoading;
+  const [isNavigating, setIsNavigating] = useState(false);
+  const isFormLocked = submitLoading || isNavigating;
 
   const processingCount = useMemo(() => {
     return requestOrder.filter((id) => requests[id]?.status === 'PROCESSING').length;
@@ -82,6 +83,7 @@ export default function StrategyConditionPanel({
 
     try {
       const response = await startStrategyGeneration();
+      setIsNavigating(true);
       router.push(`/strategy/result/${response.strategyId}`);
     } catch (error) {
       console.error(error);
@@ -229,10 +231,15 @@ export default function StrategyConditionPanel({
             disabled={formData.selectedExperienceIds.length === 0 || isLimitReached || isFormLocked}
             className="inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[10px] bg-blue-600 px-4 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 max-md:h-11"
           >
-            {submitLoading ? (
+            {isNavigating ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                전략 생성 요청 중...
+                결과 페이지로 이동 중...
+              </>
+            ) : submitLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                생성 요청 중...
               </>
             ) : (
               <>
