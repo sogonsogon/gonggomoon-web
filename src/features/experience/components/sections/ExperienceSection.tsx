@@ -92,6 +92,7 @@ export default function ExperienceSection() {
 
   return (
     <>
+      {/* TODO: 경험 추출 availability API 추가 후 사용 횟수 UI 연결 */}
       {/* 경험 추출 배너 */}
       <ExperienceExtractBanner />
 

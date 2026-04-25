@@ -10,6 +10,7 @@ import { useInterviewGenerationStore } from '@/features/interview/stores/useInte
 import { useStartInterviewGeneration } from '@/features/interview/hooks/useStartInterviewGeneration';
 import { useGetInterviewAvailability } from '@/features/interview/queries';
 import { TODAY_USAGE, DAILY_LIMIT } from '@/features/interview/constants/limit';
+import GenerationUsageCard from '@/shared/components/ui/GenerationUsageCard';
 
 export default function InterviewConditionalPanel() {
   const router = useRouter();
@@ -126,30 +127,12 @@ export default function InterviewConditionalPanel() {
           )}
         </div>
 
-        {/* <div className="flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[11px] font-medium text-blue-600">오늘 사용 횟수</span>
-            <div className="flex items-center gap-1">
-              <span className="text-[20px] font-bold text-blue-700">
-                {isAvailabilityLoading ? '-' : todayUsage}
-              </span>
-              <span className="text-[13px] font-medium text-blue-400">
-                / {isAvailabilityLoading ? '-' : `${dailyLimit}회`}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            {Array.from({ length: dailyLimit }).map((_, i) => (
-              <div
-                key={i}
-                className={`h-2.5 w-2.5 rounded-full ${
-                  i < todayUsage ? 'bg-blue-500' : 'bg-blue-200'
-                }`}
-              />
-            ))}
-          </div>
-        </div> */}
+        <GenerationUsageCard
+          label="오늘 사용 횟수"
+          usedCount={todayUsage}
+          limitCount={dailyLimit}
+          isLoading={isAvailabilityLoading}
+        />
 
         <button
           type="button"
