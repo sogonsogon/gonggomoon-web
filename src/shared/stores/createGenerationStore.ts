@@ -4,7 +4,7 @@ import type {
   GenerationRequestState,
   GenerationRequestType,
   GenerationStatus,
-} from '@/shared/types';
+} from '@/shared/types/generation';
 import type { StateCreator } from 'zustand';
 
 export type GenerationStore = {

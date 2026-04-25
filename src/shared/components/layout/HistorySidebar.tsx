@@ -16,7 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/shared/components/ui/sidebar';
-import { HistorySidebarItem } from '@/shared/types';
+import { HistorySidebarItem } from '@/shared/types/historySidebar';
 
 interface HistorySidebarProps {
   title: string;
