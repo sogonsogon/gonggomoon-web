@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BriefcaseBusiness, Lightbulb, MessageSquareText } from 'lucide-react';
+import { BriefcaseBusiness, Lightbulb, MessageSquareText, NotebookTextIcon } from 'lucide-react';
 
 const NAV_ITEMS = [
   {
@@ -12,6 +12,12 @@ const NAV_ITEMS = [
     match: (path: string) => path === '/' || path.startsWith('/recruitment'),
   },
   {
+    href: '/resource/file',
+    label: '자료 정리',
+    icon: NotebookTextIcon,
+    match: (path: string) => path.startsWith('/resource'),
+  },
+  {
     href: '/strategy/create',
     label: '포폴 전략',
     icon: Lightbulb,
@@ -19,7 +25,7 @@ const NAV_ITEMS = [
   },
   {
     href: '/interview/create',
-    label: '모의 면접',
+    label: '면접 질문',
     icon: MessageSquareText,
     match: (path: string) => path.startsWith('/interview'),
   },
@@ -42,7 +48,9 @@ export default function MobileMainBottomNav() {
               className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1"
             >
               <Icon className={`h-4 w-4 ${isActive ? 'text-gray-900' : 'text-gray-400'}`} />
-              <span className={`text-[11px] ${isActive ? 'font-semibold text-gray-900' : 'text-gray-500'}`}>
+              <span
+                className={`text-[11px] ${isActive ? 'font-semibold text-gray-900' : 'text-gray-500'}`}
+              >
                 {item.label}
               </span>
             </Link>

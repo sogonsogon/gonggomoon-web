@@ -4,11 +4,10 @@ import FileSection from '@/features/file/components/sections/FileSection';
 
 export default async function FilePage() {
   return (
-    <div className="flex flex-col w-full bg-white">
+    <div className="flex flex-col w-full">
       {/* 메인 영역 */}
       <div className="flex flex-1 flex-col gap-6">
         {/* 페이지 타이틀 */}
-        <Title title={'파일 관리'} description={'포트폴리오, 이력서 등의 파일을 관리합니다'} />
         <FileSection />
       </div>
 
