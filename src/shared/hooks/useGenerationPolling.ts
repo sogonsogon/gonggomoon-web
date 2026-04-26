@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { getGenerationStatus } from '@/shared/actions';
-import { GenerationRequestType, GetGenerationStatusResponse } from '@/shared/types';
+import { GenerationRequestType, GetGenerationStatusResponse } from '@/shared/types/generation';
 
 type UseGenerationPollingParams = {
   requestIds: number[];

@@ -1,5 +1,5 @@
 import { JobType } from '@/features/recruitment/types';
-import { GenerationStatus } from '@/shared/types';
+import { GenerationStatus } from '@/shared/types/generation';
 import { ExperienceType } from '@/features/experience/types';
 
 export type StrategyJobType = Extract<JobType, 'FRONTEND' | 'BACKEND'>;
