@@ -81,6 +81,7 @@ export function useCreateExperience() {
         experienceContent: variables.experienceContent ?? '',
       };
       queryClient.setQueryData(experienceKeys.detail(data.experienceId), created);
+      queryClient.invalidateQueries({ queryKey: experienceKeys.all });
     },
     onError: (error) => {
       console.error('경험 등록 실패: ', error);
