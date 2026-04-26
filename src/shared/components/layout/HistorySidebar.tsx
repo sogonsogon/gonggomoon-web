@@ -79,9 +79,9 @@ export default function HistorySidebar({
                 )}
               </div>
 
-              <div className="flex min-w-0 flex-col group-data-[collapsible=icon]:hidden">
+              <div className="flex min-w-0 overflow-hidden whitespace-nowrap flex-col group-data-[collapsible=icon]:hidden">
                 <span
-                  className={`truncate text-[12px] font-semibold leading-4 ${
+                  className={`truncate whitespace-nowrap text-[12px] font-semibold leading-4 ${
                     isActive ? 'text-[#1b64da]' : 'text-gray-700'
                   }`}
                 >
@@ -109,7 +109,7 @@ export default function HistorySidebar({
     >
       <SidebarHeader className="gap-4 px-4 pt-5 pb-4 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:px-2">
         <div className="flex items-center justify-between group-data-[collapsible=icon]:justify-center">
-          <span className="text-[13px] font-semibold text-gray-700 group-data-[collapsible=icon]:hidden">
+          <span className="overflow-hidden whitespace-nowrap text-[13px] font-semibold text-gray-700 group-data-[collapsible=icon]:hidden">
             {title}
           </span>
 
@@ -123,7 +123,9 @@ export default function HistorySidebar({
           className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-blue-700 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-0"
         >
           <Plus className="h-3.5 w-3.5 shrink-0" />
-          <span className="group-data-[collapsible=icon]:hidden">{createLabel}</span>
+          <span className="overflow-hidden whitespace-nowrap group-data-[collapsible=icon]:hidden">
+            {createLabel}
+          </span>
         </Link>
       </SidebarHeader>
 
@@ -163,7 +165,9 @@ export default function HistorySidebar({
           className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 transition-colors hover:text-gray-700 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0"
         >
           <Settings2 className="h-3.5 w-3.5 shrink-0 text-gray-400" />
-          <span className="group-data-[collapsible=icon]:hidden">{manageLabel}</span>
+          <span className="overflow-hidden whitespace-nowrap group-data-[collapsible=icon]:hidden">
+            {manageLabel}
+          </span>
         </Link>
       </SidebarFooter>
     </Sidebar>
