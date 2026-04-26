@@ -14,6 +14,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar,
 } from '@/shared/components/ui/sidebar';
 import { HistorySidebarItem } from '@/shared/types';
@@ -57,7 +58,8 @@ export default function HistorySidebar({
             <Link
               href={item.href}
               onClick={closeMobileSidebar}
-              className={`flex gap-2.5 rounded-lg border px-3 py-2.5 ${
+              title={item.title}
+              className={`flex gap-2.5 rounded-lg border px-3 py-2.5 transition-colors group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-0 ${
                 isActive ? 'border-[#90c2ff] bg-[#e8f3ff]' : 'border-transparent hover:bg-gray-100'
               }`}
             >
@@ -77,9 +79,9 @@ export default function HistorySidebar({
                 )}
               </div>
 
-              <div className="flex min-w-0 flex-col">
+              <div className="flex min-w-0 overflow-hidden whitespace-nowrap flex-col group-data-[collapsible=icon]:hidden">
                 <span
-                  className={`truncate text-[12px] font-semibold leading-4 ${
+                  className={`truncate whitespace-nowrap text-[12px] font-semibold leading-4 ${
                     isActive ? 'text-[#1b64da]' : 'text-gray-700'
                   }`}
                 >
@@ -102,32 +104,40 @@ export default function HistorySidebar({
 
   return (
     <Sidebar
-      collapsible="offcanvas"
-      className="top-20 h-[calc(100svh-5rem)] border-r border-gray-100 bg-gray-50 [--sidebar-width:16rem]"
+      collapsible="icon"
+      className="top-20 h-[calc(100svh-5rem)] border-r border-gray-100 bg-gray-50 [--sidebar-width:16rem] [--sidebar-width-icon:4rem]"
     >
-      <SidebarHeader className="gap-4 px-4 pb-4 pt-5">
-        <div className="flex items-center justify-between">
-          <span className="text-[13px] font-semibold text-gray-700">{title}</span>
+      <SidebarHeader className="gap-4 px-4 pt-5 pb-4 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:px-2">
+        <div className="flex items-center justify-between group-data-[collapsible=icon]:justify-center">
+          <span className="overflow-hidden whitespace-nowrap text-[13px] font-semibold text-gray-700 group-data-[collapsible=icon]:hidden">
+            {title}
+          </span>
+
+          <SidebarTrigger className="h-8 w-8 text-gray-500 hover:bg-gray-100 hover:text-gray-700" />
         </div>
 
         <Link
           href={createHref}
-          className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-2.5 text-[13px] font-semibold text-white hover:bg-blue-700"
+          onClick={closeMobileSidebar}
+          title={createLabel}
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-blue-700 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-0"
         >
-          <Plus className="h-3.5 w-3.5" />
-          {createLabel}
+          <Plus className="h-3.5 w-3.5 shrink-0" />
+          <span className="overflow-hidden whitespace-nowrap group-data-[collapsible=icon]:hidden">
+            {createLabel}
+          </span>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent className="px-2">
+      <SidebarContent className="px-2 group-data-[collapsible=icon]:items-center">
         {processingItems.length > 0 && processingLabel && (
           <SidebarGroup className="gap-2 p-0">
-            <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400">
+            <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400 group-data-[collapsible=icon]:hidden">
               {processingLabel}
             </SidebarGroupLabel>
 
             <SidebarGroupContent>
-              <SidebarMenu className="gap-0.5">
+              <SidebarMenu className="gap-0.5 group-data-[collapsible=icon]:items-center">
                 {renderMenuItems(processingItems, true)}
               </SidebarMenu>
             </SidebarGroupContent>
@@ -135,23 +145,29 @@ export default function HistorySidebar({
         )}
 
         <SidebarGroup className="gap-2 p-0">
-          <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400">
+          <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400 group-data-[collapsible=icon]:hidden">
             히스토리
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu className="gap-0.5">{renderMenuItems(items)}</SidebarMenu>
+            <SidebarMenu className="gap-0.5 group-data-[collapsible=icon]:items-center">
+              {renderMenuItems(items)}
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-gray-100 px-4 py-3.5">
+      <SidebarFooter className="border-t border-gray-100 px-4 py-3.5 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:px-2">
         <Link
           href={manageHref}
-          className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 hover:text-gray-700"
+          onClick={closeMobileSidebar}
+          title={manageLabel}
+          className="flex items-center gap-1.5 text-[12px] font-medium text-gray-500 transition-colors hover:text-gray-700 group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0"
         >
-          <Settings2 className="h-3.5 w-3.5 text-gray-400" />
-          {manageLabel}
+          <Settings2 className="h-3.5 w-3.5 shrink-0 text-gray-400" />
+          <span className="overflow-hidden whitespace-nowrap group-data-[collapsible=icon]:hidden">
+            {manageLabel}
+          </span>
         </Link>
       </SidebarFooter>
     </Sidebar>
