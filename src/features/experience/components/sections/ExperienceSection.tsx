@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ExperienceAddButton from '@/features/experience/components/ui/ExperienceAddButton';
 import ExperienceCard from '@/features/experience/components/ui/ExperienceCard';
 import ExperienceEmpty from '@/features/experience/components/ui/ExperienceEmpty';
@@ -18,9 +18,11 @@ export default function ExperienceSection() {
   const { data: filesData } = useFiles();
   const { data: experienceData } = useGetExperienceList();
   const files = filesData?.contents ?? [];
-  const experienceList = experienceData?.contents ?? [];
+  const experienceList = useMemo(() => {
+    return experienceData?.contents ?? [];
+  }, [experienceData?.contents]);
 
-  const [clientExperienceList, setClientExperienceList] = useState<Experience[]>(experienceList);
+  const [clientExperienceList, setClientExperienceList] = useState<Experience[]>([]);
 
   const { experience, closeDialog } = useExperienceDetailDialog();
 
@@ -30,6 +32,13 @@ export default function ExperienceSection() {
   const removeCompletedExtractionIds = useExperienceExtractionStore(
     (state) => state.removeCompletedExtractionIds,
   );
+
+  useEffect(() => {
+    setClientExperienceList((prev) => {
+      const tempItems = prev.filter((item) => item.experienceId < 0);
+      return [...tempItems, ...experienceList];
+    });
+  }, [experienceList]);
 
   useEffect(() => {
     if (completedExtractionIds.length === 0) return;
