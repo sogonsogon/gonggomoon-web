@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Briefcase, ExternalLink } from 'lucide-react';
-import type { Experience } from '@/features/experience/types';
 import StrategyExperienceListItem from '@/features/strategy/components/ui/StrategyExperienceListItem';
 import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
@@ -12,7 +11,6 @@ import { useGetExperienceList } from '@/features/experience/queries';
 
 export default function StrategyExperienceSelectionSection() {
   const { data: experienceData } = useGetExperienceList();
-  const [detailExp, setDetailExp] = useState<Experience | null>(null);
 
   const experienceList = useMemo(() => experienceData?.contents ?? [], [experienceData?.contents]);
 
@@ -119,7 +117,6 @@ export default function StrategyExperienceSelectionSection() {
                 experience={experience}
                 checked={formData.selectedExperienceIds.includes(experience.experienceId)}
                 onToggle={handleToggleExp}
-                onDetailClick={setDetailExp}
                 disabled={isFormLocked}
               />
             ))}
@@ -127,7 +124,7 @@ export default function StrategyExperienceSelectionSection() {
         )}
       </div>
 
-      <ExperienceDetailDialog experience={detailExp} onClose={() => setDetailExp(null)} />
+      <ExperienceDetailDialog />
     </>
   );
 }

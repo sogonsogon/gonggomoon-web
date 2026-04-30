@@ -6,13 +6,12 @@ import {
   EXP_BADGE_CHECKED,
   EXP_BADGE_UNCHECKED,
 } from '@/features/experience/constants/experienceBadgeStyles';
-import { useGetExperience } from '@/features/experience/queries';
+import { useExperienceDetailDialog } from '@/features/experience/stores/useExperienceDetailDialog';
 
 interface StrategyExperienceListItemProps {
   experience: Experience;
   checked: boolean;
   onToggle: (id: number) => void;
-  onDetailClick: (experience: Experience) => void;
   disabled?: boolean;
 }
 
@@ -20,10 +19,9 @@ export default function StrategyExperienceListItem({
   experience,
   checked,
   onToggle,
-  onDetailClick,
   disabled = false,
 }: StrategyExperienceListItemProps) {
-  const { data: experienceDetail, isLoading } = useGetExperience(experience.experienceId);
+  const { openDialog } = useExperienceDetailDialog();
 
   function handleToggle() {
     if (disabled) return;
@@ -89,11 +87,10 @@ export default function StrategyExperienceListItem({
 
       <button
         type="button"
-        disabled={disabled || isLoading}
         onClick={(e) => {
           e.stopPropagation();
           if (disabled) return;
-          onDetailClick(experienceDetail!);
+          openDialog(experience);
         }}
         className={`inline-flex h-8 shrink-0 items-center gap-1 rounded-md border px-2.5 text-[11px] leading-none font-medium ${
           checked ? 'border-[#90c2ff] text-[#2272eb]' : 'border-gray-200 text-gray-500'

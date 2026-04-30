@@ -1,21 +1,23 @@
+'use client';
+
 import { Calendar, X } from 'lucide-react';
-import type { Experience } from '@/features/experience/types';
 import { EXPERIENCE_LABEL_MAP } from '@/features/experience/constants/experienceOptions';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import { EXP_BADGE_CHECKED } from '@/features/experience/constants/experienceBadgeStyles';
 import { toDisplayDate } from '@/features/experience/utils/toDisplayDate';
+import { useGetExperience } from '@/features/experience/queries';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { useExperienceDetailDialog } from '@/features/experience/stores/useExperienceDetailDialog';
 
-interface ExperienceDetailDialogProps {
-  experience: Experience | null;
-  onClose: () => void;
-}
+export default function ExperienceDetailDialog() {
+  const { experience, closeDialog } = useExperienceDetailDialog();
 
-export default function ExperienceDetailDialog({
-  experience,
-  onClose,
-}: ExperienceDetailDialogProps) {
+  const { data: detailedExperience, isLoading } = useGetExperience(experience?.experienceId ?? 0, {
+    enabled: !!experience && experience.experienceId > 0,
+  });
+
   return (
-    <Dialog open={!!experience} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={!!experience} onOpenChange={(open) => !open && closeDialog()}>
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
@@ -49,7 +51,7 @@ export default function ExperienceDetailDialog({
 
                 <button
                   type="button"
-                  onClick={onClose}
+                  onClick={closeDialog}
                   className="rounded-md p-1.5 text-gray-400 transition hover:bg-gray-50 hover:text-gray-600"
                   aria-label="닫기"
                 >
@@ -60,9 +62,18 @@ export default function ExperienceDetailDialog({
 
             <div className="min-h-0 flex-1 scrollbar-hide overflow-y-auto px-6 py-4 max-md:px-4 max-md:py-3.5">
               <div className="rounded-lg border border-gray-100 bg-gray-50 px-3.5 py-3">
-                <p className="whitespace-pre-wrap break-words text-[14px] leading-[1.65] text-gray-700">
-                  {experience.experienceContent ?? '경험 내용이 없습니다.'}
-                </p>
+                {isLoading ? (
+                  <div className="flex flex-col gap-2">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-[90%]" />
+                    <Skeleton className="h-4 w-[95%]" />
+                  </div>
+                ) : (
+                  <p className="whitespace-pre-wrap break-words text-[14px] leading-[1.65] text-gray-700">
+                    {(detailedExperience?.experienceContent || experience.experienceContent) ??
+                      '경험 내용이 없습니다.'}
+                  </p>
+                )}
               </div>
             </div>
           </>
