@@ -8,9 +8,10 @@ import ExperienceDetailDialog from '@/features/strategy/components/ui/Experience
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { useGetExperienceList } from '@/features/experience/queries';
+import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
 
 export default function StrategyExperienceSelectionSection() {
-  const { data: experienceData } = useGetExperienceList();
+  const { data: experienceData, isLoading } = useGetExperienceList();
 
   const experienceList = useMemo(() => experienceData?.contents ?? [], [experienceData?.contents]);
 
@@ -63,7 +64,7 @@ export default function StrategyExperienceSelectionSection() {
           <div className="flex flex-col gap-0.5">
             <span className="text-base font-bold text-gray-900">내 경험 선택</span>
             <span className="text-[12px] text-gray-400">
-              포트폴리오에 포함할 경험을 선택하세요 (기본: 전체 선택)
+              포트폴리오 전략에 포함할 경험을 선택하세요
             </span>
           </div>
 
@@ -89,7 +90,13 @@ export default function StrategyExperienceSelectionSection() {
           </div>
         </div>
 
-        {experienceList.length === 0 ? (
+        {isLoading ? (
+          <>
+            {Array.from({ length: 5 }, (_, idx) => (
+              <ExperienceListItemSkeleton key={idx} />
+            ))}
+          </>
+        ) : experienceList.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 py-20">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
               <Briefcase className="h-6 w-6 text-gray-400" />

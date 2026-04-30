@@ -1,6 +1,6 @@
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
-export default function ExperienceItemSkeleton() {
+export default function ExperienceListItemSkeleton() {
   return (
     <div className="flex items-center justify-between gap-3 px-5 py-3.5 h-16 border border-gray-200 rounded-xl">
       <div className="flex flex-1 items-center gap-2.5">
