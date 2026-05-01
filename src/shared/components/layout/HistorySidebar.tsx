@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from '@/shared/components/ui/sidebar';
 import { HistorySidebarItem } from '@/shared/types';
+import SidebarItemSkeleton from '@/shared/components/ui/SidebarItemSkeleton';
 
 interface HistorySidebarProps {
   title: string;
@@ -28,6 +29,7 @@ interface HistorySidebarProps {
   items: HistorySidebarItem[];
   processingLabel?: string;
   processingItems?: HistorySidebarItem[];
+  isLoading: boolean;
 }
 
 export default function HistorySidebar({
@@ -39,6 +41,7 @@ export default function HistorySidebar({
   items,
   processingLabel,
   processingItems = [],
+  isLoading,
 }: HistorySidebarProps) {
   const pathname = usePathname();
   const { isMobile, setOpenMobile } = useSidebar();
@@ -151,7 +154,19 @@ export default function HistorySidebar({
 
           <SidebarGroupContent>
             <SidebarMenu className="gap-0.5 group-data-[collapsible=icon]:items-center">
-              {renderMenuItems(items)}
+              {isLoading ? (
+                <>
+                  {Array.from({ length: 3 }, (_, idx) => (
+                    <SidebarItemSkeleton key={idx} />
+                  ))}
+                </>
+              ) : items.length === 0 ? (
+                <span className="px-3 py-1 items-center text-center text-xs text-gray-500">
+                  아직 생성된 {title}이 없어요
+                </span>
+              ) : (
+                renderMenuItems(items, false)
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
