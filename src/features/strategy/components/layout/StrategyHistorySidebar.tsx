@@ -8,7 +8,7 @@ import { createStrategyHistoryItems } from '@/features/strategy/utils/createStra
 import { useGetStrategyList } from '@/features/strategy/queries';
 
 export default function StrategyHistorySidebar() {
-  const { data: strategyData } = useGetStrategyList();
+  const { data: strategyData, isLoading } = useGetStrategyList();
 
   const requests = useStrategyGenerationStore((state) => state.requests);
   const requestOrder = useStrategyGenerationStore((state) => state.requestOrder);
@@ -50,6 +50,7 @@ export default function StrategyHistorySidebar() {
       items={items}
       processingLabel="생성 중"
       processingItems={processingItems}
+      isLoading={isLoading}
     />
   );
 }

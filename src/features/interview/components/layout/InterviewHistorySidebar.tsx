@@ -8,7 +8,7 @@ import { useGetInterviewList } from '@/features/interview/queries';
 import { createInterviewHistoryItems } from '@/features/interview/utils/createInterviewHistoryItems';
 
 export default function InterviewHistorySidebar() {
-  const { data: interviewData } = useGetInterviewList();
+  const { data: interviewData, isLoading } = useGetInterviewList();
 
   const requests = useInterviewGenerationStore((state) => state.requests);
   const requestOrder = useInterviewGenerationStore((state) => state.requestOrder);
@@ -52,6 +52,7 @@ export default function InterviewHistorySidebar() {
       items={items}
       processingLabel="생성 중"
       processingItems={processingItems}
+      isLoading={isLoading}
     />
   );
 }
