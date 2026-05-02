@@ -28,19 +28,27 @@ export function useStartStrategyGeneration() {
 
     startSubmit();
 
+    let response: CreateStrategyResponse;
+
     try {
-      const response = await createStrategy(payload);
-
-      addProcessingRequest(response.strategyId);
-
-      return response;
+      response = await createStrategy(payload);
     } catch (err) {
       const message = err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
-
       markSubmitFailed(message);
       toast.error(message);
       throw err;
     }
+
+    if (!response?.strategyId) {
+      console.error('[Strategy] strategyId missing from API response:', response);
+      const message = '포트폴리오 전략 생성 결과를 확인할 수 없습니다. 잠시 후 다시 시도해 주세요.';
+      markSubmitFailed(message);
+      toast.error(message);
+      throw new Error(message);
+    }
+
+    addProcessingRequest(response.strategyId);
+    return response;
   };
 
   return { startStrategyGeneration };

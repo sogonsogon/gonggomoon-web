@@ -32,7 +32,8 @@ export default function InterviewConditionalPanel() {
   const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
-  const isFormLocked = submitLoading;
+  const [isNavigating, setIsNavigating] = useState(false);
+  const isFormLocked = submitLoading || isNavigating;
 
   const processingCount = useMemo(() => {
     return requestOrder.filter((id) => requests[id]?.status === 'PROCESSING').length;
@@ -56,6 +57,7 @@ export default function InterviewConditionalPanel() {
       const { resetForm } = useInterviewCreateFormStore.getState();
       resetForm();
 
+      setIsNavigating(true);
       router.push(`/interview/result/${response.interviewStrategyId}`);
     } catch (error) {
       console.error(error);
@@ -140,7 +142,12 @@ export default function InterviewConditionalPanel() {
           disabled={!selectedPortfolio || isLimitReached || isFormLocked || isAvailabilityLoading}
           className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-blue-600 py-3.5 text-[15px] font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {submitLoading ? (
+          {isNavigating ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              결과 페이지로 이동 중...
+            </>
+          ) : submitLoading ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
               생성 요청 중...
