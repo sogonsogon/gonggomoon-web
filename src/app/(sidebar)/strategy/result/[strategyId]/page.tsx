@@ -1,9 +1,10 @@
+import { getStrategyDetail } from '@/features/strategy/actions';
 import StrategyAnalysisPanel from '@/features/strategy/components/sections/StrategyAnalysisPanel';
+import StrategyPanelsSkeleton from '@/features/strategy/components/sections/StrategyPanelsSkeleton';
 import StrategyStructuredDataPanel from '@/features/strategy/components/sections/StrategyStructuredDataPanel';
 import StrategyMetaBar from '@/features/strategy/components/ui/StrategyMetaBar';
 import StrategyMetaBarSkeleton from '@/features/strategy/components/ui/StrategyMetaBarSkeleton';
-import StrategyPanelsSkeleton from '@/features/strategy/components/sections/StrategyPanelsSkeleton';
-import { getStrategyDetail } from '@/features/strategy/actions';
+import GenerationPendingNotice from '@/shared/components/ui/GenerationPendingNotice';
 import Title from '@/shared/components/ui/Title';
 
 interface StrategyResultPageProps {
@@ -23,6 +24,13 @@ export default async function StrategyResultPage({ params }: StrategyResultPageP
           title="포폴 전략 결과"
           description="AI가 생성한 산업 맞춤형 포트폴리오 전략입니다. 생성 시 자동으로 저장됩니다."
         />
+
+        {!strategy && (
+          <GenerationPendingNotice
+            title="포트폴리오 전략을 생성하고 있어요"
+            description="AI가 입력 정보를 바탕으로 전략을 정리하는 중입니다. 결과가 준비되면 자동으로 저장되고 화면에 표시됩니다."
+          />
+        )}
 
         {strategy ? <StrategyMetaBar strategy={strategy} /> : <StrategyMetaBarSkeleton />}
 
