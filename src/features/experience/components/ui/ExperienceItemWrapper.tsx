@@ -1,38 +1,34 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
-import { useDeleteExperience, useGetExperience } from '@/features/experience/queries';
-import { Experience } from '@/features/experience/types';
-import ExperienceCardSkeleton from '@/features/experience/components/ui/ExperienceCardSkeleton';
-import ExperienceCardForm from '@/features/experience/components/ui/ExperienceCardForm';
-import ExperienceDeleteDialog from '@/features/experience/components/ui/ExperienceDeleteDialog';
+import { useRef, useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { Experience } from '@/features/experience/types';
+import { useDeleteExperience } from '@/features/experience/queries';
+import ExperienceDeleteDialog from '@/features/experience/components/ui/ExperienceDeleteDialog';
+import ExperienceEditWrapper from '@/features/experience/components/ui/ExperienceEditWrapper';
+import ExperienceListItem from '@/features/experience/components/ui/ExperienceListItem';
 
-interface ExperienceCardProps {
+interface ExperienceItemWrapperProps {
   experienceId: number;
+  defaultExperience: Experience;
   defaultEditMode?: boolean;
-  prefillData?: Experience;
   isAiGenerated?: boolean;
   onUpdateSuccess: (targetId: number, updatedData: Experience) => void;
   onDeleteSuccess: (targetId: number) => void;
 }
-export default function ExperienceCard({
+
+export default function ExperienceItemWrapper({
   experienceId,
+  defaultExperience,
   defaultEditMode = false,
-  prefillData,
   isAiGenerated = false,
   onUpdateSuccess,
   onDeleteSuccess,
-}: ExperienceCardProps) {
+}: ExperienceItemWrapperProps) {
   const isNew = useRef(defaultEditMode).current;
-  // 카드 생성 애니메이션
+  const [isEditing, setIsEditing] = useState(isNew);
   const [isShow, setIsShow] = useState(!isNew);
-  // 카드 삭제 애니메이션
   const [isExiting, setIsExiting] = useState(false);
-  // 삭제 다이얼로그
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const { data: experience, isLoading } = useGetExperience(experienceId);
   const { mutate: deleteExperience } = useDeleteExperience();
 
   useEffect(() => {
@@ -45,7 +41,6 @@ export default function ExperienceCard({
     if (experienceId < 0) {
       setIsExiting(true);
       onDeleteSuccess(experienceId);
-      return;
     } else {
       deleteExperience(experienceId, {
         onSuccess: () => {
@@ -53,15 +48,11 @@ export default function ExperienceCard({
           setIsExiting(true);
           onDeleteSuccess(experienceId);
         },
-        onError: (error) => {
-          toast.error(error.message || '경험 삭제에 실패했습니다.');
-        },
       });
     }
   };
 
   return (
-    // 애니메이션 처리
     <div
       className={`overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 ${
         isExiting
@@ -71,28 +62,25 @@ export default function ExperienceCard({
             : 'ease-out'
       }`}
     >
-      {!isNew && isLoading ? (
-        <ExperienceCardSkeleton />
-      ) : (
-        <ExperienceCardForm
-          experience={
-            prefillData ??
-            experience ?? {
-              experienceId,
-              title: '',
-              experienceType: 'PROJECT',
-              startDate: '',
-              endDate: '',
-              experienceContent: '',
-            }
-          }
+      {isEditing ? (
+        <ExperienceEditWrapper
+          experienceId={experienceId}
           isNew={isNew}
           isAiGenerated={isAiGenerated}
+          defaultExperience={defaultExperience}
           onUpdateSuccess={onUpdateSuccess}
           onDeleteSuccess={onDeleteSuccess}
           onDeleteDialogOpen={setIsDeleteDialogOpen}
+          onCancel={() => setIsEditing(false)}
+        />
+      ) : (
+        <ExperienceListItem
+          experience={defaultExperience}
+          onEdit={() => setIsEditing(true)}
+          onDeleteOpen={setIsDeleteDialogOpen}
         />
       )}
+
       <ExperienceDeleteDialog
         isOpen={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}

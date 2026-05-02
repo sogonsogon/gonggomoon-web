@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import ExperienceAddButton from '@/features/experience/components/ui/ExperienceAddButton';
-import ExperienceCard from '@/features/experience/components/ui/ExperienceCard';
 import ExperienceEmpty from '@/features/experience/components/ui/ExperienceEmpty';
 import ExperienceExtractBanner from '@/features/experience/components/ui/ExperienceExtractBanner';
 import { Experience } from '@/features/experience/types';
@@ -12,19 +11,21 @@ import { useFiles } from '@/features/file/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
 import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
-import { useExperienceDetailDialog } from '@/features/experience/stores/useExperienceDetailDialog';
+import ExperienceItemWrapper from '@/features/experience/components/ui/ExperienceItemWrapper';
+import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
 
 export default function ExperienceSection() {
   const { data: filesData } = useFiles();
-  const { data: experienceData } = useGetExperienceList();
+
+  const { data: experienceData, isLoading } = useGetExperienceList();
+
   const files = filesData?.contents ?? [];
+
   const experienceList = useMemo(() => {
     return experienceData?.contents ?? [];
   }, [experienceData?.contents]);
 
   const [clientExperienceList, setClientExperienceList] = useState<Experience[]>([]);
-
-  const { experience, closeDialog } = useExperienceDetailDialog();
 
   const completedExtractionIds = useExperienceExtractionStore(
     (state) => state.completedExtractionIds,
@@ -113,20 +114,19 @@ export default function ExperienceSection() {
       </div>
 
       <div className="flex flex-col gap-4">
-        {clientExperienceList.length === 0 ? (
+        {isLoading ? (
+          Array.from({ length: 5 }).map((_, i) => <ExperienceListItemSkeleton key={i} />)
+        ) : clientExperienceList.length === 0 ? (
           <ExperienceEmpty onAddCard={handleAddCard} />
         ) : (
           <>
-            {/* 경험 추가 버튼 */}
             <ExperienceAddButton onAddCard={handleAddCard} />
-
-            {/* 경험 리스트 */}
             {clientExperienceList.map((exp) => (
-              <ExperienceCard
+              <ExperienceItemWrapper
                 key={exp.experienceId}
                 experienceId={exp.experienceId}
+                defaultExperience={exp}
                 defaultEditMode={exp.experienceId < 0}
-                prefillData={exp.experienceId < 0 ? exp : undefined}
                 isAiGenerated={exp.isAiGenerated ?? false}
                 onUpdateSuccess={handleUpdateExperience}
                 onDeleteSuccess={handleDeleteExperience}
@@ -136,7 +136,7 @@ export default function ExperienceSection() {
         )}
       </div>
       <ExperienceExtractDialog files={files} />
-      <ExperienceDetailDialog experience={experience} onClose={closeDialog} />
+      <ExperienceDetailDialog />
     </>
   );
 }

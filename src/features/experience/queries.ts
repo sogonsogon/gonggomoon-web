@@ -50,10 +50,10 @@ export function useGetExperienceList() {
 }
 
 // 경험 단건 조회
-export function useGetExperience(experienceId: number) {
+export function useGetExperience(experienceId: number, options?: { enabled?: boolean }) {
   return useQuery({
     ...experienceQueryOptions(experienceId),
-    enabled: experienceId > 0,
+    enabled: options?.enabled,
   });
 }
 
