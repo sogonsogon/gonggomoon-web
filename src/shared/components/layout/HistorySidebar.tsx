@@ -44,7 +44,7 @@ export default function HistorySidebar({
   isLoading,
 }: HistorySidebarProps) {
   const pathname = usePathname();
-  const { isMobile, setOpenMobile } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
 
   const closeMobileSidebar = () => {
     if (!isMobile) return;
@@ -148,7 +148,7 @@ export default function HistorySidebar({
         )}
 
         <SidebarGroup className="gap-2 p-0">
-          <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400 group-data-[collapsible=icon]:hidden">
+          <SidebarGroupLabel className="px-3 py-1 text-[11px] font-semibold text-gray-400 overflow-hidden whitespace-nowrap group-data-[collapsible=icon]:hidden">
             히스토리
           </SidebarGroupLabel>
 
@@ -160,8 +160,8 @@ export default function HistorySidebar({
                     <SidebarItemSkeleton key={idx} />
                   ))}
                 </>
-              ) : items.length === 0 ? (
-                <span className="px-3 py-1 items-center text-center text-xs text-gray-500">
+              ) : items.length === 0 && state === 'expanded' ? (
+                <span className="px-3 py-1 items-center text-center text-xs text-gray-500 overflow-hidden whitespace-nowrap">
                   아직 생성된 {title}이 없어요
                 </span>
               ) : (
