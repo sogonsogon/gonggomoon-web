@@ -1,5 +1,6 @@
 'use client';
 
+import InterviewDeleteDialog from '@/features/interview/components/ui/InterviewDeleteDialog';
 import MyInterviewCard from '@/features/interview/components/ui/MyInterviewCard';
 import MyInterviewEmpty from '@/features/interview/components/ui/MyInterviewEmpty';
 import MyInterviewError from '@/features/interview/components/ui/MyInterviewError';
@@ -48,6 +49,7 @@ export default function MyInterviewSection() {
           </Link>
         </div>
       )}
+      <InterviewDeleteDialog />
     </>
   );
 }
