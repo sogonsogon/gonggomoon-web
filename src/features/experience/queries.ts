@@ -50,10 +50,10 @@ export function useGetExperienceList() {
 }
 
 // 경험 단건 조회
-export function useGetExperience(experienceId: number) {
+export function useGetExperience(experienceId: number, options?: { enabled?: boolean }) {
   return useQuery({
     ...experienceQueryOptions(experienceId),
-    enabled: experienceId > 0,
+    enabled: options?.enabled,
   });
 }
 
@@ -81,6 +81,7 @@ export function useCreateExperience() {
         experienceContent: variables.experienceContent ?? '',
       };
       queryClient.setQueryData(experienceKeys.detail(data.experienceId), created);
+      queryClient.invalidateQueries({ queryKey: experienceKeys.all });
     },
     onError: (error) => {
       console.error('경험 등록 실패: ', error);

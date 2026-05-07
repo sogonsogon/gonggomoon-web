@@ -1,6 +1,9 @@
-import { File } from '@/features/file/types';
+'use client';
+
+import FileSkeleton from '@/features/file/components/ui/FileSkeleton';
 import FileTableEmpty from '@/features/file/components/ui/FileTableEmpty';
 import FileTableRow from '@/features/file/components/ui/FileTableRow';
+import { useFiles } from '@/features/file/queries';
 import {
   Table,
   TableBody,
@@ -11,18 +14,27 @@ import {
 } from '@/shared/components/ui/table';
 import { cn } from '@/shared/lib/cn';
 
-interface FileTableProps {
-  files: File[];
-}
+export default function FileTable() {
+  const { data, isLoading } = useFiles();
 
-export default function FileTable({ files }: FileTableProps) {
+  const files = data?.contents || [];
+
   return (
     <>
       {/* Mobile: card list */}
       <div
-        className={cn('overflow-hidden rounded-xl divide-y divide-gray-100 lg:hidden', files.length > 0 && 'border border-gray-100')}
+        className={cn(
+          'overflow-hidden rounded-xl divide-y divide-gray-100 lg:hidden',
+          files.length > 0 && 'border border-gray-100',
+        )}
       >
-        {files.length === 0 ? (
+        {isLoading ? (
+          <>
+            {Array.from({ length: 5 }, (_, idx) => (
+              <FileSkeleton key={idx} variant="card" />
+            ))}
+          </>
+        ) : files.length === 0 ? (
           <FileTableEmpty />
         ) : (
           files.map((file) => <FileTableRow key={file.fileAssetId} file={file} variant="card" />)
@@ -52,7 +64,13 @@ export default function FileTable({ files }: FileTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {files.length === 0 ? (
+            {isLoading ? (
+              <>
+                {Array.from({ length: 5 }, (_, idx) => (
+                  <FileSkeleton key={idx} variant="row" />
+                ))}
+              </>
+            ) : files.length === 0 ? (
               <TableRow className="hover:bg-transparent">
                 <TableCell colSpan={5} className="p-0">
                   <FileTableEmpty />

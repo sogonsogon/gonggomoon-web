@@ -6,9 +6,8 @@ import { MAX_FILES } from '@/features/file/constants/maxFiles';
 import { useFiles } from '@/features/file/queries';
 
 export default function FileSection() {
-  const { data, isLoading, isError, error } = useFiles();
+  const { data } = useFiles();
 
-  const files = data?.contents || [];
   const currentFileCount = data && data.totalCount;
 
   return (
@@ -25,7 +24,7 @@ export default function FileSection() {
       </div>
 
       {/* 파일 테이블 */}
-      <FileTable files={files} />
+      <FileTable />
     </>
   );
 }
