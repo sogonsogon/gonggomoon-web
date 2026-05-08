@@ -15,11 +15,7 @@ import ExperienceItemWrapper from '@/features/experience/components/ui/Experienc
 import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
 
 export default function ExperienceSection() {
-  const { data: filesData } = useFiles();
-
   const { data: experienceData, isLoading } = useGetExperienceList();
-
-  const files = filesData?.contents ?? [];
 
   const experienceList = useMemo(() => {
     return experienceData?.contents ?? [];
@@ -135,7 +131,7 @@ export default function ExperienceSection() {
           </>
         )}
       </div>
-      <ExperienceExtractDialog files={files} />
+      <ExperienceExtractDialog />
       <ExperienceDetailDialog />
     </>
   );
