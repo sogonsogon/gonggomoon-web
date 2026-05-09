@@ -2,6 +2,7 @@ import {
   createExperience,
   deleteExperience,
   getExperience,
+  getExperienceAvailability,
   getExperienceList,
   updateExperience,
 } from '@/features/experience/actions';
@@ -16,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 export const experienceKeys = {
   all: ['experiences'] as const,
   detail: (exprienceId: number) => [...experienceKeys.all, exprienceId] as const,
+  availability: () => [...experienceKeys.all, 'availability'] as const,
 };
 
 export const experienceListQueryOptions = () => ({
@@ -128,3 +130,23 @@ export function useDeleteExperience() {
     },
   });
 }
+
+// 경험 추출 사용 횟수 조회
+export function useGetExperienceAvailability(enabled = true) {
+  return useQuery(getExperienceAvailabilityQueryOptions(enabled));
+}
+
+export const getExperienceAvailabilityQueryOptions = (enabled = true) => ({
+  queryKey: experienceKeys.availability(),
+  queryFn: async () => {
+    const response = await getExperienceAvailability();
+
+    if (!response.success) {
+      return Promise.reject(response);
+    }
+
+    return response.data;
+  },
+  staleTime: 60 * 1000,
+  enabled,
+});
