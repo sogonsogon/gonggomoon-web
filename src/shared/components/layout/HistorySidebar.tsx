@@ -17,7 +17,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/shared/components/ui/sidebar';
-import { HistorySidebarItem } from '@/shared/types';
+import { HistorySidebarItem } from '@/shared/types/historySidebar';
 import SidebarItemSkeleton from '@/shared/components/ui/SidebarItemSkeleton';
 
 interface HistorySidebarProps {
