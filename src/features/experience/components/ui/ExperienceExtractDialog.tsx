@@ -6,7 +6,6 @@ import { useExperienceExtractDialog } from '@/features/experience/stores/useExpe
 import { useStartExperienceExtraction } from '@/features/experience/hooks/useStartExperienceExtraction';
 import ExperienceFileEmpty from '@/features/experience/components/ui/ExperienceFileEmpty';
 import ExperienceFileItem from '@/features/experience/components/ui/ExperienceFileItem';
-import { File } from '@/features/file/types';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -18,18 +17,18 @@ import {
 } from '@/shared/components/ui/dialog';
 import { CircleCheckIcon, FilesIcon, SparklesIcon } from 'lucide-react';
 import { toast } from 'sonner';
-
-interface ExperienceExtractDialogProps {
-  files: File[];
-}
+import { useFiles } from '@/features/file/queries';
+import FileSkeleton from '@/features/file/components/ui/FileSkeleton';
 
 const MAX_FILE_SELECTIONS = 2;
 
-export default function ExperienceExtractDialog({ files }: ExperienceExtractDialogProps) {
+export default function ExperienceExtractDialog() {
+  const { data: filesData, isLoading } = useFiles();
+  const files = filesData?.contents ?? [];
+
   const { isDialogOpen, closeDialog } = useExperienceExtractDialog();
   const { startExperienceExtraction } = useStartExperienceExtraction();
   const [selectedFileIds, setSelectedFileIds] = useState<Set<number>>(new Set());
-  const hasFiles = files.length > 0;
 
   const handleDialogOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -69,38 +68,41 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
           <DialogDescription>추출할 파일을 선택하세요 (최대 2개 선택 가능)</DialogDescription>
         </DialogHeader>
 
-        {!hasFiles ? (
-          // 파일 empty 상태
-          <ExperienceFileEmpty />
-        ) : (
-          <div className="flex flex-col gap-2">
-            {/* 상단 정보 바 */}
-            <div className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <div className="flex items-center gap-1.5">
-                  <FilesIcon className="h-3.5 w-3.5 text-gray-400" />
-                  <span className="text-[12px] font-medium text-gray-500">
-                    최대 2개 파일 선택 가능
-                  </span>
-                </div>
-                <div className="h-3.5 w-px bg-gray-200" />
-                <div className="flex items-center gap-1.5">
-                  <SparklesIcon className="h-3.5 w-3.5 text-gray-400" />
-                  <span className="text-[12px] font-medium text-gray-500">
-                    파일당 경험 최대 10개 추출
-                  </span>
-                </div>
+        <div className="flex flex-col gap-2">
+          {/* 상단 정보 바 */}
+          <div className="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <div className="flex items-center gap-1.5">
+                <FilesIcon className="h-3.5 w-3.5 text-gray-400" />
+                <span className="text-[12px] font-medium text-gray-500">
+                  최대 2개 파일 선택 가능
+                </span>
               </div>
-              <Link
-                href="/resource/file"
-                onClick={() => handleDialogOpenChange(false)}
-                className="text-[13px] font-semibold text-blue-600 hover:text-blue-800"
-              >
-                파일 등록하러 가기
-              </Link>
+              <div className="h-3.5 w-px bg-gray-200" />
+              <div className="flex items-center gap-1.5">
+                <SparklesIcon className="h-3.5 w-3.5 text-gray-400" />
+                <span className="text-[12px] font-medium text-gray-500">
+                  파일당 경험 최대 10개 추출
+                </span>
+              </div>
             </div>
-
-            {/* 파일 리스트 */}
+            <Link
+              href="/resource/file"
+              onClick={() => handleDialogOpenChange(false)}
+              className="text-[13px] font-semibold text-blue-600 hover:text-blue-800"
+            >
+              파일 등록하러 가기
+            </Link>
+          </div>
+          {isLoading ? (
+            <>
+              {Array.from({ length: 3 }, (_, idx) => (
+                <FileSkeleton key={idx} variant="card" />
+              ))}
+            </>
+          ) : files.length === 0 ? (
+            <ExperienceFileEmpty />
+          ) : (
             <div className="flex flex-col gap-2 py-2">
               {files.map((file) => {
                 const isSelected = selectedFileIds.has(file.fileAssetId);
@@ -116,9 +118,8 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
                 );
               })}
             </div>
-          </div>
-        )}
-
+          )}
+        </div>
         <DialogFooter className="flex-row items-center justify-between sm:justify-between">
           {selectedFileIds.size > 0 ? (
             <div className="flex items-center gap-1.5">
@@ -139,16 +140,14 @@ export default function ExperienceExtractDialog({ files }: ExperienceExtractDial
             >
               취소
             </Button>
-            {hasFiles && (
-              <Button
-                type="button"
-                onClick={handleExtract}
-                disabled={selectedFileIds.size === 0}
-                className="rounded-lg bg-gray-900 px-4 py-2 text-[14px] font-semibold text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                추출하기
-              </Button>
-            )}
+            <Button
+              type="button"
+              onClick={handleExtract}
+              disabled={isLoading || selectedFileIds.size === 0}
+              className="rounded-lg bg-gray-900 px-4 py-2 text-[14px] font-semibold text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              추출하기
+            </Button>
           </div>
         </DialogFooter>
       </DialogContent>

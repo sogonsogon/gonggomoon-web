@@ -7,7 +7,6 @@ import ExperienceExtractBanner from '@/features/experience/components/ui/Experie
 import { Experience } from '@/features/experience/types';
 import ExperienceExtractDialog from '@/features/experience/components/ui/ExperienceExtractDialog';
 import { useGetExperienceList } from '@/features/experience/queries';
-import { useFiles } from '@/features/file/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
 import ExperienceDetailDialog from '@/features/experience/components/ui/ExperienceDetailDialog';
@@ -15,11 +14,7 @@ import ExperienceItemWrapper from '@/features/experience/components/ui/Experienc
 import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
 
 export default function ExperienceSection() {
-  const { data: filesData } = useFiles();
-
   const { data: experienceData, isLoading } = useGetExperienceList();
-
-  const files = filesData?.contents ?? [];
 
   const experienceList = useMemo(() => {
     return experienceData?.contents ?? [];
@@ -135,7 +130,7 @@ export default function ExperienceSection() {
           </>
         )}
       </div>
-      <ExperienceExtractDialog files={files} />
+      <ExperienceExtractDialog />
       <ExperienceDetailDialog />
     </>
   );
