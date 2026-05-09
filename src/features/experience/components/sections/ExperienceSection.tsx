@@ -6,21 +6,15 @@ import ExperienceEmpty from '@/features/experience/components/ui/ExperienceEmpty
 import ExperienceExtractBanner from '@/features/experience/components/ui/ExperienceExtractBanner';
 import { Experience } from '@/features/experience/types';
 import ExperienceExtractDialog from '@/features/experience/components/ui/ExperienceExtractDialog';
-import { useGetExperienceAvailability, useGetExperienceList } from '@/features/experience/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
 import ExperienceDetailDialog from '@/features/experience/components/ui/ExperienceDetailDialog';
 import ExperienceItemWrapper from '@/features/experience/components/ui/ExperienceItemWrapper';
 import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
-import { WEEKLY_LIMIT, WEEKLY_USAGE } from '@/features/experience/constants/limit';
+import { useGetExperienceList } from '@/features/experience/queries';
 
 export default function ExperienceSection() {
   const { data: experienceData, isLoading } = useGetExperienceList();
-  const { data: availability, isLoading: isAvailabilityLoading } = useGetExperienceAvailability();
-
-  const weeklyUsage = availability?.usedCount ?? WEEKLY_USAGE;
-  const weeklyLimit = availability?.limitCount ?? WEEKLY_LIMIT;
-  const isLimitReached = availability?.canGenerate === false;
 
   const experienceList = useMemo(() => {
     return experienceData?.contents ?? [];
@@ -104,13 +98,7 @@ export default function ExperienceSection() {
   return (
     <>
       {/* 경험 추출 배너 */}
-      <ExperienceExtractBanner
-        usageLabel="이번 주 사용 횟수"
-        usedCount={weeklyUsage}
-        limitCount={weeklyLimit}
-        isUsageLoading={isAvailabilityLoading}
-        isLimitReached={isLimitReached}
-      />
+      <ExperienceExtractBanner />
 
       {/* 경험 개수 표시 */}
       <div className="flex items-center justify-between">

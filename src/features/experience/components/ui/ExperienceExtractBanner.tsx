@@ -1,22 +1,18 @@
+'use client';
+
 import { SparklesIcon } from 'lucide-react';
 import ExperienceExtractButton from '@/features/experience/components/ui/ExperienceExtractButton';
 import GenerationUsageCard from '@/shared/components/ui/GenerationUsageCard';
+import { WEEKLY_USAGE, WEEKLY_LIMIT } from '@/features/experience/constants/limit';
+import { useGetExperienceAvailability } from '@/features/experience/queries';
 
-interface ExperienceExtractBannerProps {
-  usageLabel: string;
-  usedCount: number;
-  limitCount: number;
-  isUsageLoading?: boolean;
-  isLimitReached?: boolean;
-}
+export default function ExperienceExtractBanner() {
+  const { data: availability, isLoading: isAvailabilityLoading } = useGetExperienceAvailability();
 
-export default function ExperienceExtractBanner({
-  usageLabel,
-  usedCount,
-  limitCount,
-  isUsageLoading = false,
-  isLimitReached = false,
-}: ExperienceExtractBannerProps) {
+  const weeklyUsage = availability?.usedCount ?? WEEKLY_USAGE;
+  const weeklyLimit = availability?.limitCount ?? WEEKLY_LIMIT;
+  const isLimitReached = availability?.canGenerate === false;
+
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-blue-100 bg-blue-50 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
       <div className="flex flex-1 items-center gap-3.5">
@@ -35,13 +31,13 @@ export default function ExperienceExtractBanner({
         <GenerationUsageCard
           variant="compact"
           label="이번 주 사용 횟수"
-          usedCount={usedCount}
-          limitCount={limitCount}
-          isLoading={isUsageLoading}
+          usedCount={weeklyUsage}
+          limitCount={weeklyLimit}
+          isLoading={isAvailabilityLoading}
           className="max-sm:w-full"
         />
 
-        <ExperienceExtractButton disabled={isLimitReached || isUsageLoading} />
+        <ExperienceExtractButton disabled={isLimitReached || isAvailabilityLoading} />
       </div>
     </div>
   );
