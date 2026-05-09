@@ -7,6 +7,7 @@ import MyStrategyError from '@/features/strategy/components/ui/MyStrategyError';
 import { useGetStrategyList } from '@/features/strategy/queries';
 import { CirclePlusIcon } from 'lucide-react';
 import Link from 'next/link';
+import StrategyDeleteDialog from '@/features/strategy/components/ui/StrategyDeleteDialog';
 
 export default function MyStrategySection() {
   const { data: strategyData, isLoading, isError, error } = useGetStrategyList();
@@ -46,6 +47,7 @@ export default function MyStrategySection() {
           </Link>
         </div>
       )}
+      <StrategyDeleteDialog />
     </>
   );
 }

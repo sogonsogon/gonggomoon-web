@@ -10,7 +10,7 @@ import { useGetExperienceList } from '@/features/experience/queries';
 import { useFiles } from '@/features/file/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
-import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
+import ExperienceDetailDialog from '@/features/experience/components/ui/ExperienceDetailDialog';
 import ExperienceItemWrapper from '@/features/experience/components/ui/ExperienceItemWrapper';
 import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
 

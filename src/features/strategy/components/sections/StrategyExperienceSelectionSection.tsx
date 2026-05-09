@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Briefcase, ExternalLink } from 'lucide-react';
 import StrategyExperienceListItem from '@/features/strategy/components/ui/StrategyExperienceListItem';
-import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
+import ExperienceDetailDialog from '@/features/experience/components/ui/ExperienceDetailDialog';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { useGetExperienceList } from '@/features/experience/queries';

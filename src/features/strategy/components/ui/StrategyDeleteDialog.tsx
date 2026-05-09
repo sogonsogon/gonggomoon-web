@@ -11,43 +11,39 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { toast } from 'sonner';
 import { useDeleteStrategy } from '@/features/strategy/queries';
+import { useStrategyDeleteDialog } from '@/features/strategy/stores/useStrategyDeleteDialog';
 
-interface StrategyDeleteDialogProps {
-  strategyId: number;
-  isOpen: boolean;
-  onOpenChange: (next: boolean) => void;
+interface StrategyDeleteDialog {
+  onDelete?: () => void;
 }
 
-export default function StrategyDeleteDialog({
-  strategyId,
-  isOpen,
-  onOpenChange,
-}: StrategyDeleteDialogProps) {
+export default function StrategyDeleteDialog({ onDelete }: StrategyDeleteDialog) {
+  const { strategyId, closeDialog } = useStrategyDeleteDialog();
   const { mutate: deleteStrategy, isPending } = useDeleteStrategy();
 
-  // 포폴 전략 삭제
   const handleDelete = () => {
-    if (isPending) return;
+    if (isPending || !strategyId) return;
     deleteStrategy(strategyId, {
       onSuccess: () => {
         toast.success(`포폴 전략이 삭제되었습니다.`);
+        if (onDelete) onDelete();
       },
       onError: () => {
         toast.error('포폴 전략 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.');
       },
     });
-    onOpenChange(false);
+    closeDialog();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={!!strategyId} onOpenChange={(open) => !open && closeDialog()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>포폴 전략 삭제</DialogTitle>
           <DialogDescription>해당 포폴 전략을 삭제하시겠습니까?</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={closeDialog}>
             취소
           </Button>
           <Button variant="destructive" onClick={handleDelete} disabled={isPending}>

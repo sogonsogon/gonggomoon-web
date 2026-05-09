@@ -7,13 +7,14 @@ import { CalendarIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import StrategyDeleteDialog from '@/features/strategy/components/ui/StrategyDeleteDialog';
+import { useStrategyDeleteDialog } from '@/features/strategy/stores/useStrategyDeleteDialog';
 
 interface MyStrategyCardProps {
   strategy: Strategy;
 }
 
 export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const { openDialog } = useStrategyDeleteDialog();
 
   return (
     <div
@@ -30,7 +31,7 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            onClick={() => setIsDialogOpen(true)}
+            onClick={() => openDialog(strategy.strategyId)}
             aria-label="전략 삭제"
             className="mt-0.5 shrink-0 text-gray-400 hover:bg-transparent hover:text-red-500"
           >
@@ -50,11 +51,6 @@ export default function MyStrategyCard({ strategy }: MyStrategyCardProps) {
       >
         보기
       </Link>
-      <StrategyDeleteDialog
-        strategyId={strategy.strategyId}
-        isOpen={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      />
     </div>
   );
 }

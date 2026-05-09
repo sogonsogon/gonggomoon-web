@@ -1,6 +1,7 @@
 'use client';
 
 import InterviewDeleteDialog from '@/features/interview/components/ui/InterviewDeleteDialog';
+import { useInterviewDeleteDialog } from '@/features/interview/stores/useInterviewDeleteDialog';
 import { Interview } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
 import { Button } from '@/shared/components/ui/button';
@@ -14,7 +15,7 @@ interface MyInterviewCardProps {
 }
 
 export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const { openDialog } = useInterviewDeleteDialog();
 
   return (
     <div
@@ -31,7 +32,7 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            onClick={() => setIsDialogOpen(true)}
+            onClick={() => openDialog(interview.interviewStrategyId)}
             aria-label="면접 질문 삭제"
             className="mt-0.5 shrink-0 text-gray-400 hover:bg-transparent hover:text-red-500"
           >
@@ -51,11 +52,6 @@ export default function MyInterviewCard({ interview }: MyInterviewCardProps) {
       >
         보기
       </Link>
-      <InterviewDeleteDialog
-        interviewStrategyId={interview.interviewStrategyId}
-        isOpen={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      />
     </div>
   );
 }
