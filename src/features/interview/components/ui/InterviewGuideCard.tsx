@@ -31,9 +31,9 @@ export default function InterviewGuideCard() {
           <div className="flex gap-3 border-b border-blue-50 px-4 py-3.5 md:px-5">
             <div className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
             <div className="flex flex-col gap-0.5">
-              <span className="text-[13px] font-semibold text-gray-800">하루 1회 생성 제한</span>
+              <span className="text-[13px] font-semibold text-gray-800">주간 7회 생성 제한</span>
               <span className="text-xs leading-normal text-gray-500">
-                면접 질문 생성은 하루 최대 {WEEKLY_LIMIT}회 가능합니다 (이번 주 {WEEKLY_USAGE}회
+                면접 질문 생성은 주간 최대 {WEEKLY_LIMIT}회 가능합니다 (이번 주 {WEEKLY_USAGE}회
                 사용)
               </span>
             </div>
