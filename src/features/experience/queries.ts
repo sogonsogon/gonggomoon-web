@@ -16,12 +16,17 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const experienceKeys = {
   all: ['experiences'] as const,
-  detail: (exprienceId: number) => [...experienceKeys.all, exprienceId] as const,
-  availability: () => [...experienceKeys.all, 'availability'] as const,
+  list: () => [...experienceKeys.all, 'list'] as const,
+  detail: (experienceId: number) => [...experienceKeys.all, 'detail', experienceId] as const,
+};
+
+export const experienceExtractionKeys = {
+  all: ['experience-extractions'] as const,
+  availability: () => [...experienceExtractionKeys.all, 'availability'] as const,
 };
 
 export const experienceListQueryOptions = () => ({
-  queryKey: experienceKeys.all,
+  queryKey: experienceKeys.list(),
   queryFn: async () => {
     const result = await getExperienceList();
     if (!result.success) {
@@ -83,7 +88,10 @@ export function useCreateExperience() {
         experienceContent: variables.experienceContent ?? '',
       };
       queryClient.setQueryData(experienceKeys.detail(data.experienceId), created);
-      queryClient.invalidateQueries({ queryKey: experienceKeys.all });
+
+      queryClient.invalidateQueries({
+        queryKey: experienceKeys.list(),
+      });
     },
     onError: (error) => {
       console.error('경험 등록 실패: ', error);
@@ -104,6 +112,9 @@ export function useUpdateExperience() {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(experienceKeys.detail(data.experienceId), data);
+      queryClient.invalidateQueries({
+        queryKey: experienceKeys.list(),
+      });
     },
     onError: (error) => {
       console.error('경험 수정 실패: ', error);
@@ -122,8 +133,14 @@ export function useDeleteExperience() {
       }
       return result.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: experienceKeys.all });
+    onSuccess: (_, experienceId) => {
+      queryClient.invalidateQueries({
+        queryKey: experienceKeys.list(),
+      });
+
+      queryClient.removeQueries({
+        queryKey: experienceKeys.detail(experienceId),
+      });
     },
     onError: (error) => {
       console.error('경험 삭제 실패: ', error);
@@ -137,7 +154,7 @@ export function useGetExperienceAvailability(enabled = true) {
 }
 
 export const getExperienceAvailabilityQueryOptions = (enabled = true) => ({
-  queryKey: experienceKeys.availability(),
+  queryKey: experienceExtractionKeys.availability(),
   queryFn: async () => {
     const response = await getExperienceAvailability();
 
