@@ -7,7 +7,6 @@ import ExperienceExtractBanner from '@/features/experience/components/ui/Experie
 import { Experience } from '@/features/experience/types';
 import ExperienceExtractDialog from '@/features/experience/components/ui/ExperienceExtractDialog';
 import { useGetExperienceList } from '@/features/experience/queries';
-import { useFiles } from '@/features/file/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
 import ExperienceDetailDialog from '@/features/strategy/components/ui/ExperienceDetailDialog';
