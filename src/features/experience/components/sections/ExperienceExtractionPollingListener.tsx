@@ -65,13 +65,7 @@ export default function ExperienceExtractionPollingListener() {
           const retryCount = (requestRetryCountsRef.current.get(id) ?? 0) + 1;
           requestRetryCountsRef.current.set(id, retryCount);
 
-          console.warn(
-            `[경험 추출] (재시도 ${retryCount}/${MAX_REQUEST_RETRIES}):`,
-            settled.reason,
-          );
-
           if (retryCount >= MAX_REQUEST_RETRIES) {
-            console.error(`[경험 추출] 재시도 횟수 초과`);
             markRequestFailed(id, '네트워크 오류로 상태 조회에 실패했습니다.');
             toast.error('경험 추출 상태 조회에 실패했습니다.');
             requestRetryCountsRef.current.delete(id);
@@ -86,10 +80,7 @@ export default function ExperienceExtractionPollingListener() {
           const retryCount = (requestRetryCountsRef.current.get(id) ?? 0) + 1;
           requestRetryCountsRef.current.set(id, retryCount);
 
-          console.warn(`[경험 추출] 요청ID(${id}) 에 대한 경험 추출 실패: ${res.message}`);
-
           if (retryCount >= MAX_REQUEST_RETRIES) {
-            console.error(`[경험 추출] 재시도 횟수 초과`);
             markRequestFailed(id, res.message ?? '상태 조회에 실패했습니다.');
             toast.error('경험 추출 상태 조회에 실패했습니다.');
             requestRetryCountsRef.current.delete(id);
@@ -102,7 +93,6 @@ export default function ExperienceExtractionPollingListener() {
         const { status, error } = res.data;
 
         if (status === 'FAILED') {
-          console.error(`[경험 추출] 요청ID(${id}): ${error}`);
           markRequestFailed(id, error ?? '경험 추출에 실패했습니다.');
           toast.error('경험 추출에 실패했어요.');
           continue;
