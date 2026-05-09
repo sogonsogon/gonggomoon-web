@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import HistorySidebar from '@/shared/components/layout/HistorySidebar';
-import type { HistorySidebarItem } from '@/shared/types';
+import type { HistorySidebarItem } from '@/shared/types/historySidebar';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
 import { useGetInterviewList } from '@/features/interview/queries';
 import { createInterviewHistoryItems } from '@/features/interview/utils/createInterviewHistoryItems';

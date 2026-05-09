@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
-import { GetGenerationStatusResponse } from '@/shared/types';
+import { GetGenerationStatusResponse } from '@/shared/types/generation';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 
 export default function StrategyGenerationPollingListener() {

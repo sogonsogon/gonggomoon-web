@@ -1,9 +1,3 @@
-export interface HistorySidebarItem {
-  title: string;
-  date: string;
-  href: string;
-}
-
 export type GenerationStatus = 'PROCESSING' | 'FAILED' | 'READY';
 
 export type GenerationRequestType =

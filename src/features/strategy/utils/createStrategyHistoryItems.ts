@@ -1,5 +1,5 @@
 import type { Strategy } from '@/features/strategy/types';
-import type { HistorySidebarItem } from '@/shared/types';
+import type { HistorySidebarItem } from '@/shared/types/historySidebar';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { formatHistoryDate } from '@/shared/utils/formatHistoryDate';
 

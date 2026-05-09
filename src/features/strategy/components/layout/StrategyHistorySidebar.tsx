@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import HistorySidebar from '@/shared/components/layout/HistorySidebar';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
-import type { HistorySidebarItem } from '@/shared/types';
+import type { HistorySidebarItem } from '@/shared/types/historySidebar';
 import { createStrategyHistoryItems } from '@/features/strategy/utils/createStrategyHistoryItems';
 import { useGetStrategyList } from '@/features/strategy/queries';
 

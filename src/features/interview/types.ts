@@ -1,4 +1,4 @@
-import { GenerationStatus } from '@/shared/types';
+import { GenerationStatus } from '@/shared/types/generation';
 
 export type QuestionLevel = 'LOWER' | 'MIDDLE' | 'HIGH';
 

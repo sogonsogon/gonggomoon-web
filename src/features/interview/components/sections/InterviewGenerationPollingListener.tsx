@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useGenerationPolling } from '@/shared/hooks/useGenerationPolling';
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
-import { GetGenerationStatusResponse } from '@/shared/types';
+import { GetGenerationStatusResponse } from '@/shared/types/generation';
 
 export default function InterviewGenerationPollingListener() {
   const router = useRouter();

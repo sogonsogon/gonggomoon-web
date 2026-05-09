@@ -1,4 +1,4 @@
-import type { HistorySidebarItem } from '@/shared/types';
+import type { HistorySidebarItem } from '@/shared/types/historySidebar';
 import { formatHistoryDate } from '@/shared/utils/formatHistoryDate';
 import { Interview } from '@/features/interview/types';
 import { formatInterviewTitle } from '@/features/interview/utils/formatInterviewTitle';
