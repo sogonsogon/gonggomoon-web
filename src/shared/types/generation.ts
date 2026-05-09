@@ -26,3 +26,10 @@ export type GetGenerationStatusResponse = {
   status: GenerationRequestStatus;
   error: string | null;
 };
+
+export interface GetGenerationAvailabilityResponse {
+  usedCount: number;
+  limitCount: number;
+  canGenerate: boolean;
+  canRetry: boolean;
+}

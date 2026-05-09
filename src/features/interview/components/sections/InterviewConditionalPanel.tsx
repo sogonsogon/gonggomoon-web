@@ -9,7 +9,7 @@ import { useInterviewCreateFormStore } from '@/features/interview/stores/useInte
 import { useInterviewGenerationStore } from '@/features/interview/stores/useInterviewGenerationStore';
 import { useStartInterviewGeneration } from '@/features/interview/hooks/useStartInterviewGeneration';
 import { useGetInterviewAvailability } from '@/features/interview/queries';
-import { TODAY_USAGE, DAILY_LIMIT } from '@/features/interview/constants/limit';
+import { WEEKLY_USAGE, WEEKLY_LIMIT } from '@/features/interview/constants/limit';
 import GenerationUsageCard from '@/shared/components/ui/GenerationUsageCard';
 
 export default function InterviewConditionalPanel() {
@@ -28,8 +28,8 @@ export default function InterviewConditionalPanel() {
 
   const { data: availability, isLoading: isAvailabilityLoading } = useGetInterviewAvailability();
 
-  const todayUsage = availability?.usedCount ?? TODAY_USAGE;
-  const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
+  const weeklyUsage = availability?.usedCount ?? WEEKLY_USAGE;
+  const weeklyLimit = availability?.limitCount ?? WEEKLY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
   const [isNavigating, setIsNavigating] = useState(false);
@@ -130,9 +130,9 @@ export default function InterviewConditionalPanel() {
         </div>
 
         <GenerationUsageCard
-          label="오늘 사용 횟수"
-          usedCount={todayUsage}
-          limitCount={dailyLimit}
+          label="이번 주 사용 횟수"
+          usedCount={weeklyUsage}
+          limitCount={weeklyLimit}
           isLoading={isAvailabilityLoading}
         />
 

@@ -14,6 +14,7 @@ import {
 } from '@/features/experience/types';
 import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
+import { GetGenerationAvailabilityResponse } from '@/shared/types/generation';
 
 // 경험 목록 조회
 export async function getExperienceList(): Promise<ApiResponse<GetExperienceListResponse>> {
@@ -88,4 +89,11 @@ export async function getExtractedExperience(
     `/api/v1/experiences/extractions/${extractedExperienceId}`,
   );
   return response;
+}
+
+// 경험 추출 사용 횟수 조회
+export async function getExperienceAvailability(): Promise<
+  ApiResponse<GetGenerationAvailabilityResponse>
+> {
+  return await privateFetch<GetGenerationAvailabilityResponse>('/api/v1/experience/availability');
 }

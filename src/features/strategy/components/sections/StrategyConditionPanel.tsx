@@ -18,7 +18,7 @@ import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrate
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
 import { Button } from '@/shared/components/ui/button';
 import { useGetStrategyAvailability } from '@/features/strategy/queries';
-import { TODAY_USAGE, DAILY_LIMIT } from '@/features/strategy/constants/limit';
+import { WEEKLY_USAGE, WEEKLY_LIMIT } from '@/features/strategy/constants/limit';
 import { cn } from '@/shared/lib/cn';
 import { useGetIndustryList } from '@/features/industry/queries';
 import GenerationUsageCard from '@/shared/components/ui/GenerationUsageCard';
@@ -52,8 +52,8 @@ export default function StrategyConditionPanel({
 
   const { data: availability, isLoading: isAvailabilityLoading } = useGetStrategyAvailability();
 
-  const todayUsage = availability?.usedCount ?? TODAY_USAGE;
-  const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
+  const weeklyUsage = availability?.usedCount ?? WEEKLY_USAGE;
+  const weeklyLimit = availability?.limitCount ?? WEEKLY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
   const [isNavigating, setIsNavigating] = useState(false);
@@ -216,9 +216,9 @@ export default function StrategyConditionPanel({
       </div>
 
       <GenerationUsageCard
-        label="오늘 사용 횟수"
-        usedCount={todayUsage}
-        limitCount={dailyLimit}
+        label="이번 주 사용 횟수"
+        usedCount={weeklyUsage}
+        limitCount={weeklyLimit}
         isLoading={isAvailabilityLoading}
         className="max-md:px-3.5 max-md:py-2.5"
       />

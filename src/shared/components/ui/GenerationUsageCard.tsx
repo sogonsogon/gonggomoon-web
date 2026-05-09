@@ -17,45 +17,48 @@ export default function GenerationUsageCard({
   className,
   variant = 'default',
 }: GenerationUsageCardProps) {
-  const isCompact = variant === 'compact';
+  if (variant === 'compact') {
+    return (
+      <div
+        className={cn(
+          'inline-flex h-10 items-center rounded-lg border border-blue-200 bg-white/80 px-3',
+          className,
+        )}
+      >
+        <span className="whitespace-nowrap text-[12px] font-semibold text-blue-600">{label}</span>
 
+        <div className="ml-2 flex items-baseline gap-1 whitespace-nowrap">
+          <span className="text-[15px] font-bold text-blue-700">{isLoading ? '-' : usedCount}</span>
+          <span className="text-[12px] font-medium text-blue-400">
+            / {isLoading ? '-' : `${limitCount}회`}
+          </span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className={cn(
-        'flex items-center justify-between border border-blue-100 bg-blue-50',
-        isCompact ? 'min-w-40 rounded-lg px-3 py-2' : 'rounded-[10px] px-4 py-3',
+        'flex items-center justify-between rounded-[10px] border border-blue-100 bg-blue-50 px-4 py-3',
         className,
       )}
     >
       <div className="flex flex-col gap-0.5">
-        <span
-          className={cn('font-medium text-blue-600', isCompact ? 'text-[10px]' : 'text-[11px]')}
-        >
-          {label}
-        </span>
-
+        <span className="text-[11px] font-medium text-blue-600">{label}</span>
         <div className="flex items-center gap-1">
-          <span
-            className={cn('font-bold text-blue-700', isCompact ? 'text-[16px]' : 'text-[20px]')}
-          >
-            {isLoading ? '-' : usedCount}
-          </span>
-
-          <span
-            className={cn('font-medium text-blue-400', isCompact ? 'text-[11px]' : 'text-[13px]')}
-          >
+          <span className="text-[20px] font-bold text-blue-700">{isLoading ? '-' : usedCount}</span>
+          <span className="text-[13px] font-medium text-blue-400">
             / {isLoading ? '-' : `${limitCount}회`}
           </span>
         </div>
       </div>
 
-      <div className={cn('flex items-center', isCompact ? 'gap-1' : 'gap-1.5')}>
+      <div className="flex items-center gap-1.5">
         {Array.from({ length: limitCount }).map((_, index) => (
-          <div
+          <span
             key={index}
             className={cn(
-              'rounded-full',
-              isCompact ? 'h-2 w-2' : 'h-2.5 w-2.5',
+              'h-2.5 w-2.5 rounded-full',
               index < usedCount ? 'bg-blue-500' : 'bg-blue-200',
             )}
           />

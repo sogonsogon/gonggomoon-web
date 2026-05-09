@@ -6,12 +6,12 @@ import ExperienceEmpty from '@/features/experience/components/ui/ExperienceEmpty
 import ExperienceExtractBanner from '@/features/experience/components/ui/ExperienceExtractBanner';
 import { Experience } from '@/features/experience/types';
 import ExperienceExtractDialog from '@/features/experience/components/ui/ExperienceExtractDialog';
-import { useGetExperienceList } from '@/features/experience/queries';
 import { useExperienceExtractionStore } from '@/features/experience/stores/useExperienceExtractionStore';
 import { getExtractedExperience } from '@/features/experience/actions';
 import ExperienceDetailDialog from '@/features/experience/components/ui/ExperienceDetailDialog';
 import ExperienceItemWrapper from '@/features/experience/components/ui/ExperienceItemWrapper';
 import ExperienceListItemSkeleton from '@/features/experience/components/ui/ExperienceListItemSkeleton';
+import { useGetExperienceList } from '@/features/experience/queries';
 
 export default function ExperienceSection() {
   const { data: experienceData, isLoading } = useGetExperienceList();
@@ -97,7 +97,6 @@ export default function ExperienceSection() {
 
   return (
     <>
-      {/* TODO: 경험 추출 availability API 추가 후 사용 횟수 UI 연결 */}
       {/* 경험 추출 배너 */}
       <ExperienceExtractBanner />
 

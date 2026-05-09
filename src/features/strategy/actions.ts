@@ -3,12 +3,12 @@
 import {
   CreateStrategyRequest,
   CreateStrategyResponse,
-  GetStrategyAvailablityResponse,
   GetStrategyDetailResponse,
   GetStrategyListResponse,
 } from '@/features/strategy/types';
 import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
+import { GetGenerationAvailabilityResponse } from '@/shared/types/generation';
 
 // 포폴 전략 목록 조회
 export async function getStrategyList(): Promise<ApiResponse<GetStrategyListResponse>> {
@@ -61,9 +61,9 @@ export async function deleteStrategy(strategyId: number): Promise<ApiResponse<nu
 
 // 포폴 전략 생성 사용 횟수 조회
 export async function getStrategyAvailability(): Promise<
-  ApiResponse<GetStrategyAvailablityResponse>
+  ApiResponse<GetGenerationAvailabilityResponse>
 > {
-  return await privateFetch<GetStrategyAvailablityResponse>('/api/v1/strategies/availability');
+  return await privateFetch<GetGenerationAvailabilityResponse>('/api/v1/strategies/availability');
 }
 
 type ApiFailureLike = {
