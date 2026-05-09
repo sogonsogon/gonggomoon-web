@@ -32,7 +32,7 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
         : `경력 ${recruitment.experienceLevel}년 이상`;
 
   return (
-    <section className="flex flex-col gap-4 pb-6 lg:gap-3 lg:pb-5 xl:gap-4 xl:pb-6">
+    <section className="flex flex-col gap-4 lg:gap-3 xl:gap-4">
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1">
           <Building2 className="h-3.5 w-3.5 text-blue-600" />

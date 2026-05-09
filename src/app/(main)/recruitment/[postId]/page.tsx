@@ -1,5 +1,4 @@
 import RecruitmentDetailOverview from '@/features/recruitment/components/ui/RecruitmentDetailOverview';
-import RecruitmentDetailContent from '@/features/recruitment/components/ui/RecruitmentDetailContent';
 import RecruitmentAnalysisSection from '@/features/recruitment/components/sections/RecruitmentAnalysisSection';
 import { getRecruitmentDetail } from '@/features/recruitment/actions';
 import FloatingActionButton from '@/shared/components/ui/FloatingActionButton';
@@ -26,32 +25,13 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
   }
 
   return (
-    <div className="min-h-screen w-full bg-white font-sans">
+    <>
       <div className="mx-auto w-full max-w-7xl px-4 py-10 max-lg:py-7 max-md:py-6 max-md:pb-[calc(env(safe-area-inset-bottom)+7rem)]">
-        <div className="hidden items-start gap-10 lg:flex">
-          <div className="flex min-w-0 flex-1 flex-col">
-            <RecruitmentDetailOverview recruitment={recruitment} />
-
-            <div className="h-px bg-gray-100" />
-
-            <RecruitmentDetailContent
-              content={recruitment.originalContent ?? '공고 원문이 없습니다.'}
-            />
-          </div>
-
-          <RecruitmentAnalysisSection analysis={recruitment.analyzedContent} />
-        </div>
-
-        <div className="flex flex-col gap-6 lg:hidden">
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
           <RecruitmentDetailOverview recruitment={recruitment} />
 
-          <RecruitmentAnalysisSection analysis={recruitment.analyzedContent} />
-
           <div className="h-px bg-gray-100" />
-
-          <RecruitmentDetailContent
-            content={recruitment.originalContent ?? '공고 원문이 없습니다.'}
-          />
+          <RecruitmentAnalysisSection analysis={recruitment.analyzedContent} />
         </div>
       </div>
 
@@ -69,6 +49,6 @@ export default async function RecruitmentDetailPage({ params }: RecruitmentDetai
           </>
         }
       />
-    </div>
+    </>
   );
 }
