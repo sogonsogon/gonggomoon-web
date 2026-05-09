@@ -1,5 +1,5 @@
 import { Info } from 'lucide-react';
-import { DAILY_LIMIT, TODAY_USAGE } from '@/features/interview/constants/limit';
+import { WEEKLY_LIMIT, WEEKLY_USAGE } from '@/features/interview/constants/limit';
 
 export default function InterviewGuideCard() {
   return (
@@ -33,7 +33,8 @@ export default function InterviewGuideCard() {
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] font-semibold text-gray-800">하루 1회 생성 제한</span>
               <span className="text-xs leading-normal text-gray-500">
-                면접 질문 생성은 하루 최대 {DAILY_LIMIT}회 가능합니다 (오늘 {TODAY_USAGE}회 사용)
+                면접 질문 생성은 하루 최대 {WEEKLY_LIMIT}회 가능합니다 (이번 주 {WEEKLY_USAGE}회
+                사용)
               </span>
             </div>
           </div>

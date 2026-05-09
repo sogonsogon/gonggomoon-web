@@ -1,7 +1,22 @@
 import { SparklesIcon } from 'lucide-react';
 import ExperienceExtractButton from '@/features/experience/components/ui/ExperienceExtractButton';
+import GenerationUsageCard from '@/shared/components/ui/GenerationUsageCard';
 
-export default function ExperienceExtractBanner() {
+interface ExperienceExtractBannerProps {
+  usageLabel: string;
+  usedCount: number;
+  limitCount: number;
+  isUsageLoading?: boolean;
+  isLimitReached?: boolean;
+}
+
+export default function ExperienceExtractBanner({
+  usageLabel,
+  usedCount,
+  limitCount,
+  isUsageLoading = false,
+  isLimitReached = false,
+}: ExperienceExtractBannerProps) {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-blue-100 bg-blue-50 px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
       <div className="flex flex-1 items-center gap-3.5">
@@ -15,7 +30,19 @@ export default function ExperienceExtractBanner() {
           </span>
         </div>
       </div>
-      <ExperienceExtractButton />
+
+      <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:justify-end">
+        <GenerationUsageCard
+          variant="compact"
+          label="이번 주 사용 횟수"
+          usedCount={usedCount}
+          limitCount={limitCount}
+          isLoading={isUsageLoading}
+          className="max-sm:w-full"
+        />
+
+        <ExperienceExtractButton disabled={isLimitReached || isUsageLoading} />
+      </div>
     </div>
   );
 }

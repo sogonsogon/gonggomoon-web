@@ -6,7 +6,7 @@ import { Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { JOB_LABEL_MAP } from '@/features/recruitment/constants/jobOptions';
 import { useGetStrategyAvailability } from '@/features/strategy/queries';
-import { TODAY_USAGE, DAILY_LIMIT } from '@/features/strategy/constants/limit';
+import { WEEKLY_USAGE, WEEKLY_LIMIT } from '@/features/strategy/constants/limit';
 import { useStartStrategyGeneration } from '@/features/strategy/hooks/useStartStrategyGeneration';
 import { useStrategyGenerationStore } from '@/features/strategy/stores/useStrategyGenerationStore';
 import { useStrategyCreateFormStore } from '@/features/strategy/stores/useCreateStrategyFormStore';
@@ -22,8 +22,8 @@ export default function MobileStrategyGenerateBar() {
   const { data: availability } = useGetStrategyAvailability();
   const { data: industryData } = useGetIndustryList();
 
-  const todayUsage = availability?.usedCount ?? TODAY_USAGE;
-  const dailyLimit = availability?.limitCount ?? DAILY_LIMIT;
+  const todayUsage = availability?.usedCount ?? WEEKLY_USAGE;
+  const dailyLimit = availability?.limitCount ?? WEEKLY_LIMIT;
   const isLimitReached = !availability?.canGenerate;
 
   const selectedIndustryName = useMemo(() => {
