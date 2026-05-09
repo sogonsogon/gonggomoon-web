@@ -3,12 +3,12 @@
 import {
   CreateInterviewRequest,
   CreateInterviewResponse,
-  GetInterviewAvailablityResponse,
   GetInterviewListResponse,
   GetInterviewResponse,
 } from '@/features/interview/types';
 import { privateFetch } from '@/shared/api/httpClient';
 import { ApiResponse } from '@/shared/types/api';
+import { GetGenerationAvailabilityResponse } from '@/shared/types/generation';
 
 // 면접 질문 목록 조회
 export async function getInterviewList(): Promise<ApiResponse<GetInterviewListResponse>> {
@@ -57,9 +57,9 @@ export async function deleteInterview(interviewStrategyId: number): Promise<ApiR
 
 // 면접 질문 생성 사용 횟수
 export async function getInterviewAvailability(): Promise<
-  ApiResponse<GetInterviewAvailablityResponse>
+  ApiResponse<GetGenerationAvailabilityResponse>
 > {
-  return await privateFetch<GetInterviewAvailablityResponse>(
+  return await privateFetch<GetGenerationAvailabilityResponse>(
     '/api/v1/interview-strategies/availability',
   );
 }
