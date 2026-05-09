@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Search, X } from 'lucide-react';
 import SearchBar from '@/shared/components/ui/SearchBar';
 import ProfileMenu from '@/features/auth/components/ui/ProfileMenu';
@@ -27,8 +27,20 @@ interface HeaderContentProps {
 }
 
 function HeaderContent({ currentPath }: HeaderContentProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isTabletSearchOpen, setIsTabletSearchOpen] = useState(false);
+
+  const handleMobileSearchClose = () => {
+    setIsMobileSearchOpen(false);
+    if (searchParams.get('search')) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete('search');
+      const nextUrl = params.toString() ? `${currentPath}?${params.toString()}` : currentPath;
+      router.replace(nextUrl, { scroll: false });
+    }
+  };
 
   const showSearchBar = currentPath === '/';
 
@@ -116,7 +128,7 @@ function HeaderContent({ currentPath }: HeaderContentProps) {
               <button
                 type="button"
                 aria-label="검색 닫기"
-                onClick={() => setIsMobileSearchOpen(false)}
+                onClick={handleMobileSearchClose}
                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-600 cursor-pointer"
               >
                 <X className="h-3.5 w-3.5" strokeWidth={1.75} />
