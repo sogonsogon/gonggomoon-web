@@ -30,8 +30,8 @@ export default function GenerationPendingState({
     <section
       role="status"
       aria-live="polite"
-      aria-labelledby={titleId}
-      className="flex min-h-120 w-full flex-col items-center justify-center py-12 text-center max-md:min-h-105 max-md:py-8"
+      aria-label={title}
+      className="flex min-h-[calc(100dvh-160px)] w-full flex-col items-center justify-center py-12 text-center max-md:min-h-[calc(100dvh-120px)] max-md:py-8"
     >
       <GeneratingIcon />
 
