@@ -36,12 +36,15 @@ export default function RecruitmentDetailOverview({ recruitment }: RecruitmentDe
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1">
           <Building2 className="h-3.5 w-3.5 text-blue-600" />
-          <Link
+          <span className="text-[13px] font-semibold text-blue-600 max-md:inline-block max-md:max-w-45 max-md:truncate">
+            {recruitment.companyName ?? '기업명'}
+          </span>
+          {/* <Link
             href={`/company/${recruitment.companyId}`}
             className="text-[13px] font-semibold text-blue-600 max-md:inline-block max-md:max-w-45 max-md:truncate"
           >
             {recruitment.companyName ?? '기업명'}
-          </Link>
+          </Link> */}
         </div>
 
         <span className="text-[13px] text-gray-400">·</span>
